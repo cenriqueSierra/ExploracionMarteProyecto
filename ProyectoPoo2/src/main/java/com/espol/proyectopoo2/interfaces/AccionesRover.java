@@ -20,7 +20,7 @@ public interface AccionesRover {
      * Desplaza el rover hacia la ubicacion pasada.
      * @param ubicacion Ubicacion donde se quiere mover el rover.
      */
-    public void desplazarse(Ubicacion ubicacion);
+    //public void desplazarse(Ubicacion ubicacion);
     /**
      * Sensa el crater por minerales.
      * @return String de minerales encontrados.
