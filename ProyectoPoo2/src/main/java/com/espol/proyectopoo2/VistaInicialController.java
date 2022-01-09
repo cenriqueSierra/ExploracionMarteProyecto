@@ -6,7 +6,9 @@ package com.espol.proyectopoo2;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.input.MouseEvent;
 
 /**
  * FXML Controller class
@@ -16,11 +18,27 @@ import javafx.fxml.Initializable;
 public class VistaInicialController implements Initializable {
 
     /**
-     * Initializes the controller class.
+     * Se inicia el controlador de la vistaInicial
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }    
+
+    @FXML
+    private void entrarExplorar(MouseEvent event) {
+    }
+
+    @FXML
+    private void hacerPlanificacion(MouseEvent event) {
+    }
+
+    @FXML
+    private void entrarVerReportes(MouseEvent event) {
+    }
+
+    @FXML
+    private void salirPanel(MouseEvent event) {
+    }
     
 }
