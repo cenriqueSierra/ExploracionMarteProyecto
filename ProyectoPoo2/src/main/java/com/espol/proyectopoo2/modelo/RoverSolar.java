@@ -5,10 +5,13 @@
 package com.espol.proyectopoo2.modelo;
 
 /**
- * Representa
+ * Representa el rover de tipo solar.
  * @author Dome
  */
 public class RoverSolar extends Rover {
+    /**
+     * Carga el rover en la posicion donde haya mas sol.
+     */
     @Override
     public void cargar() {
         
