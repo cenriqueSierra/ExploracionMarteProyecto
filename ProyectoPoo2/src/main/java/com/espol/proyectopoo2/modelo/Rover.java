@@ -5,9 +5,21 @@
 package com.espol.proyectopoo2.modelo;
 
 /**
- *
- * @author Carlos user
+ * Clase que representa el rover
+ * @author Dome user
  */
-public class Rover {
+public abstract class Rover {
+    /**
+     * Nombre del Rover
+     */
+    String nombre ;
+    //Ubicacion ubicacion;
+    String image_path;
+    //Double carga;
+    
+    /**
+     * Carga el rover
+     */
+    public abstract void cargar();
     
 }
