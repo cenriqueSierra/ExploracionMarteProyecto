@@ -18,7 +18,15 @@ import java.util.List;
  * @author Carlos user
  */
 public class CraterData {
+    
+    /**
+     * Ruta para archivo que contiene la informacion de los crateres
+     */
     public static String rutaCrater = Constantes.ARCHIVOS+"crateres_info.txt";
+    
+    /**
+     * Ruta para archivo que contiene la informacion de los minerales
+     */
     public static String rutaMinerals = Constantes.ARCHIVOS+"minerales.txt";
     
     /**
