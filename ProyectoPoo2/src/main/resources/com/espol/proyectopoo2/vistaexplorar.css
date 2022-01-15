@@ -2,6 +2,7 @@
  * Empty Stylesheet file.
  */
 
-.mainFxmlClass {
-
+#panelSuperficie {
+    -fx-background-image: url('Superficie.jpg');
+    -fx-background-size: 100% 100%;
 }
