@@ -23,8 +23,6 @@ import javafx.scene.layout.Pane;
 public class VistaExplorarController implements Initializable {
 
     @FXML
-    private Pane imagenLugar;
-    @FXML
     private TextField comandoIngresado;
     @FXML
     private TextArea textASalida;
@@ -34,6 +32,8 @@ public class VistaExplorarController implements Initializable {
     private ComboBox<?> cboxRover;
     @FXML
     private Label lsalidaMinerales;
+    @FXML
+    private Pane panelSuperficie;
 
     /**
      * Initializes the controller class.
