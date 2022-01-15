@@ -6,3 +6,11 @@
     -fx-background-image: url('Superficie.jpg');
     -fx-background-size: 100% 100%;
 }
+
+.c-censado{
+    -fx-fill: #00ffff;
+}
+.c-nocensado {
+    -fx-stroke: #ff3333;
+    -fx-fill: transparent;
+}

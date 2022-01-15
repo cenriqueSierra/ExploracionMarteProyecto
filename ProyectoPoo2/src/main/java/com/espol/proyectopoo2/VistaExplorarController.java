@@ -51,20 +51,31 @@ public class VistaExplorarController implements Initializable {
     
         for(Rover r: rovers)
            cboxRover.getItems().add(r.getNombre());
-        
+       cargarCrateres();
        
     }
 
     private void cargarCrateres(){
         List<Crater> crateres = CraterData.cargarCrateres();
+        
+        for (Crater cr:  crateres)
+            System.out.println(cr.getRadio());
+        
+        
+        System.out.println(crateres);
         for(Crater c: crateres){
-            Circle circulo = new Circle(c.getRadio());
-            circulo.setStyle("-fx-stroke-color:red");
-            circulo.setLayoutX(c.getUbicacion().getLongitud()*(panelSuperficie.getMaxWidth()/1372));
-            circulo.setLayoutY(c.getUbicacion().getLongitud()*(panelSuperficie.getMaxHeight()/997));
+            Circle circulo = new Circle(c.getRadio(),Color.RED);
             
+                //circulo.getStyleClass().add("c-nocensado");
+            circulo.setLayoutX(c.getUbicacion().getLongitud()/2.0/*(panelSuperficie.getPrefWidth()/1372.0)*/);
+            circulo.setLayoutY(c.getUbicacion().getLatitud()/2.0/*(panelSuperficie.getPrefHeight()/997.0)*/);
+            panelSuperficie.getChildren().add(circulo);
             
         }
+        Circle o = new Circle(20.0,Color.GREEN);
+        o.setLayoutX(panelSuperficie.getPrefWidth());
+        o.setLayoutY(panelSuperficie.getPrefHeight());
+        panelSuperficie.getChildren().add(o);
     }
 
     @FXML
