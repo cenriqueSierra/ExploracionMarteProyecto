@@ -10,7 +10,18 @@ import com.espol.proyectopoo2.interfaces.AccionesRover;
  * Representa el rover de tipo eolico.
  * @author Dome
  */
-public class RoverEolico extends Rover { 
+public class RoverEolico extends Rover {
+    
+    /**
+     * Crea un rover de tipo eolico.
+     * @param nombre Nombre del rover.
+     * @param ubicacion Ubicacion del rover.
+     * @param image_path Ruta de la imagen del rover.
+     * @param carga Carga que posee el rover.
+     */
+    public RoverEolico(String nombre, Ubicacion ubicacion, String image_path, double carga){
+        super(nombre, ubicacion, image_path,carga);
+    }
     
     /**
      * Carga el rover en direccion donde hay mas viento.
