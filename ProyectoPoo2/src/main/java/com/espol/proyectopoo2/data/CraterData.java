@@ -18,16 +18,26 @@ import java.util.List;
  * @author Carlos user
  */
 public class CraterData {
-    public static String ruta = Constantes.ARCHIVOS+"crateres_info.txt";
     
     /**
-     * Metodo para leer la informacion de los crateres que está en un archivo de formato txt
-     * @return 
+     * Ruta para archivo que contiene la informacion de los crateres
+     */
+    public static String rutaCrater = Constantes.ARCHIVOS+"crateres_info.txt";
+    
+    /**
+     * Ruta para archivo que contiene la informacion de los minerales
+     */
+    public static String rutaMinerals = Constantes.ARCHIVOS+"minerales.txt";
+    
+    /**
+     * Metodo para leer la informacion de los crateres que 
+     * está en un archivo de formato txt
+     * @return Lista de crateres
      */
     public static List<Crater> cargarCrateres(){
         List<Crater> crateres = new ArrayList<>();
         
-        try(BufferedReader lector = new BufferedReader(new FileReader(ruta))){
+        try(BufferedReader lector = new BufferedReader(new FileReader(rutaCrater))){
             String line;
             while((line = lector.readLine()) != null ){
                 String[] parts = line.split(",");
@@ -45,6 +55,30 @@ public class CraterData {
             
         }
         return crateres;
+        
+    }
+    
+    /**
+     * Metodo para leer la informacion de los minerales que están
+     * en un archivo .txt
+     * @return Lista de minerales
+     */
+    public static List<String> cargarMinerales(){
+        List<String> minerales = new ArrayList<>();
+        
+        try(BufferedReader lector = new BufferedReader(new FileReader(rutaCrater))){
+            String line;
+            while((line = lector.readLine()) != null ){
+                String m = line.strip();
+                minerales.add(m);
+                                
+            }
+        }catch(FileNotFoundException fnex){
+            
+        }catch(IOException ioex){
+            
+        }
+        return minerales;
         
     }
     
