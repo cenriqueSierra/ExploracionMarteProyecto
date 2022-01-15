@@ -78,23 +78,47 @@ public abstract class Rover implements AccionesRover {
     public double getCarga() {
         return carga;
     }
-
+    /**
+     * 
+     * @return 
+     */
+    public Ubicacion getUbicacion(){
+        return ubicacion;
+    }
     /**
      * @param carga la carga del rover.
      */
     public void setCarga(double carga) {
         this.carga = carga;
     }
+    /**
+     * 
+     * @param ubicacion 
+     */
+    public void setUbicacion(Ubicacion ubicacion){
+        this.ubicacion=ubicacion;
+    }
     
     
     @Override
     public void avanzar(){
+        double posX = ubicacion.getLongitud();
+        double posY = ubicacion.getLatitud();
+        //angulo
         
+        //sacar las componentes rectangulares
+        double compX = 10*Math.cos(angulo);
+        double compY = 10*Math.sin(angulo);     
+                
+        //settear
+        posX+=compX;
+        posY+=compY;
+        setUbicacion(new Ubicacion(posX,posY)); 
     }
     
     @Override
     public void girar(double grados){
-        
+        angulo+=grados;
     }
     
     @Override
