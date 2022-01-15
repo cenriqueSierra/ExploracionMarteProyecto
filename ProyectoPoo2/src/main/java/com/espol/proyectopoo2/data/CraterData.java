@@ -22,12 +22,12 @@ public class CraterData {
     /**
      * Ruta para archivo que contiene la informacion de los crateres
      */
-    public static String rutaCrater = Constantes.ARCHIVOS+"crateres_info.txt";
+    public static String rutaCrater = Constantes.ARCHIVOS+"/crateres_info.txt";
     
     /**
      * Ruta para archivo que contiene la informacion de los minerales
      */
-    public static String rutaMinerals = Constantes.ARCHIVOS+"minerales.txt";
+    public static String rutaMinerals = Constantes.ARCHIVOS+"/minerales.txt";
     
     /**
      * Metodo para leer la informacion de los crateres que 
@@ -49,10 +49,10 @@ public class CraterData {
                 
                 crateres.add(new Crater(id,nombre,radio, new Ubicacion(latitud, longitud)));
             }
-        }catch(FileNotFoundException fnex){
-            
+        }catch(FileNotFoundException ex){
+            ex.printStackTrace();
         }catch(IOException ioex){
-            
+            ioex.printStackTrace();  
         }
         return crateres;
         
@@ -73,9 +73,12 @@ public class CraterData {
                 minerales.add(m);
                                 
             }
-        }catch(FileNotFoundException fnex){
-            
-        }catch(IOException ioex){
+        }catch(FileNotFoundException ex){
+            ex.printStackTrace();
+
+        }catch(IOException ex){
+            ex.printStackTrace();
+
             
         }
         return minerales;
