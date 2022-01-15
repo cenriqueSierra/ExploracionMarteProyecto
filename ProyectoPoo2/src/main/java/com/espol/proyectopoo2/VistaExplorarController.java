@@ -19,6 +19,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -34,8 +35,6 @@ public class VistaExplorarController implements Initializable {
     private TextField comandoIngresado;
     @FXML
     private TextArea textASalida;
-    @FXML
-    private Button btnRegresar;
     @FXML
     private ComboBox<String> cboxRover;
     @FXML
@@ -66,6 +65,11 @@ public class VistaExplorarController implements Initializable {
             
             
         }
+    }
+
+    @FXML
+    private void regresarMenu(MouseEvent event) {
+        App.cambioVista("VistaInicial");
     }
     
    /**public static Rover roverActual(){

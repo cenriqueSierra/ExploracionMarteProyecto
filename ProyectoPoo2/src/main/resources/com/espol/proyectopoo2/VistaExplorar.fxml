@@ -31,7 +31,7 @@
             <TextArea fx:id="textASalida" prefHeight="150.0" prefWidth="111.0" />
             <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Button fx:id="btnRegresar" contentDisplay="CENTER" mnemonicParsing="false" text="Regresar" />
+                  <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#regresarMenu" text="Regresar" />
                </children>
                <opaqueInsets>
                   <Insets />
