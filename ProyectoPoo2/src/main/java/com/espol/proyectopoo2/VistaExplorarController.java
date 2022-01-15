@@ -64,7 +64,7 @@ public class VistaExplorarController implements Initializable {
         
         System.out.println(crateres);
         for(Crater c: crateres){
-            Circle circulo = new Circle(c.getRadio(),Color.RED);
+            Circle circulo = new Circle(c.getRadio()/2,Color.RED);
             
                 //circulo.getStyleClass().add("c-nocensado");
             circulo.setLayoutX(c.getUbicacion().getLongitud()/2.0/*(panelSuperficie.getPrefWidth()/1372.0)*/);
