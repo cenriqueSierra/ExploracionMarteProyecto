@@ -47,13 +47,10 @@ public abstract class Rover implements AccionesRover {
         this.ubicacion = ubicacion;
         this.image_path = image_path;
         this.carga = carga;
-        angulo=0;
+        angulo=90;
         
     }
     
-   public void avanzar(){
-       
-   }
    
     /**
      * Carga el rover
@@ -89,4 +86,26 @@ public abstract class Rover implements AccionesRover {
         this.carga = carga;
     }
     
+    
+    @Override
+    public void avanzar(){
+        
+    }
+    
+    @Override
+    public void girar(double grados){
+        
+    }
+    
+    @Override
+    public void desplazarse(Ubicacion ubicacion){
+        
+    }
+    
+    @Override
+    public String sensar(){
+        
+        return null;
+    }
+
 }
