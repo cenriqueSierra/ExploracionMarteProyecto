@@ -30,6 +30,11 @@ public abstract class Rover implements AccionesRover {
      */
     private double carga;
     
+    /**
+     * Angulo donde esta viendo el rover
+     */
+    private double angulo;
+    
    /**
     * Crea un objeto de tipo rover
     * @param nombre Nombre del rover
@@ -42,8 +47,13 @@ public abstract class Rover implements AccionesRover {
         this.ubicacion = ubicacion;
         this.image_path = image_path;
         this.carga = carga;
+        angulo=0;
         
     }
+    
+   public void avanzar(){
+       
+   }
    
     /**
      * Carga el rover
