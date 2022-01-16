@@ -25,7 +25,7 @@ public class Crater {
      * Radio del crater
      */
     private double radio;
-
+    
     /**
      * @return el nombre
      */
@@ -84,5 +84,15 @@ public class Crater {
         this.explorado = false;
         this.radio = radio;
         this.ubicacion = ubicacion;                
+    }
+    
+    /**
+     * Imprime la informacion del crater.
+     * @return Informacion del crater
+     */
+    @Override
+    public String toString(){
+        return "Nombre: "+nombre+" Id:"+id+"Radio: "+ radio
+                +"Ubicación: "+ubicacion;
     }
 }
