@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.espol.proyectopoo2.VistaExplorarController">
    <children>
       <HBox spacing="8.0">
@@ -25,7 +24,7 @@
                         <Font size="11.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="comandoIngresado" />
+                  <TextField fx:id="comandoIngresado" onKeyReleased="#ingresoComando" />
                   <Label text="Comandos ingresados:">
                      <font>
                         <Font size="11.0" />

@@ -131,5 +131,9 @@ public abstract class Rover implements AccionesRover {
         
         return null;
     }
-
+    
+    @Override
+    public String toString(){
+        return nombre;
+    }
 }
