@@ -17,7 +17,7 @@ public class Ubicacion {
      * @param latitud
      * @param longitud 
      */
-    public Ubicacion(double latitud, double longitud) {
+    public Ubicacion(double longitud, double latitud) {
         this.latitud = latitud;
         this.longitud = longitud;
     }
@@ -36,6 +36,14 @@ public class Ubicacion {
         return longitud;
     }
     
+    /**
+     * Imprime la ubicacion.
+     * @return Posicion x, posicion y.
+     */
+    @Override
+    public String toString(){
+        return "x: "+ longitud+" y:"+latitud;
+    }
     
     
     
