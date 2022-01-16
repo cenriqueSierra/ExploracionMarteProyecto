@@ -52,7 +52,7 @@ public abstract class Rover implements AccionesRover {
         this.ubicacion = ubicacion;
         this.image_path = image_path;
         this.carga = carga;
-        angulo=90;
+        angulo=0;
         
     }
     
@@ -114,15 +114,19 @@ public abstract class Rover implements AccionesRover {
         //sacar las componentes rectangulares
         double compX = 10*Math.cos(angulo);
         double compY = 10*Math.sin(angulo);     
-                
+       
+         
         //settear
         posX+=compX;
         posY+=compY;
+        System.out.println("-------AVANZAAAAR--------");
+        System.out.println("x:"+ posX+"y: "+posY);
         setUbicacion(new Ubicacion(posX,posY)); 
     }
     
     @Override
     public void girar(double grados){
+        grados *= Math.PI/180;
         angulo+=grados;
     }
     
@@ -152,5 +156,12 @@ public abstract class Rover implements AccionesRover {
     @Override
     public String toString(){
         return nombre;
+    }
+
+    /**
+     * @return el angulo del rover en grados.
+     */
+    public double getAngulo() {
+        return angulo*180/Math.PI;
     }
 }
