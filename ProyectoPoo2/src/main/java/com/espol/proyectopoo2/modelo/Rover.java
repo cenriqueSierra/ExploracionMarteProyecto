@@ -4,7 +4,12 @@
  */
 package com.espol.proyectopoo2.modelo;
 
+import com.espol.proyectopoo2.data.CraterData;
+import com.espol.proyectopoo2.data.ReporteData;
 import com.espol.proyectopoo2.interfaces.AccionesRover;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Clase que representa el rover
@@ -128,7 +133,19 @@ public abstract class Rover implements AccionesRover {
     
     @Override
     public String sensar(){
-        
+        //Esta en el crater
+        Crater crater = CraterData.isUbicacionInCrater(ubicacion);
+        if(null!=crater){
+            crater.setExplorado(true);
+            String minerales = CraterData.mineralAleatorioRepetido();
+            ArrayList<String> mineralesReporte = new ArrayList();
+            mineralesReporte.addAll(Arrays.asList(minerales.split(";")));
+            Reporte reporte = new Reporte(LocalDateTime.now(),
+                                    mineralesReporte,
+                                    crater);            
+            ReporteData.addReporte(reporte);            
+            return minerales;
+        }
         return null;
     }
     
