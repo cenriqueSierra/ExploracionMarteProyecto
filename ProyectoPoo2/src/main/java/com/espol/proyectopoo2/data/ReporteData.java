@@ -32,6 +32,11 @@ public class ReporteData {
      */
     public static String rutaReporte = Constantes.ARCHIVOS+"/reporteSensado.dat";
     
+    public static List<Reporte> reportes;
+    
+    public static void addReporte(Reporte reporte){
+        reportes.add(reporte);
+    }
     /**
      * Metodo que crear un archivo binario que almacena 
      * una lista de objetos Reporte
