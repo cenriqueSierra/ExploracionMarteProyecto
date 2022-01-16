@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -84,5 +85,48 @@ public class CraterData {
         return minerales;
         
     }
+    
+    public static String mineralAleatorio(){
+        Random random = new Random();
+        List<String> minerales = new ArrayList(cargarMinerales());
+        int indice = random.nextInt(minerales.size()-1);
+        return minerales.get(indice);
+    }
+    
+    public static String mineralAleatorioRepetido(){
+        int repeticion = new Random().nextInt(6);
+        String minerales = null;
+        for(int i = 0; i<repeticion ;i++){
+            String mineral = mineralAleatorio();
+            minerales += mineral;
+        }
+        return minerales.substring(0,minerales.length());        
+    }
+    
+    public static Crater isUbicacionInCrater(Ubicacion ubicacion){
+        List<Crater> crateres = new ArrayList(cargarCrateres());
+        
+        for(Crater crater : crateres){
+            if(isInCrater(crater,ubicacion))
+                return crater;
+        }
+        return null;
+    }
+    
+    public static boolean isInCrater(Crater crater, Ubicacion ubicacion){
+        double posXCrater=crater.getUbicacion().getLongitud();
+        double posYCrater=crater.getUbicacion().getLatitud();
+        double radio=crater.getRadio();
+        double limiteInferiorX = posXCrater - radio;
+        double limiteSuperiorX = posXCrater + radio;
+        double limiteInferiorY = posYCrater - radio;
+        double limiteSuperiorY = posYCrater + radio;
+        boolean isInX = limiteInferiorX<=ubicacion.getLongitud() &&
+                        ubicacion.getLongitud()<=limiteSuperiorX;
+        boolean isInY = limiteInferiorY<=ubicacion.getLatitud() &&
+                        ubicacion.getLatitud()<=limiteSuperiorY;
+        return isInX && isInY;
+    }
+    
     
 }
