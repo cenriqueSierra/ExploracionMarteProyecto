@@ -11,9 +11,11 @@ import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -29,7 +31,7 @@ public class VistaVerReportesController implements Initializable {
     @FXML
     private TextField mineralIngresado;
     @FXML
-    private Pane paneofTable;
+    private VBox vboxTable;
 
     /**
      * Initializes the controller class.
@@ -37,7 +39,9 @@ public class VistaVerReportesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         TableView<Reporte> table = new TableView((ObservableList) ReporteData.cargarReporte());
-        paneofTable.getChildren().addAll(table);
+        
+        vboxTable.setAlignment(Pos.CENTER);
+        vboxTable.getChildren().addAll(table);
     }    
     
     
