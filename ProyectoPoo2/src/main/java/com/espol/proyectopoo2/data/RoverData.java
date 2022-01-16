@@ -65,6 +65,18 @@ public class RoverData {
         }
         
         return rovers;    
-        }//metodo
+    }//metodo
+    
+    
+    public Rover buscarRover(String nombreRover){
+        Rover roverBuscado = null ;
+        
+        for(Rover r: cargarRovers())
+            if(r.getNombre().equals(nombreRover))
+                roverBuscado = r;
+        
+        return roverBuscado;
     }
+    
+}
 
