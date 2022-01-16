@@ -4,6 +4,7 @@
  */
 package com.espol.proyectopoo2.modelo;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  * Clase que representa la exploracion de un crater.
  * @author Dome
  */
-public class Exploracion {
+public class Reporte implements Serializable{
     /**
      * Fecha de la exploracion.
      */
@@ -32,7 +33,7 @@ public class Exploracion {
      * @param minerales Minerales encontrados.
      * @param crater Crater explorado.
      */
-    public Exploracion( LocalDateTime fecha, ArrayList<String> minerales,Crater crater){
+    public Reporte( LocalDateTime fecha, ArrayList<String> minerales,Crater crater){
         this.fecha= fecha;
         this.minerales = minerales;
         this.crater = crater;
@@ -58,6 +59,8 @@ public class Exploracion {
     public Crater getCrater() {
         return crater;
     }
+
+    
     
     
 }

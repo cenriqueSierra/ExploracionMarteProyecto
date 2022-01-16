@@ -4,9 +4,16 @@
  */
 package com.espol.proyectopoo2;
 
+import com.espol.proyectopoo2.data.ReporteData;
+import com.espol.proyectopoo2.modelo.Reporte;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
@@ -15,12 +22,23 @@ import javafx.fxml.Initializable;
  */
 public class VistaVerReportesController implements Initializable {
 
+    @FXML
+    private TextField fInicioIngresada;
+    @FXML
+    private TextField fFinIngresada;
+    @FXML
+    private TextField mineralIngresado;
+    @FXML
+    private Pane paneofTable;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        TableView<Reporte> table = new TableView((ObservableList) ReporteData.cargarReporte());
+        paneofTable.getChildren().addAll(table);
     }    
+    
     
 }
