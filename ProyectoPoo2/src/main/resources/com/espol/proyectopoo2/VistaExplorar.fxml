@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -18,19 +18,29 @@
             <Pane id="panelSuperficie" fx:id="panelSuperficie" cache="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="499.0" prefWidth="686.0" stylesheets="@vistaexplorar.css" HBox.hgrow="NEVER" />
             <VBox prefHeight="414.0" prefWidth="131.0" spacing="8.0">
                <children>
-                  <ComboBox fx:id="cboxRover" prefWidth="150.0" />
+                  <ComboBox fx:id="cboxRover" prefWidth="150.0">
+                     <VBox.margin>
+                        <Insets left="2.0" right="2.0" />
+                     </VBox.margin></ComboBox>
                   <Label text="Ingrese comandos:">
                      <font>
                         <Font size="11.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="comandoIngresado" onKeyReleased="#ingresoComando" />
+                  <TextField fx:id="comandoIngresado" onKeyPressed="#ingresoComando">
+                     <VBox.margin>
+                        <Insets left="2.0" right="2.0" />
+                     </VBox.margin></TextField>
                   <Label text="Comandos ingresados:">
                      <font>
                         <Font size="11.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="textASalida" prefHeight="150.0" prefWidth="111.0" />
+                  <ListView fx:id="comandosIngresados" prefHeight="181.0" prefWidth="119.0">
+                     <VBox.margin>
+                        <Insets left="2.0" right="2.0" />
+                     </VBox.margin>
+                  </ListView>
                   <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <Button contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#regresarMenu" text="Regresar" />
@@ -51,11 +61,7 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="664.0">
          <children>
-            <Label fx:id="lsalidaMinerales">
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-            </Label>
+            <VBox fx:id="infoCrater" prefHeight="200.0" prefWidth="100.0" />
          </children>
       </HBox>
    </children>
