@@ -19,6 +19,7 @@ import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -71,7 +72,7 @@ public class ReporteData {
         List<Reporte> reporteSenso = null;
         
         try(ObjectInputStream oinStream = new ObjectInputStream(new FileInputStream(rutaReporte))){
-            reporteSenso = (List<Reporte>) oinStream.readObject(); 
+            reporteSenso = (ObservableList<Reporte>) oinStream.readObject(); 
             
         }catch(FileNotFoundException fex){
             Alert alert = new Alert(AlertType.ERROR);

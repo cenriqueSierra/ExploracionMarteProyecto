@@ -7,6 +7,7 @@ package com.espol.proyectopoo2.modelo;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * Clase que representa la exploracion de un crater.
@@ -60,6 +61,7 @@ public class Reporte implements Serializable{
         return crater;
     }
 
+    //Comparator<Reporte> com1 = ne
     
     
     
