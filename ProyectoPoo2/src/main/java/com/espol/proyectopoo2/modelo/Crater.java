@@ -92,7 +92,7 @@ public class Crater {
      */
     @Override
     public String toString(){
-        return "Nombre: "+nombre+" Id:"+id+"Radio: "+ radio
-                +"Ubicación: "+ubicacion;
+        return "Nombre: "+nombre+"\nId:"+id+"\nRadio: "+ radio
+                +"\nUbicación: "+ubicacion;
     }
 }

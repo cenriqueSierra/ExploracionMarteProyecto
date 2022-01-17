@@ -89,6 +89,7 @@ public class VistaExplorarController implements Initializable {
             circulo.setLayoutY(c.getUbicacion().getLatitud()/2.0/*(panelSuperficie.getPrefHeight()/997.0)*/);
             panelSuperficie.getChildren().add(circulo);
             circulo.setOnMouseClicked((MouseEvent ev)-> {
+                infoCrater.getChildren().clear();
                 Label craterInfo = new Label(c.toString());
                 infoCrater.getChildren().add(craterInfo);
                 if(c.isExplorado()){

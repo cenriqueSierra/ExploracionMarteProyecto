@@ -59,9 +59,13 @@
             </VBox>
          </children>
       </HBox>
-      <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="664.0">
+      <HBox alignment="CENTER_LEFT" prefWidth="664.0">
          <children>
-            <VBox fx:id="infoCrater" prefHeight="200.0" prefWidth="100.0" />
+            <VBox fx:id="infoCrater" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets left="2.0" />
+               </HBox.margin>
+            </VBox>
          </children>
       </HBox>
    </children>
