@@ -82,22 +82,22 @@ public class VistaVerReportesController implements Initializable {
                 alert.setContentText("Seleccion invalida");
                 
                 alert.showAndWait();
-            
                 
-        }
-                
-        TableView<Reporte> table = new TableView((ObservableList) ReporteData.cargarReporte());
-        
-        vboxTable.setAlignment(Pos.CENTER);
-        vboxTable.getChildren().addAll(table);
+            }
     }    
 
     @FXML
     private void ordenarAsc(MouseEvent event) {
+        
     }
 
     @FXML
     private void ordenarDesc(MouseEvent event) {
+    }
+
+    @FXML
+    private void regresarMenu(MouseEvent event) {
+        App.cambioVista("VistaInicial");
     }
     
 }
