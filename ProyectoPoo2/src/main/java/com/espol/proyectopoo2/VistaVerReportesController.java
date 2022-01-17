@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
@@ -36,8 +37,6 @@ public class VistaVerReportesController implements Initializable {
     private TextField mineralIngresado;
     @FXML
     private VBox vboxTable;
-    @FXML
-    private Button btnNombre;
     @FXML
     private Button btnFecha;
     @FXML
@@ -76,7 +75,13 @@ public class VistaVerReportesController implements Initializable {
                 vboxTable.getChildren().addAll(tableDate);
                 break;
             
+            default:
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Notificacion");
+                alert.setHeaderText("Estado");
+                alert.setContentText("Seleccion invalida");
                 
+                alert.showAndWait();
             
                 
         }
@@ -86,5 +91,13 @@ public class VistaVerReportesController implements Initializable {
         vboxTable.setAlignment(Pos.CENTER);
         vboxTable.getChildren().addAll(table);
     }    
+
+    @FXML
+    private void ordenarAsc(MouseEvent event) {
+    }
+
+    @FXML
+    private void ordenarDesc(MouseEvent event) {
+    }
     
 }
