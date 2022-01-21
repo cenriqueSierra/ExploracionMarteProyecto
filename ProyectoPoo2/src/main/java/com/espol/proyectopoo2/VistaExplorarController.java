@@ -97,28 +97,7 @@ public class VistaExplorarController implements Initializable {
         }
  
     }
-    
-  /**  private void imagenRover(Rover rover){
-        panelSuperficie.getChildren().removeIf((t) -> {
-               return t instanceof ImageView;
-           });
-        if(rover!= null){
-                Image img;
-                ImageView imgview = null;
-                 try{
-                     InputStream input = App.class.getResource(rover.getImage_path()).openStream();
-                     img = new Image(input,60,60,true,true);
-                     imgview = new ImageView(img);
-                     panelSuperficie.getChildren().add(imgview);
-                     imgview.setX(rover.getUbicacion().getLongitud());
-                     imgview.setY(rover.getUbicacion().getLatitud());
-                     imgview.setRotate(rover.getAngulo());
-                 }catch (IOException | RuntimeException ex ) {
-                     ex.printStackTrace();
-                 }
-        }
-    }**/
-    
+ 
     /**
      * Regresea a la vista inicial.
      * @param event 
@@ -157,7 +136,7 @@ public class VistaExplorarController implements Initializable {
                     if (dentroLimites( u.getLongitud(),u.getLatitud()))
                         roverSeleccionado.avanzar();
                     else 
-                        throw new NullPointerException("NO AVANZAAAAAAAA");
+                        throw new NullPointerException("El Rover no puede avanzar mas");
                         
                     System.out.println("VIEJOOO \n"+roverSeleccionado.getUbicacion());
                     System.out.println("Angulo old "+roverSeleccionado.getAngulo());
@@ -217,10 +196,6 @@ public class VistaExplorarController implements Initializable {
         roverSeleccionado = cboxRover.getValue();
         if(roverSeleccionado!= null)
             panelSuperficie.getChildren().add(roverSeleccionado.getImagen());
-        
-        panelSuperficie.getPrefHeight();
-        panelSuperficie.getPrefWidth();
-
         
     }
     
