@@ -4,12 +4,16 @@
  */
 package com.espol.proyectopoo2.modelo;
 
+import com.espol.proyectopoo2.App;
 import com.espol.proyectopoo2.data.CraterData;
 import com.espol.proyectopoo2.data.ReporteData;
 import com.espol.proyectopoo2.interfaces.AccionesRover;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * Clase que representa el rover
@@ -28,7 +32,7 @@ public abstract class Rover implements AccionesRover {
     /**
      * Path de la imagen del rover
      */
-    private String image_path;
+    private ImageView imagen;
     
     /**
      * Carga del rover.
@@ -36,7 +40,7 @@ public abstract class Rover implements AccionesRover {
     private double carga;
     
     /**
-     * Angulo donde esta viendo el rover
+     * Angulo en radianes donde esta viendo el rover
      */
     private double angulo;
     
@@ -47,10 +51,13 @@ public abstract class Rover implements AccionesRover {
     * @param image_path Path de la imagen del river
     * @param carga Carga del rover
     */ 
-   public Rover(String nombre, Ubicacion ubicacion, String image_path, double carga){
+   public Rover(String nombre, Ubicacion ubicacion, String image_path, double carga) throws IOException{
         this.nombre = nombre;
         this.ubicacion = ubicacion;
-        this.image_path = image_path;
+        Image img = new Image(App.class.getResourceAsStream(image_path),60,60,false,true);
+        this.imagen = new ImageView(img);
+        imagen.setLayoutX(ubicacion.getLongitud());
+        imagen.setLayoutY(ubicacion.getLatitud());
         this.carga = carga;
         angulo=0;
         
@@ -73,8 +80,8 @@ public abstract class Rover implements AccionesRover {
     /**
      * @return el path de la imagen.
      */
-    public String getImage_path() {
-        return image_path;
+    public ImageView getImagen() {
+        return imagen;
     }
 
     /**
@@ -107,32 +114,41 @@ public abstract class Rover implements AccionesRover {
     
     @Override
     public void avanzar(){
-        double posX = ubicacion.getLongitud();
-        double posY = ubicacion.getLatitud();
-        //angulo
-        
-        //sacar las componentes rectangulares
-        double compX = 10*Math.cos(angulo);
-        double compY = 10*Math.sin(angulo);     
-       
-         
-        //settear
-        posX+=compX;
-        posY+=compY;
-        System.out.println("-------AVANZAAAAR--------");
-        System.out.println("x:"+ posX+"y: "+posY);
-        setUbicacion(new Ubicacion(posX,posY)); 
+//        double posX = ubicacion.getLongitud();
+//        double posY = ubicacion.getLatitud();
+//        //angulo
+//        
+//        //sacar las componentes rectangulares
+//        double compX = 10*Math.cos(angulo);
+//        double compY = 10*Math.sin(angulo);     
+//       
+//         
+//        //settear
+//        posX+=compX;
+//        posY+=compY;
+//        System.out.println("-------AVANZAAAAR--------");
+//        System.out.println("x:"+ posX+"y: "+posY);
+//        
+          setUbicacion(posicionNueva());
+          moverImgRover(ubicacion.getLongitud(),ubicacion.getLatitud());
     }
     
     @Override
     public void girar(double grados){
         grados *= Math.PI/180;
         angulo+=grados;
+        moverImgRover(ubicacion.getLongitud(),ubicacion.getLatitud());
+
     }
     
     @Override
     public void desplazarse(Ubicacion ubicacion){
         
+        
+        
+        //final
+        moverImgRover(ubicacion.getLongitud(),ubicacion.getLatitud());
+
     }
     
     @Override
@@ -163,5 +179,28 @@ public abstract class Rover implements AccionesRover {
      */
     public double getAngulo() {
         return angulo*180/Math.PI;
+    }
+    
+    public void moverImgRover(double x, double y){
+        imagen.setLayoutX(x);
+        imagen.setLayoutY(y);
+        imagen.setRotate(getAngulo());
+    }
+    
+    public Ubicacion posicionNueva(){
+        double posX = ubicacion.getLongitud();
+        double posY = ubicacion.getLatitud();
+        //angulo
+        
+        //sacar las componentes rectangulares
+        double compX = 10*Math.cos(angulo);
+        double compY = 10*Math.sin(angulo);     
+       
+         
+        //settear
+        posX+=compX;
+        posY+=compY;
+        
+        return new Ubicacion(posX,posY);
     }
 }

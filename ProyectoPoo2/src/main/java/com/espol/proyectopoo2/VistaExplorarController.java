@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -52,22 +53,18 @@ public class VistaExplorarController implements Initializable {
     private ListView<String> comandosIngresados;
     @FXML
     private VBox infoCrater;
-
+    
+    private Rover roverSeleccionado;
+    
+    private Alert a;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        List<Rover> rovers = RoverData.cargarRovers();
-        for(Rover r: rovers)
-           cboxRover.getItems().add(r);
-        
-        cboxRover.getSelectionModel().selectedItemProperty().addListener((o, old, newvalue) -> {
-           comandosIngresados.getItems().clear();
-            Rover rover = newvalue;
-            imagenRover(newvalue);
-       });
-        
+        a = new Alert(Alert.AlertType.ERROR);
+       cboxRover.getItems().addAll(RoverData.cargarRovers());
        cargarCrateres();
        
     }
@@ -101,7 +98,7 @@ public class VistaExplorarController implements Initializable {
  
     }
     
-    private void imagenRover(Rover rover){
+  /**  private void imagenRover(Rover rover){
         panelSuperficie.getChildren().removeIf((t) -> {
                return t instanceof ImageView;
            });
@@ -120,7 +117,7 @@ public class VistaExplorarController implements Initializable {
                      ex.printStackTrace();
                  }
         }
-    }
+    }**/
     
     /**
      * Regresea a la vista inicial.
@@ -137,13 +134,10 @@ public class VistaExplorarController implements Initializable {
      */
     @FXML
     private void ingresoComando(KeyEvent event) {
-        
-       Alert a = new Alert(Alert.AlertType.ERROR);
-               
+                       
        try{
-           Rover rover = cboxRover.getValue();
-           if(rover ==null){
-               throw new NullPointerException();
+           if(roverSeleccionado ==null){
+               throw new NullPointerException("Seleccione un Rover");
            }
            
            
@@ -158,34 +152,40 @@ public class VistaExplorarController implements Initializable {
                 comandoIngresado.clear();
                 switch(comandoSeparado[0].toLowerCase() ){
                 case("avanzar"):
-                    System.out.println("VIEJOOO \n"+rover.getUbicacion());
-                    System.out.println("Angulo old "+rover.getAngulo());
-                    rover.avanzar();
-                    System.out.println("NUEVAAA \n"+rover.getUbicacion());
-                    System.out.println("Angulo new "+rover.getAngulo());
+                    Ubicacion u = roverSeleccionado.posicionNueva();
+                    
+                    if (dentroLimites( u.getLongitud(),u.getLatitud()))
+                        roverSeleccionado.avanzar();
+                    else 
+                        throw new NullPointerException("NO AVANZAAAAAAAA");
+                        
+                    System.out.println("VIEJOOO \n"+roverSeleccionado.getUbicacion());
+                    System.out.println("Angulo old "+roverSeleccionado.getAngulo());
+                    
+                    System.out.println("NUEVAAA \n"+roverSeleccionado.getUbicacion());
+                    System.out.println("Angulo new "+roverSeleccionado.getAngulo());
                     System.out.println("-------------------------------");
-                    imagenRover(rover);
                     break;
                 case("girar"):
-                    rover.girar(Double.parseDouble(comandoSeparado[1]));
-                    imagenRover(rover);
-
+                    roverSeleccionado.girar(Double.parseDouble(comandoSeparado[1]));
+                     
                     break;
                 case("desplazarse"):
                     String[] ubicacion = comandoSeparado[1].trim().split(",");
                     
-                    Double longitud = Double.parseDouble(ubicacion[0]);
-                    Double latitud = Double.parseDouble(ubicacion[1]);
+                    Double x = Double.parseDouble(ubicacion[0]);
+                    Double y = Double.parseDouble(ubicacion[1]);
                     
-                    rover.desplazarse(new Ubicacion(longitud,latitud));
-                    imagenRover(rover);
+                    if (dentroLimites(x, y))
+                        roverSeleccionado.desplazarse(new Ubicacion(x,y));
+                    
 
                     break;
                 case("sensar"):
-                    rover.sensar();
+                    roverSeleccionado.sensar();
                     break;
                 case("cargar"):
-                    rover.cargar();
+                    roverSeleccionado.cargar();
                     break;
                 default:
                     throw new ComandoInvalidoException();
@@ -195,7 +195,7 @@ public class VistaExplorarController implements Initializable {
        }
        catch(NullPointerException ex){
            comandoIngresado.clear();
-           a.setContentText("Seleccione un rover");
+           a.setContentText(ex.getMessage());
            a.show();
        }catch(NumberFormatException ex){
            a.setContentText("Ingrese un comando correcto");
@@ -208,11 +208,34 @@ public class VistaExplorarController implements Initializable {
            a.show();
        }
     }
+
+    @FXML
+    private void seleccionarRover(ActionEvent event) {
+        if(roverSeleccionado!=null)
+            panelSuperficie.getChildren().remove(roverSeleccionado.getImagen());
+        
+        roverSeleccionado = cboxRover.getValue();
+        if(roverSeleccionado!= null)
+            panelSuperficie.getChildren().add(roverSeleccionado.getImagen());
+        
+        panelSuperficie.getPrefHeight();
+        panelSuperficie.getPrefWidth();
+
+        
+    }
     
  
     
-   /** static Rover roverActual(){
-       return cboxRover.getValue();
-       
-   }**/
+    private boolean dentroLimites(double x , double y){
+
+        double limitY = panelSuperficie.getPrefHeight()-60;
+        double limitX = panelSuperficie.getPrefWidth()-60;
+        System.out.println("FIT Y");
+        System.out.println(-roverSeleccionado.getImagen().getFitHeight());
+        System.out.println("FIT X");
+        System.out.println(-roverSeleccionado.getImagen().getFitWidth());
+        
+        return 0<=x && x<=limitX && 0<=y && y<= limitY ;
+            
+    }
 }

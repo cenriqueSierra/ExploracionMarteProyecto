@@ -5,6 +5,7 @@
 package com.espol.proyectopoo2.modelo;
 
 import com.espol.proyectopoo2.interfaces.AccionesRover;
+import java.io.IOException;
 
 /**
  * Representa el rover de tipo eolico.
@@ -19,7 +20,7 @@ public class RoverEolico extends Rover {
      * @param image_path Ruta de la imagen del rover.
      * @param carga Carga que posee el rover.
      */
-    public RoverEolico(String nombre, Ubicacion ubicacion, String image_path, double carga){
+    public RoverEolico(String nombre, Ubicacion ubicacion, String image_path, double carga)throws IOException{
         super(nombre, ubicacion, image_path,carga);
     }
     
