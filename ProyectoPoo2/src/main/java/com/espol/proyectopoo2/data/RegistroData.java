@@ -68,7 +68,7 @@ public class RegistroData {
      * han sido sensados
      * @return Lista de objetos reporte
      */
-    public static List<Registro> cargarReporte(){
+    public static List<Registro> cargarRegistro(){
         List<Registro> reporteSenso = null;
         
         try(ObjectInputStream oinStream = new ObjectInputStream(new FileInputStream(rutaReporte))){
