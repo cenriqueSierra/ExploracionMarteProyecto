@@ -4,8 +4,8 @@
  */
 package com.espol.proyectopoo2;
 
-import com.espol.proyectopoo2.data.ReporteData;
-import com.espol.proyectopoo2.modelo.Reporte;
+import com.espol.proyectopoo2.data.RegistroData;
+import com.espol.proyectopoo2.modelo.Registro;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.ResourceBundle;
@@ -36,7 +36,7 @@ public class VistaVerReportesController implements Initializable {
     @FXML
     private TextField mineralIngresado;
     @FXML
-    private VBox vboxTable;
+    private static VBox vboxTable;
     @FXML
     private Button btnFecha;
     @FXML
@@ -50,28 +50,28 @@ public class VistaVerReportesController implements Initializable {
         cbxSeleccion.getItems().add("Nombre");
         cbxSeleccion.getItems().add("Fecha");
         
-        ObservableList<Reporte> registro = (ObservableList<Reporte>) ReporteData.cargarReporte();
+        ObservableList<Registro> registro = (ObservableList<Registro>) RegistroData.cargarReporte();
         
         switch(cbxSeleccion.getValue()){
             case("Nombre"):
                 vboxTable.getChildren().clear();
-                Comparator<Reporte> com1 = (Reporte r1, Reporte r2) -> {
+                Comparator<Registro> com1 = (Registro r1, Registro r2) -> {
                     return r1.getCrater().getNombre().compareToIgnoreCase(r2.getCrater().getNombre());
                 };
                 registro.sort(com1);
                 vboxTable.getChildren().clear();
-                TableView<Reporte> tableNombre = new TableView(registro);
+                TableView<Registro> tableNombre = new TableView(registro);
                 vboxTable.getChildren().addAll(tableNombre);
                 break;
                 
             case("Fecha"):
                 vboxTable.getChildren().clear();
-                Comparator<Reporte> com2 = (Reporte r1, Reporte r2) -> {
+                Comparator<Registro> com2 = (Registro r1, Registro r2) -> {
                     return r1.getFecha().compareTo(r2.getFecha());
                 };
                 registro.sort(com2);
                 vboxTable.getChildren().clear();
-                TableView<Reporte> tableDate = new TableView(registro);
+                TableView<Registro> tableDate = new TableView(registro);
                 vboxTable.getChildren().addAll(tableDate);
                 break;
             
@@ -100,4 +100,16 @@ public class VistaVerReportesController implements Initializable {
         App.cambioVista("VistaInicial");
     }
     
+    /**
+     * Metodo para 
+     * @param registro
+     * @param com 
+     */
+    public void creacionTabla(ObservableList<Registro> registro, Comparator<Registro> com){
+        registro.sort(com);
+        VistaVerReportesController.vboxTable.getChildren().clear();
+        TableView<Registro> tableNombre = new TableView(registro);
+        VistaVerReportesController.vboxTable.getChildren().addAll(tableNombre);
+    }
+    // Cambié a un tipo de variable estática el Vbox
 }

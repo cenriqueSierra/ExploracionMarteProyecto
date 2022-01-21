@@ -6,7 +6,7 @@ package com.espol.proyectopoo2.modelo;
 
 import com.espol.proyectopoo2.App;
 import com.espol.proyectopoo2.data.CraterData;
-import com.espol.proyectopoo2.data.ReporteData;
+import com.espol.proyectopoo2.data.RegistroData;
 import com.espol.proyectopoo2.interfaces.AccionesRover;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -160,10 +160,10 @@ public abstract class Rover implements AccionesRover {
             String minerales = CraterData.mineralAleatorioRepetido();
             ArrayList<String> mineralesReporte = new ArrayList();
             mineralesReporte.addAll(Arrays.asList(minerales.split(";")));
-            Reporte reporte = new Reporte(LocalDateTime.now(),
+            Registro reporte = new Registro(LocalDateTime.now(),
                                     mineralesReporte,
                                     crater);            
-            ReporteData.addReporte(reporte);            
+            RegistroData.addReporte(reporte);            
             return minerales;
         }
         return null;

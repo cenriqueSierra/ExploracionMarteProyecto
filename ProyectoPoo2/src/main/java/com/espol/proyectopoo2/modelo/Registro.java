@@ -13,7 +13,7 @@ import java.util.Comparator;
  * Clase que representa la exploracion de un crater.
  * @author Dome
  */
-public class Reporte implements Serializable{
+public class Registro implements Serializable{
     /**
      * Fecha de la exploracion.
      */
@@ -34,7 +34,9 @@ public class Reporte implements Serializable{
      * @param minerales Minerales encontrados.
      * @param crater Crater explorado.
      */
-    public Reporte( LocalDateTime fecha, ArrayList<String> minerales,Crater crater){
+    public Registro( LocalDateTime fecha, 
+                    ArrayList<String> minerales, 
+                    Crater crater ){
         this.fecha= fecha;
         this.minerales = minerales;
         this.crater = crater;

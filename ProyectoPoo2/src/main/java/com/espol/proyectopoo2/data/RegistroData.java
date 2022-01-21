@@ -6,7 +6,7 @@ package com.espol.proyectopoo2.data;
 
 import static com.espol.proyectopoo2.data.CraterData.rutaCrater;
 import com.espol.proyectopoo2.modelo.Crater;
-import com.espol.proyectopoo2.modelo.Reporte;
+import com.espol.proyectopoo2.modelo.Registro;
 import com.espol.proyectopoo2.modelo.Ubicacion;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -27,15 +27,15 @@ import javafx.scene.control.Alert.AlertType;
  *Clase que se encarga de la lectura de los crateres explotados
  * @author Carlos user
  */
-public class ReporteData {
+public class RegistroData {
     /**
      * Ruta para archivo que contiene la informacion de los minerales
      */
     public static String rutaReporte = Constantes.ARCHIVOS+"/reporteSensado.dat";
     
-    public static List<Reporte> reportes;
+    public static List<Registro> reportes;
     
-    public static void addReporte(Reporte reporte){
+    public static void addReporte(Registro reporte){
         reportes.add(reporte);
     }
     /**
@@ -44,7 +44,7 @@ public class ReporteData {
      * 
      * @param reportes Lista de reportes generada cuando el rover sensa el crater
      */
-    public static void guardarReporte(List<Reporte> reportes){
+    public static void guardarReporte(List<Registro> reportes){
         
         try(ObjectOutputStream outStream = new ObjectOutputStream(new FileOutputStream(rutaReporte,true))){        
             outStream.writeObject(reportes); 
@@ -68,11 +68,11 @@ public class ReporteData {
      * han sido sensados
      * @return Lista de objetos reporte
      */
-    public static List<Reporte> cargarReporte(){
-        List<Reporte> reporteSenso = null;
+    public static List<Registro> cargarReporte(){
+        List<Registro> reporteSenso = null;
         
         try(ObjectInputStream oinStream = new ObjectInputStream(new FileInputStream(rutaReporte))){
-            reporteSenso = (ObservableList<Reporte>) oinStream.readObject(); 
+            reporteSenso = (ObservableList<Registro>) oinStream.readObject(); 
             
         }catch(FileNotFoundException fex){
             Alert alert = new Alert(AlertType.ERROR);
