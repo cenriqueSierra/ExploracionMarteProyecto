@@ -112,13 +112,13 @@ public abstract class Rover implements AccionesRover {
         moverImgRover(ubicacion.getLongitud(),ubicacion.getLatitud());
     }    
     @Override
-    public void desplazarse(Ubicacion ubicacion) 
+    public void desplazarse(Ubicacion ubicacion, boolean cargar) 
             throws ComandoInvalidoException{                
         double x_diff = ubicacion.getLongitud() - this.ubicacion.getLongitud();
         double y_diff = ubicacion.getLatitud() - this.ubicacion.getLatitud();
         double newAngulo = Math.atan(carga)*180/(2*Math.PI);
         double distancia = Math.sqrt(Math.pow(x_diff,2)+Math.pow(y_diff,2));
-        if(isDescargado((int)distancia))
+        if(isDescargado((int)distancia)&&cargar)
             throw new ComandoInvalidoException("Carga insuficiente para desplazarse");
         new HiloGirar(newAngulo).start();
         new HiloAvanzar(
