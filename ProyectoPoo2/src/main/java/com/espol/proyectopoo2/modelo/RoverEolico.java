@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author Dome
  */
 public class RoverEolico extends Rover {
-    
+    private double anguloNorte;
     /**
      * Crea un rover de tipo eolico.
      * @param nombre Nombre del rover.
@@ -29,6 +29,11 @@ public class RoverEolico extends Rover {
      */
     @Override
     public void cargar() {
+        anguloNorte = 90d;
+        double anguloGirado = super.getAngulo();
+        double movimiento = 360 - Math.abs(anguloGirado - anguloNorte);
+        super.girar(movimiento);
+        
         
     }
     
