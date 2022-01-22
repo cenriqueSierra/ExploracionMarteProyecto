@@ -34,9 +34,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 /**
  * FXML Controller class
@@ -60,14 +62,20 @@ public class VistaExplorarController implements Initializable {
     
     private Alert a;
     
+    private final double factor = 0.7;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Rectangle r = new Rectangle(panelSuperficie.getWidth(), panelSuperficie.getHeight());
+        r.heightProperty().bind(panelSuperficie.heightProperty());
+        r.widthProperty().bind(panelSuperficie.widthProperty());
+        panelSuperficie.setClip(r);
         a = new Alert(Alert.AlertType.ERROR);
        cboxRover.getItems().addAll(RoverData.cargarRovers());
        cargarCrateres();
+       
        
     }
     
@@ -76,25 +84,31 @@ public class VistaExplorarController implements Initializable {
      */
     private void cargarCrateres(){
         List<Crater> crateres = CraterData.cargarCrateres();
-        
+        //StackPane st = new StackPane();
+        //st.setPrefSize(panelSuperficie.getPrefWidth(), panelSuperficie.getPrefHeight());
         for (Crater cr:  crateres)
             System.out.println(cr.getRadio());
                 
         for(Crater c: crateres){
-            Circle circulo = new Circle(c.getRadio()/2);
-            
+            Circle circulo = new Circle(c.getRadio()*factor);
             if(c.isExplorado())
                 circulo.getStyleClass().add("relleno");
             circulo.getStyleClass().add("contorno");
+           
+           
             
-            circulo.setLayoutX(c.getUbicacion().getLongitud()/2.0/*(panelSuperficie.getPrefWidth()/1372.0)*/);
-            circulo.setLayoutY(c.getUbicacion().getLatitud()/2.0/*(panelSuperficie.getPrefHeight()/997.0)*/);
+            circulo.setLayoutX(c.getUbicacion().getLongitud()*factor);
+            /*(panelSuperficie.getPrefWidth()/1372.0)*/
+            circulo.setLayoutY(c.getUbicacion().getLatitud()*factor/*(panelSuperficie.getPrefHeight()/997.0)*/);
+            
             panelSuperficie.getChildren().add(circulo);
+            //st.getChildren().add(circulo);
+            
             circulo.setOnMouseClicked((MouseEvent ev)-> {
                 infoCrater.getChildren().clear();
                 Label craterInfo = new Label(c.toString());
                 infoCrater.getChildren().add(craterInfo);
-                List<Registro> registros = RegistroData.reportes;
+                /*List<Registro> registros = RegistroData.reportes;
                     //int validacion = r.getCrater().getId().compareTo(c.getId());&& validacion == 0
                     if( c.isExplorado() ){
                         List<String> minerales = new ArrayList<>();
@@ -105,11 +119,14 @@ public class VistaExplorarController implements Initializable {
                         
                         }
 
-                    }
+                    }*/
                 
      
             });
         }
+         //panelSuperficie.getChildren().add(st);
+
+
  
     }
  
