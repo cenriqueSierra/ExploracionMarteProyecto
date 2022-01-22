@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.espol.proyectopoo2.VistaPlanificacionRutasController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="com.espol.proyectopoo2.VistaPlanificacionRutasController">
     <stylesheets>
-        <URL value="@vistaplanificacionrutas.css"/>
+        <URL value="@vistaplanificacionrutas.css" />
     </stylesheets>
+   <children>
+      <VBox prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <VBox prefHeight="153.0" prefWidth="600.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="600.0" spacing="9.0">
+                     <children>
+                        <Label prefHeight="17.0" prefWidth="100.0" text="Seleccione Rover: " />
+                        <ComboBox fx:id="roverSeleccionado" onAction="#seleccionarRover" prefHeight="25.0" prefWidth="188.0" />
+                     </children>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="121.0" prefWidth="600.0" spacing="8.0">
+                     <children>
+                        <Label prefHeight="28.0" prefWidth="106.0" text="Nombre cráteres :">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="crateres" onKeyPressed="#buscarRutas" prefHeight="25.0" prefWidth="390.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
 </AnchorPane>
