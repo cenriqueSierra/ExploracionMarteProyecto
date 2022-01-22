@@ -9,15 +9,18 @@ import com.espol.proyectopoo2.modelo.Crater;
 import com.espol.proyectopoo2.modelo.Registro;
 import com.espol.proyectopoo2.modelo.Ubicacion;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -33,62 +36,51 @@ public class RegistroData {
      */
     public static String rutaReporte = Constantes.ARCHIVOS+"/reporteSensado.dat";
     
-    public static List<Registro> reportes;
     
-    public static void addReporte(Registro reporte){
-        reportes.add(reporte);
-    }
     /**
-     * Metodo que crear un archivo binario que almacena 
-     * una lista de objetos Reporte
-     * 
-     * @param reportes Lista de reportes generada cuando el rover sensa el crater
+     * Metodo para guardar los datos de los crateres que han sido sensados
+     * @param reporte Ingresa un objeto registro 
      */
-    public static void guardarReporte(List<Registro> reportes){
-        
-        try(ObjectOutputStream outStream = new ObjectOutputStream(new FileOutputStream(rutaReporte,true))){        
-            outStream.writeObject(reportes); 
+    public static void guardarReporte(Registro reporte){
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(rutaReporte,true))){
+            List<String> m = reporte.getMinerales();
+            String line = String.valueOf(reporte.getFecha())+","+
+                        reporte.getNombreCrater()+"+"+String.join(",", m);
+                
+                writer.write(line);  
+        } catch (IOException ex) {
             
+        }
         
-        }catch(FileNotFoundException fex){
+    }
+    
+    /**
+     * Metodo para obtener los datos de los crateres explotados
+     * @return 
+     */
+    public static List<Registro> leerReporte(){
+        List<Registro> reporte = null;
+        try(BufferedReader lector = new BufferedReader(new FileReader(rutaReporte))){
+            String line;
+            
+            while((line = lector.readLine()) != null){
+                String[] parts = line.split(",");
+                List<String> minerales = new ArrayList<>();
+                minerales = Arrays.asList(parts[2]);
+                reporte.add(new Registro(LocalDateTime.parse(parts[0]), (ArrayList<String>) minerales,parts[1]));
+                
+            }
+        } catch (FileNotFoundException ex) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Alerta de Error");
             alert.setHeaderText("Estado");
             alert.setContentText("Archivo de reportes no existe");
 
             alert.showAndWait();
-            
-        }catch(IOException ioex){
-            ioex.printStackTrace();  
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
-    }
-    
-    /**
-     * Metodo para leer la informacion de los crateres que 
-     * han sido sensados
-     * @return Lista de objetos reporte
-     */
-    public static List<Registro> cargarRegistro(){
-        List<Registro> reporteSenso = null;
-        
-        try(ObjectInputStream oinStream = new ObjectInputStream(new FileInputStream(rutaReporte))){
-            reporteSenso = (ObservableList<Registro>) oinStream.readObject(); 
-            
-        }catch(FileNotFoundException fex){
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Alerta de Error");
-            alert.setHeaderText("Estado");
-            alert.setContentText("Archivo de reportes no existe");
-
-            alert.showAndWait();
-            
-        }catch(ClassNotFoundException ex){
-            
-        }
-        catch(IOException ioex){
-            ioex.printStackTrace();  
-        }
-        return reporteSenso;
+        return reporte;
     }
     
 }
