@@ -42,6 +42,7 @@ public abstract class Rover implements AccionesRover {
     * @param ubicacion Ubicacion del rover
     * @param image_path Path de la imagen del river
     * @param carga Carga del rover
+    * @throws IOException 
     */ 
     public Rover(String nombre, Ubicacion ubicacion, String image_path, double carga)
             throws IOException{
@@ -115,11 +116,11 @@ public abstract class Rover implements AccionesRover {
             throws ComandoInvalidoException{                
         double x_diff = ubicacion.getLongitud() - this.ubicacion.getLongitud();
         double y_diff = ubicacion.getLatitud() - this.ubicacion.getLatitud();
-        double angulo = Math.atan(carga)*180/(2*Math.PI);
+        double newAngulo = Math.atan(carga)*180/(2*Math.PI);
         double distancia = Math.sqrt(Math.pow(x_diff,2)+Math.pow(y_diff,2));
         if(isDescargado((int)distancia))
             throw new ComandoInvalidoException("Carga insuficiente para desplazarse");
-        new HiloGirar(angulo).start();
+        new HiloGirar(newAngulo).start();
         new HiloAvanzar(
                 (int) Math.floor(distancia/10)
                         ).start();
