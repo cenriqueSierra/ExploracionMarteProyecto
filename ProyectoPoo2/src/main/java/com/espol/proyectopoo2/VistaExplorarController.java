@@ -81,20 +81,27 @@ public class VistaExplorarController implements Initializable {
             System.out.println(cr.getRadio());
                 
         for(Crater c: crateres){
-            Circle circulo = new Circle(c.getRadio()/2,Color.RED);
+            Circle circulo = new Circle(c.getRadio()/2);
             
-                //circulo.getStyleClass().add("c-nocensado");
+            if(c.isExplorado())
+                circulo.getStyleClass().add("relleno");
+            circulo.getStyleClass().add("contorno");
+            
             circulo.setLayoutX(c.getUbicacion().getLongitud()/2.0/*(panelSuperficie.getPrefWidth()/1372.0)*/);
             circulo.setLayoutY(c.getUbicacion().getLatitud()/2.0/*(panelSuperficie.getPrefHeight()/997.0)*/);
             panelSuperficie.getChildren().add(circulo);
-            circulo.setOnMouseClicked((MouseEvent ev)-> {          
+            circulo.setOnMouseClicked((MouseEvent ev)-> {
+                infoCrater.getChildren().clear();
+                Label craterInfo = new Label(c.toString());
+                infoCrater.getChildren().add(craterInfo);
                 List<Registro> registros = RegistroData.reportes;
-                for(Registro r: registros){
-                    int validacion = r.getCrater().getId().compareTo(c.getId());
-                    if( c.isExplorado() && validacion == 0){
-                        infoCrater.getChildren().clear();
-                        Label craterInfo = new Label(c.toString());
-                        infoCrater.getChildren().add(craterInfo);
+                    //int validacion = r.getCrater().getId().compareTo(c.getId());&& validacion == 0
+                    if( c.isExplorado() ){
+                        List<String> minerales = new ArrayList<>();
+                        for(Registro r: registros){
+                            if(r.getCrater().equals(c)){
+                               minerales.addAll(r.getMinerales());
+                            }
                         
                         }
 
