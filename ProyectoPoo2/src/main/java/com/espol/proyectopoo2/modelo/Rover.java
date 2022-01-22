@@ -91,6 +91,12 @@ public abstract class Rover implements AccionesRover {
         return carga;
     }
     /**
+     * @return el angulo del rover en grados.
+     */
+    public double getAngulo() {
+        return angulo*180/Math.PI;
+    }
+    /**
      * 
      * @return 
      */
@@ -114,21 +120,6 @@ public abstract class Rover implements AccionesRover {
     
     @Override
     public void avanzar(){
-//        double posX = ubicacion.getLongitud();
-//        double posY = ubicacion.getLatitud();
-//        //angulo
-//        
-//        //sacar las componentes rectangulares
-//        double compX = 10*Math.cos(angulo);
-//        double compY = 10*Math.sin(angulo);     
-//       
-//         
-//        //settear
-//        posX+=compX;
-//        posY+=compY;
-//        System.out.println("-------AVANZAAAAR--------");
-//        System.out.println("x:"+ posX+"y: "+posY);
-//        
           setUbicacion(posicionNueva());
           moverImgRover(ubicacion.getLongitud(),ubicacion.getLatitud());
     }
@@ -142,13 +133,15 @@ public abstract class Rover implements AccionesRover {
     }
     
     @Override
-    public void desplazarse(Ubicacion ubicacion){
-        
-        
-        
-        //final
-        moverImgRover(ubicacion.getLongitud(),ubicacion.getLatitud());
-
+    public void desplazarse(Ubicacion ubicacion){                
+        double x_diff = ubicacion.getLongitud() - this.ubicacion.getLongitud();
+        double y_diff = ubicacion.getLatitud() - this.ubicacion.getLatitud();
+        double angulo = Math.atan(carga)*180/(2*Math.PI);
+        double distancia = Math.sqrt(Math.pow(x_diff,2)+Math.pow(y_diff,2));
+        new HiloGirar(angulo).start();
+        new HiloAvanzar(
+                (int) Math.floor(distancia/10)
+                        ).start();
     }
     
     @Override
@@ -167,18 +160,6 @@ public abstract class Rover implements AccionesRover {
             return minerales;
         }
         return null;
-    }
-    
-    @Override
-    public String toString(){
-        return nombre;
-    }
-
-    /**
-     * @return el angulo del rover en grados.
-     */
-    public double getAngulo() {
-        return angulo*180/Math.PI;
     }
     
     public void moverImgRover(double x, double y){
@@ -202,5 +183,54 @@ public abstract class Rover implements AccionesRover {
         posY+=compY;
         
         return new Ubicacion(posX,posY);
+    }
+
+
+    public class HiloAvanzar extends Thread {
+        private int repeticiones;
+        /**
+         * Constructor del hilo
+         * @param repeticiones numero de veces que se repetirá el comando de avanzar
+         */
+        public HiloAvanzar(int repeticiones){
+            super();
+            this.repeticiones=repeticiones;
+
+        }
+        /**
+         * Metodo run del hilo
+         */
+        @Override
+        public void run(){
+            for(int i=1; i<=repeticiones;i++)
+                avanzar();
+        }
+
+    }
+        public class HiloGirar extends Thread{
+        /**
+         * Angulo a girar el rover
+         */
+        private double angulo;
+        /**
+         * Constructor del hilo
+         * @param angulo Angulo a girar el rover
+         */
+        public HiloGirar(double angulo){
+            super();
+            this.angulo=angulo;        
+        }
+        /**
+         * Metodo run del hilo
+         */
+        @Override
+        public void run(){
+            girar(angulo);
+        }
+    }
+    
+    @Override
+    public String toString(){
+        return nombre;
     }
 }
