@@ -13,10 +13,10 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.espol.proyectopoo2.VistaExplorarController">
    <children>
-      <HBox spacing="8.0">
+      <HBox spacing="8.0" VBox.vgrow="NEVER">
          <children>
-            <Pane id="panelSuperficie" fx:id="panelSuperficie" cache="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="499.0" prefWidth="686.0" stylesheets="@vistaexplorar.css" HBox.hgrow="NEVER" />
-            <VBox prefHeight="414.0" prefWidth="131.0" spacing="8.0">
+            <Pane id="panelSuperficie" fx:id="panelSuperficie" cache="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="499.0" prefWidth="697.0" stylesheets="@vistaexplorar.css" />
+            <VBox prefHeight="70.0" spacing="8.0">
                <children>
                   <ComboBox fx:id="cboxRover" onAction="#seleccionarRover" prefWidth="150.0">
                      <VBox.margin>
@@ -59,14 +59,7 @@
             </VBox>
          </children>
       </HBox>
-      <HBox alignment="CENTER_LEFT" prefWidth="664.0">
-         <children>
-            <VBox fx:id="infoCrater" prefWidth="100.0" HBox.hgrow="ALWAYS">
-               <HBox.margin>
-                  <Insets left="2.0" />
-               </HBox.margin>
-            </VBox>
-         </children>
-      </HBox>
+      <VBox fx:id="infoCrater" prefHeight="0.0" prefWidth="644.0" />
+      <HBox alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="664.0" />
    </children>
 </VBox>
