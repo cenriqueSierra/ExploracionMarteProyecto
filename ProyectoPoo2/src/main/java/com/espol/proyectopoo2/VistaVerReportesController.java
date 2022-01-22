@@ -41,30 +41,56 @@ public class VistaVerReportesController implements Initializable {
     private VBox vboxTable;
     @FXML
     private ComboBox<String> cbxSeleccion;
+    
+    private ObservableList<Registro> reporte;
 
     /**
-     * Initializes the controller class.
+     * Inicia clase controladora y carga la informacion
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cbxSeleccion.getItems().add("Nombre");
         cbxSeleccion.getItems().add("Fecha");
-        
+        reporte = (ObservableList<Registro>) RegistroData.leerReporte();
+
     }    
     
     
     /**
-     * Metodo que actua frente a la seleccion de 'Ordenar por:', inmediatamente 
-     * se crea el hilo que carga la informacion y se carga de 
      * 
      * @param event 
      */
     @FXML
     private void seleccionarOrden(ActionEvent event) {
-        Thread t = new Thread(new RegistroRunnable());
-        //t.start();
+        
+        switch(cbxSeleccion.getValue()){
+            case("Nombre"):
+                vboxTable.getChildren().clear();
+                Comparator<Registro> com1 = (Registro r1, Registro r2) -> {
+                    return r2.getNombreCrater().compareToIgnoreCase(r1.getNombreCrater()); //r2 primero y r1 despues ordena de forma descendente
+                };
+
+                creacionTabla(reporte, com1);
+                break;
+
+            case("Fecha"):
+                vboxTable.getChildren().clear();
+                Comparator<Registro> com2 = (Registro r1, Registro r2) -> {
+                    return r2.getFecha().compareTo(r1.getFecha());
+                };
+
+                creacionTabla(reporte, com2);
+                break;
+
+            default:
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Notificacion");
+                alert.setHeaderText("Estado");
+                alert.setContentText("Seleccion invalida");
+
+                alert.showAndWait();
+        }
     }
-    
     
     /**
      * Metodo que crea un tableView 
@@ -77,56 +103,7 @@ public class VistaVerReportesController implements Initializable {
         TableView<Registro> tableNombre = new TableView(registro);
         vboxTable.getChildren().addAll(tableNombre);
     }
-        
     
-    /**
-     * Clase que permite cargar los registros del archivo binario
-     * y modifica la interfaz creando un tableView con la información del archivo
-     */
-    class RegistroRunnable implements Runnable{
-
-        @Override
-        public void run() {
-            //Cargo la lista
-            ObservableList<Registro> registro = (ObservableList<Registro>) RegistroData.cargarRegistro();
-            
-            //Debes validar que lo que se presentará está dentro del rango de fechas y sea el nombre de crater correcto
-            
-            //Bloque de codigo que modifica la interfaz
-            Platform.runLater(()->{
-                
-                switch(cbxSeleccion.getValue()){
-                    case("Nombre"):
-                        vboxTable.getChildren().clear();
-                        Comparator<Registro> com1 = (Registro r1, Registro r2) -> {
-                            return r2.getCrater().getNombre().compareToIgnoreCase(r1.getCrater().getNombre()); //r2 primero y r1 despues ordena de forma descendente
-                        };
-
-                        creacionTabla(registro, com1);
-                        break;
-
-                    case("Fecha"):
-                        vboxTable.getChildren().clear();
-                        Comparator<Registro> com2 = (Registro r1, Registro r2) -> {
-                            return r2.getFecha().compareTo(r1.getFecha());
-                        };
-
-                        creacionTabla(registro, com2);
-                        break;
-
-                    default:
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("Notificacion");
-                        alert.setHeaderText("Estado");
-                        alert.setContentText("Seleccion invalida");
-
-                        alert.showAndWait();
-                }
-            });
-
-        }
-
-    }
     
     /**
      * Metodo que permite regresar al menu principal
