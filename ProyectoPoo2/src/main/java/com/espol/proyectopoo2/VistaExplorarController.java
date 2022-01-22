@@ -5,9 +5,11 @@
 package com.espol.proyectopoo2;
 
 import com.espol.proyectopoo2.data.CraterData;
+import com.espol.proyectopoo2.data.RegistroData;
 import com.espol.proyectopoo2.data.RoverData;
 import com.espol.proyectopoo2.modelo.ComandoInvalidoException;
 import com.espol.proyectopoo2.modelo.Crater;
+import com.espol.proyectopoo2.modelo.Registro;
 import com.espol.proyectopoo2.modelo.Rover;
 import com.espol.proyectopoo2.modelo.Ubicacion;
 import java.io.IOException;
@@ -85,14 +87,20 @@ public class VistaExplorarController implements Initializable {
             circulo.setLayoutX(c.getUbicacion().getLongitud()/2.0/*(panelSuperficie.getPrefWidth()/1372.0)*/);
             circulo.setLayoutY(c.getUbicacion().getLatitud()/2.0/*(panelSuperficie.getPrefHeight()/997.0)*/);
             panelSuperficie.getChildren().add(circulo);
-            circulo.setOnMouseClicked((MouseEvent ev)-> {
-                infoCrater.getChildren().clear();
-                Label craterInfo = new Label(c.toString());
-                infoCrater.getChildren().add(craterInfo);
-                if(c.isExplorado()){
-                    //
-                }
-                    
+            circulo.setOnMouseClicked((MouseEvent ev)-> {          
+                List<Registro> registros = RegistroData.reportes;
+                for(Registro r: registros){
+                    int validacion = r.getCrater().getId().compareTo(c.getId());
+                    if( c.isExplorado() && validacion == 0){
+                        infoCrater.getChildren().clear();
+                        Label craterInfo = new Label(c.toString());
+                        infoCrater.getChildren().add(craterInfo);
+                        
+                        }
+
+                    }
+                
+     
             });
         }
  
