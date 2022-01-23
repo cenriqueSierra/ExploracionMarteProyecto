@@ -68,7 +68,7 @@ public class CraterData {
     public static List<String> cargarMinerales(){
         List<String> minerales = new ArrayList<>();
         
-        try(BufferedReader lector = new BufferedReader(new FileReader(rutaCrater))){
+        try(BufferedReader lector = new BufferedReader(new FileReader(rutaMinerals))){
             String line;
             while((line = lector.readLine()) != null ){
                 String m = line.strip();
@@ -108,13 +108,16 @@ public class CraterData {
         List<Crater> crateres = new ArrayList(cargarCrateres());
         
         for(Crater crater : crateres){
-            if(isInCrater(crater,ubicacion))
+            if(isInCrater(crater,ubicacion)){
+                System.out.println("Ubicacion Crater:"+crater.getUbicacion()+"nombre "+crater.getNombre());
                 return crater;
+            }
         }
         return null;
     }
     
     public static boolean isInCrater(Crater crater, Ubicacion ubicacion){
+        
         double posXCrater=crater.getUbicacion().getLongitud();
         double posYCrater=crater.getUbicacion().getLatitud();
         double radio=crater.getRadio();

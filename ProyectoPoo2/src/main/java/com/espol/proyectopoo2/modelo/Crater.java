@@ -1,5 +1,8 @@
 package com.espol.proyectopoo2.modelo;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+
 /**
  *
  * @author josek
@@ -25,6 +28,11 @@ public class Crater {
      * Radio del crater
      */
     private double radio;
+    
+    /**
+     * Representacion grafica.
+     */
+    private Circle circulo;
     
     /**
      * @return el nombre
@@ -60,6 +68,7 @@ public class Crater {
      */
     public void setExplorado(boolean explorado) {
         this.explorado = explorado;
+        circulo.setFill(Color.RED);
     }
 
     /**
@@ -83,7 +92,10 @@ public class Crater {
         this.nombre = nombre;
         this.explorado = false;
         this.radio = radio;
-        this.ubicacion = ubicacion;                
+        this.ubicacion = ubicacion; 
+        circulo = new Circle(this.radio,Color.TRANSPARENT);
+        
+        circulo.setStroke(Color.RED);
     }
     
     /**
@@ -92,7 +104,14 @@ public class Crater {
      */
     @Override
     public String toString(){
-        return "Nombre: "+nombre+"\nId:"+id+"\nRadio: "+ radio
-                +"\nUbicación: "+ubicacion;
+        return "Nombre: "+nombre+"Id:"+id+"Radio: "+ radio
+                +"Ubicación: "+ubicacion;
+    }
+
+    /**
+     * @return the circulo
+     */
+    public Circle getCirculo() {
+        return circulo;
     }
 }

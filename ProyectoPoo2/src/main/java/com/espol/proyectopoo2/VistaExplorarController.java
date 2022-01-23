@@ -89,16 +89,16 @@ public class VistaExplorarController implements Initializable {
             System.out.println(cr.getRadio());
                 
         for(Crater c: crateres){
-            Circle circulo = new Circle(c.getRadio());
-            if(c.isExplorado())
-                circulo.getStyleClass().add("relleno");
-            circulo.getStyleClass().add("contorno");
+            Circle circulo = c.getCirculo();
+//            if(c.isExplorado())
+//                circulo.getStyleClass().add("relleno");
+//            circulo.getStyleClass().add("contorno");
            
            
             
-            circulo.setLayoutX(c.getUbicacion().getLongitud());
+            c.getCirculo().setCenterX(c.getUbicacion().getLongitud());
             /*(panelSuperficie.getPrefWidth()/1372.0)*/
-            circulo.setLayoutY(c.getUbicacion().getLatitud()/*(panelSuperficie.getPrefHeight()/997.0)*/);
+            c.getCirculo().setCenterY(c.getUbicacion().getLatitud()/*(panelSuperficie.getPrefHeight()/997.0)*/);
             
             panelSuperficie.getChildren().add(circulo);
             //st.getChildren().add(circulo);
@@ -107,18 +107,20 @@ public class VistaExplorarController implements Initializable {
                 infoCrater.getChildren().clear();
                 Label craterInfo = new Label(c.toString());
                 infoCrater.getChildren().add(craterInfo);
-                /*List<Registro> registros = RegistroData.reportes;
+                
                     //int validacion = r.getCrater().getId().compareTo(c.getId());&& validacion == 0
                     if( c.isExplorado() ){
+                        List<Registro> registros = RegistroData.leerReporte();
                         List<String> minerales = new ArrayList<>();
                         for(Registro r: registros){
-                            if(r.getCrater().equals(c)){
+                            if(r.getNombreCrater().equalsIgnoreCase(c.getNombre())){
                                minerales.addAll(r.getMinerales());
                             }
                         
                         }
-
-                    }*/
+                        Label lbminerales = new Label(minerales.toString());
+                        infoCrater.getChildren().add(lbminerales);
+                    }
                 
      
             });
@@ -186,6 +188,8 @@ public class VistaExplorarController implements Initializable {
                     break;
                 case("sensar"):
                     roverSeleccionado.sensar();
+                    
+                    
                     break;
                 case("cargar"):
                     roverSeleccionado.cargar();

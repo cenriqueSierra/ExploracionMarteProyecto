@@ -4,6 +4,7 @@
  */
 package com.espol.proyectopoo2.data;
 
+import static com.espol.proyectopoo2.data.Constantes.factor;
 import com.espol.proyectopoo2.modelo.Rover;
 import com.espol.proyectopoo2.modelo.RoverEolico;
 import com.espol.proyectopoo2.modelo.RoverSolar;
@@ -38,8 +39,8 @@ public class RoverData {
                 String[] roverAtributos = linea.split(",");
                 String nombre =roverAtributos[0];
                 Ubicacion ubicacion = new Ubicacion(
-                        Double.parseDouble(roverAtributos[1]),
-                        Double.parseDouble(roverAtributos[2]));
+                        Double.parseDouble(roverAtributos[1])*factor,
+                        Double.parseDouble(roverAtributos[2])*factor);
                 String tipo = roverAtributos[3];
                 
                 if(tipo.equals("solar")){

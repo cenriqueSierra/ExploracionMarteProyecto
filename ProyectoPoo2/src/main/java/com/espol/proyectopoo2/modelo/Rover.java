@@ -136,7 +136,9 @@ public abstract class Rover implements AccionesRover {
     @Override
     public String sensar(){
         //Esta en el crater
+        System.out.println("Ubicacion Rover:"+ubicacion);
         Crater crater = CraterData.isUbicacionInCrater(ubicacion);
+        
         if(null!=crater){
             crater.setExplorado(true);
             String minerales = CraterData.mineralAleatorioRepetido();
@@ -145,9 +147,12 @@ public abstract class Rover implements AccionesRover {
             Registro reporte = new Registro(LocalDateTime.now(),
                                     mineralesReporte,
                                     crater.getNombre());            
-            RegistroData.guardarReporte(reporte);            
+            RegistroData.guardarReporte(reporte);
+            System.out.println("Minerales: "+minerales);
             return minerales;
         }
+        
+        System.out.println("SENSADOOOOOOOOOOOOOOOOOO");
         return null;
     }
     /**

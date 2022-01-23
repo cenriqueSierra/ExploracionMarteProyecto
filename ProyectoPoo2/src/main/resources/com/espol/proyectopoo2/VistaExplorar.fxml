@@ -60,6 +60,6 @@
          </children>
       </HBox>
       <VBox fx:id="infoCrater" prefHeight="0.0" prefWidth="644.0" />
-      <HBox alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="664.0" />
+      <HBox alignment="CENTER_LEFT" prefHeight="98.0" prefWidth="664.0" />
    </children>
 </VBox>
