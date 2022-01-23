@@ -45,8 +45,6 @@
          <children>
             <Label text="Ordenar por:" />
             <ComboBox fx:id="cbxSeleccion" onAction="#seleccionarOrden" prefWidth="150.0" />
-            <Button mnemonicParsing="false" text="Ascendente" />
-            <Button mnemonicParsing="false" text="Descendente" />
          </children>
       </HBox>
       <VBox fx:id="vboxTable" prefHeight="274.0" prefWidth="600.0">
