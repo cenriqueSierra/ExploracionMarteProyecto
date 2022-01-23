@@ -4,6 +4,7 @@
  */
 package com.espol.proyectopoo2.data;
 
+import static com.espol.proyectopoo2.data.Constantes.factor;
 import com.espol.proyectopoo2.modelo.Crater;
 import com.espol.proyectopoo2.modelo.Ubicacion;
 import java.io.BufferedReader;
@@ -44,9 +45,9 @@ public class CraterData {
                 String[] parts = line.split(",");
                 String id = parts[0];
                 String nombre = parts[1];
-                double latitud = Double.parseDouble(parts[2]);
-                double longitud = Double.parseDouble(parts[3]);
-                double radio = Double.parseDouble(parts[4]);
+                double latitud = Double.parseDouble(parts[2])* factor;
+                double longitud = Double.parseDouble(parts[3])*factor;
+                double radio = Double.parseDouble(parts[4])*factor;
                 
                 crateres.add(new Crater(id,nombre,radio, new Ubicacion(latitud, longitud)));
             }
