@@ -14,13 +14,16 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -29,32 +32,45 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
 /**
- * FXML Controller class
+ * FXML Controller Planificacion de Rutas
  *
- * @author Carlos user
+ * @author Dome user
  */
 public class VistaPlanificacionRutasController implements Initializable {
 
-    private TextField crateres;
+   /**
+    * Texto de los crateres ingresados
+    */
+    @FXML
+    private TextField crateresIngresados;
     
-//    private ArrayList<Crater> crateresVisitar;
-    
-    private List<Double> crateresDistancia;
-//    
-    
+    /**
+     * Opciones de los rovers.
+     */
     @FXML
     private ComboBox<Rover> cbRover;
     
+    /**
+     * Rover seleccionado
+     */
     private Rover roverSeleccionado;
-    
-    
+    /**
+     * Alerta del programa.
+     */
     private Alert a;
+    
+    /**
+     * Panel con los nombres de los crateres ordenados segun la ruta.
+     */
     @FXML
-    private TextField crateresIngresados;
-    @FXML
-    private GridPane paneNombres;
+    private Pane paneNombres;
+    
+    /**
+     * Boton para volver al menu.
+     */
     @FXML
     private Button volverMenu;
     
@@ -67,39 +83,62 @@ public class VistaPlanificacionRutasController implements Initializable {
         // TODO
         a = new Alert(Alert.AlertType.ERROR);
         cbRover.getItems().addAll(RoverData.cargarRovers());
+        
     }    
-
+    
+    /**
+     * Busca la ruta más optima para visitar los crateres.
+     * @param event 
+     */
     @FXML
     private void buscarRutas(KeyEvent event) {
         List<Crater> crateresVisitar = new ArrayList<>();
         
         if (event.getCode() == event.getCode().ENTER){
-            try{
+            paneNombres.getChildren().clear();
+        try{
+            
                 if(cbRover.getValue()==null)
                     throw new NullPointerException("Seleccione un Rover");
-                
-                roverSeleccionado= cbRover.getValue();
-                Ubicacion u0 = roverSeleccionado.getUbicacion();
+                if (crateresIngresados.getText().isBlank())
+                        throw new NullPointerException("Ingrese crateres");
+                        
+                        
+            Ubicacion u0 = roverSeleccionado.getUbicacion();
 
-            String[] crateresNombres = crateres.getText().split(",");
+            String[] crateresNombres = crateresIngresados.getText().split(",");
+            System.out.println("Ingresados: "+crateresNombres);
+            List<String> crateresNoEncontrados = new ArrayList<>();
             
-            for(Crater c : CraterData.cargarCrateres()){
-                for(String nombreCrater : crateresNombres){
+            for(String nombreCrater : crateresNombres){
+                boolean find = false;
+                for(Crater c : CraterData.cargarCrateres())
                     if(c.getNombre().equalsIgnoreCase(nombreCrater.trim())){
-                        //dist.add(c.getUbicacion().distancia(u0));
                         crateresVisitar.add(c);
-                        System.out.println("A visitra"+c);
+                        find = true;
+                        System.out.println("A visitar"+c);
                     }
-                    
-                }
+                if(!find && !crateresNoEncontrados.contains(nombreCrater))
+                    crateresNoEncontrados.add(nombreCrater);
             }
             
+            if(!crateresNoEncontrados.isEmpty()){
+                a.setAlertType(Alert.AlertType.WARNING);
+                a.setContentText("Nombre de crateres no encontrados: "+crateresNoEncontrados
+                                  +"\n los cuales no se agregaran a la ruta");
+                a.show();
+            }
+                
             
-          
+            GridPane orden = new GridPane();
+            orden.gridLinesVisibleProperty().set(true);
+            
+            paneNombres.getChildren().add(orden);
             Deque<Crater> tmp = new LinkedList<>(crateresVisitar);
             List<Crater> last_dist = new ArrayList<>();
             
                 System.out.println("ORDEN");
+                System.out.println("Distacia desde Rover: u0 = " + u0 + "\f" + roverSeleccionado);
             while (last_dist.size() < crateresVisitar.size()){
                 
                 double dist_min = Double.MAX_VALUE;
@@ -110,10 +149,13 @@ public class VistaPlanificacionRutasController implements Initializable {
                     double ndist = u0.distancia(t.getUbicacion());
                     if (ndist < dist_min) {
                         dist_min = ndist;
-                        minDistCrater = t;
+                        minDistCrater = t;                    
                     }
+                    System.out.println("\t[crater] " + t + "\f dist: " + ndist);
                 }
+                System.out.println("Distacia desde crater: " + minDistCrater);
                 
+
                 if (minDistCrater == null)
                     break;
                 
@@ -121,32 +163,47 @@ public class VistaPlanificacionRutasController implements Initializable {
                 int i =last_dist.size();
                 System.out.println(i+" "+minDistCrater.getNombre());
 
-                paneNombres.addRow(i-1,new Label(i+" "+minDistCrater.getNombre()));
                 u0 = minDistCrater.getUbicacion();
-                
-                for(Crater c : crateresVisitar) {
+                Label l = new Label(i+" "+minDistCrater.getNombre());
+                l.setPadding(new Insets(10));
+                orden.addRow(i, l);
+                for(Crater c : crateresVisitar) 
                     if (!last_dist.contains(c))
                         tmp.add(c);
-                }
+                
                 
             }
+        
             
-                    
-            
-            }catch(NullPointerException ex){
-                a.setContentText("Selecciones un rover");
+        }catch(NullPointerException ex){
+                a.setContentText(ex.getMessage());
+                ex.printStackTrace();
+                a.show();
             }
-        }
+      }
     }
 
+    
+    /**
+     * Regresa a la vista inicial
+     * @param event 
+     */
     @FXML
     private void volverMenu(MouseEvent event) {
-    }
+       App.cambioVista("VistaInicial");
 
+        
+    }
+ 
+    /**
+     * Actualiza el rover seleccionado
+     * @param event 
+     */
     @FXML
     private void seleccionar(ActionEvent event) {
-        if(cbRover.getValue()!=null)
             roverSeleccionado = cbRover.getValue();
+            paneNombres.getChildren().clear();
+            crateresIngresados.setText("");
     }
 
     
