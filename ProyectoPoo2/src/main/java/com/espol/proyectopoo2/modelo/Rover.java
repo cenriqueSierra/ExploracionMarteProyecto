@@ -103,7 +103,9 @@ public abstract class Rover implements AccionesRover {
         if(isDescargado(1))
             throw new ComandoInvalidoException("Carga insuficiente para avanzar");
         setUbicacion(posicionNueva());
-        moverImgRover(ubicacion.getLongitud(),ubicacion.getLatitud());                    
+        moverImgRover(ubicacion.getLongitud(),ubicacion.getLatitud());    
+        setCarga(carga-=1);
+        System.out.println("Carga:"+getCarga());
     }
     @Override
     public void girar(double grados){
@@ -115,12 +117,18 @@ public abstract class Rover implements AccionesRover {
     public void desplazarse(Ubicacion ubicacion, boolean cargar) 
             throws ComandoInvalidoException{                
         double x_diff = ubicacion.getLongitud() - this.ubicacion.getLongitud();
+        System.out.println(x_diff);
         double y_diff = ubicacion.getLatitud() - this.ubicacion.getLatitud();
-        double newAngulo = Math.atan(carga)*180/(2*Math.PI);
+        System.out.println(y_diff);
+        double newAngulo = Math.atan2(y_diff, x_diff)*180/(Math.PI);
+        System.out.println("angulo"+angulo);
+        System.out.println("nuevoAngulo"+newAngulo);
         double distancia = Math.sqrt(Math.pow(x_diff,2)+Math.pow(y_diff,2));
-        if(isDescargado((int)distancia)&&cargar)
+        if(isDescargado((int)distancia)||cargar)
             throw new ComandoInvalidoException("Carga insuficiente para desplazarse");
-        new HiloGirar(newAngulo).start();
+        angulo=0;
+        girar(newAngulo);
+        System.out.println("angulo"+angulo);
         new HiloAvanzar(
                 (int) Math.floor(distancia/10)
                         ).start();
@@ -159,17 +167,12 @@ public abstract class Rover implements AccionesRover {
     public Ubicacion posicionNueva(){
         double posX = ubicacion.getLongitud();
         double posY = ubicacion.getLatitud();
-        //angulo
-        
         //sacar las componentes rectangulares
         double compX = 10*Math.cos(angulo);
-        double compY = 10*Math.sin(angulo);     
-       
-         
+        double compY = 10*Math.sin(angulo);                  
         //settear
         posX+=compX;
-        posY+=compY;
-        
+        posY+=compY;        
         return new Ubicacion(posX,posY);
     }
     /**
@@ -190,8 +193,14 @@ public abstract class Rover implements AccionesRover {
          */
         @Override
         public void run(){
-            for(int i=1; i<=repeticiones;i++)
+            for(int i=1; i<=repeticiones;i++){
                 avanzar();
+                try{
+                sleep(250);
+                }catch(InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
     }
     /**
@@ -215,6 +224,7 @@ public abstract class Rover implements AccionesRover {
          */
         @Override
         public void run(){
+            girar(-getAngulo());
             girar(angulo);
         }
     }

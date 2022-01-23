@@ -28,7 +28,7 @@ public class RoverSolar extends Rover {
      */
     @Override
     public void cargar() {
-        super.desplazarse(new Ubicacion(100,100), true);                           
+        desplazarse(new Ubicacion(100,100), true);
     }
     
     

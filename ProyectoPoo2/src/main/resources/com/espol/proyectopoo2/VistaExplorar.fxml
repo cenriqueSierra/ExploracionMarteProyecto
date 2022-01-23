@@ -15,7 +15,7 @@
    <children>
       <HBox spacing="8.0" VBox.vgrow="NEVER">
          <children>
-            <Pane id="panelSuperficie" fx:id="panelSuperficie" cache="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="499.0" prefWidth="697.0" stylesheets="@vistaexplorar.css" />
+            <Pane id="panelSuperficie" fx:id="panelSuperficie" cache="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" stylesheets="@vistaexplorar.css" />
             <VBox prefHeight="70.0" spacing="8.0">
                <children>
                   <ComboBox fx:id="cboxRover" onAction="#seleccionarRover" prefWidth="150.0">
@@ -27,7 +27,7 @@
                         <Font size="11.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="comandoIngresado" onKeyPressed="#ingresoComando">
+                  <TextField fx:id="comandoIngresado" onKeyPressed="#ingresoComando" promptText="comando:1,2">
                      <VBox.margin>
                         <Insets left="2.0" right="2.0" />
                      </VBox.margin></TextField>

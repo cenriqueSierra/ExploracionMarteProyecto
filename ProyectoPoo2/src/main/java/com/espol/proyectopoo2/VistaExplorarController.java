@@ -62,7 +62,7 @@ public class VistaExplorarController implements Initializable {
     
     private Alert a;
     
-    private final double factor = 0.7;
+    private final double factor = 0.5;
     /**
      * Initializes the controller class.
      */
@@ -169,26 +169,19 @@ public class VistaExplorarController implements Initializable {
                         roverSeleccionado.avanzar();
                     else 
                         throw new NullPointerException("El Rover no puede avanzar mas");
-                        
-                    System.out.println("VIEJOOO \n"+roverSeleccionado.getUbicacion());
-                    System.out.println("Angulo old "+roverSeleccionado.getAngulo());
-                    
-                    System.out.println("NUEVAAA \n"+roverSeleccionado.getUbicacion());
-                    System.out.println("Angulo new "+roverSeleccionado.getAngulo());
-                    System.out.println("-------------------------------");
                     break;
                 case("girar"):
-                    roverSeleccionado.girar(Double.parseDouble(comandoSeparado[1]));
-                     
+                    roverSeleccionado.girar(Double.parseDouble(comandoSeparado[1]));                     
                     break;
                 case("desplazarse"):
-                    String[] ubicacion = comandoSeparado[1].trim().split(",");
-                    
+                    String[] ubicacion = comandoSeparado[1].trim().split(",");                    
                     Double x = Double.parseDouble(ubicacion[0]);
+                    System.out.println(x);
                     Double y = Double.parseDouble(ubicacion[1]);
+                    System.out.println(y);
                     
                     if (dentroLimites(x, y))
-                        roverSeleccionado.desplazarse(new Ubicacion(x,y));
+                        roverSeleccionado.desplazarse(new Ubicacion(x,y),false);
                     
 
                     break;
@@ -197,6 +190,9 @@ public class VistaExplorarController implements Initializable {
                     break;
                 case("cargar"):
                     roverSeleccionado.cargar();
+                    a.setAlertType(Alert.AlertType.INFORMATION);
+                    a.setContentText("Abriendo paneles");
+                    a.show();
                     break;
                 default:
                     throw new ComandoInvalidoException();
