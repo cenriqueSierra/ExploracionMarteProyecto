@@ -12,25 +12,18 @@ import com.espol.proyectopoo2.modelo.Crater;
 import com.espol.proyectopoo2.modelo.Registro;
 import com.espol.proyectopoo2.modelo.Rover;
 import com.espol.proyectopoo2.modelo.Ubicacion;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -82,9 +75,11 @@ public class VistaExplorarController implements Initializable {
      * Muestra los circulos que representan los craters.
      */
     private void cargarCrateres(){
+        panelSuperficie.getChildren().removeIf(T->T instanceof Circle);
         List<Crater> crateres = CraterData.cargarCrateres();
         //StackPane st = new StackPane();
         //st.setPrefSize(panelSuperficie.getPrefWidth(), panelSuperficie.getPrefHeight());
+        //vorrar
         for (Crater cr:  crateres)
             System.out.println(cr.getRadio());
                 
@@ -188,6 +183,7 @@ public class VistaExplorarController implements Initializable {
                     break;
                 case("sensar"):
                     roverSeleccionado.sensar();
+                    cargarCrateres();
                     
                     
                     break;
@@ -243,5 +239,9 @@ public class VistaExplorarController implements Initializable {
         
         return 0<=x && x<=limitX && 0<=y && y<= limitY ;
             
+    }
+    
+    private void rellenarCirculos(){
+        
     }
 }
