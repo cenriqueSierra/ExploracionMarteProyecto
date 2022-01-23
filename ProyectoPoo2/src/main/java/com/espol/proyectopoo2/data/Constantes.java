@@ -10,4 +10,5 @@ package com.espol.proyectopoo2.data;
  */
 public abstract class Constantes {
      public static final String ARCHIVOS = "datos";
+     public static final double factor = 0.5;
 }
