@@ -4,6 +4,8 @@
  */
 package com.espol.proyectopoo2.modelo;
 
+import static com.espol.proyectopoo2.data.Constantes.factor;
+
 /**
  *
  * @author Carlos user
@@ -42,9 +44,13 @@ public class Ubicacion {
      */
     @Override
     public String toString(){
-        return "Longitud "+ longitud+" ,Latitud "+latitud;
+        return "Longitud "+ longitud/factor+" ,Latitud "+latitud/factor;
     }
     
-    
+    public double distancia(Ubicacion u){
+        double x_diff = u.getLongitud() - longitud;
+        double y_diff = u.getLatitud() -latitud;
+        return Math.sqrt(Math.pow(x_diff,2)+Math.pow(y_diff,2));   
+    }
     
 }
