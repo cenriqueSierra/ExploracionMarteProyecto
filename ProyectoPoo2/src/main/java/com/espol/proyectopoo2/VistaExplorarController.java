@@ -62,7 +62,6 @@ public class VistaExplorarController implements Initializable {
     
     private Alert a;
     
-    private final double factor = 0.5;
     /**
      * Initializes the controller class.
      */
@@ -90,16 +89,16 @@ public class VistaExplorarController implements Initializable {
             System.out.println(cr.getRadio());
                 
         for(Crater c: crateres){
-            Circle circulo = new Circle(c.getRadio()*factor);
+            Circle circulo = new Circle(c.getRadio());
             if(c.isExplorado())
                 circulo.getStyleClass().add("relleno");
             circulo.getStyleClass().add("contorno");
            
            
             
-            circulo.setLayoutX(c.getUbicacion().getLongitud()*factor);
+            circulo.setLayoutX(c.getUbicacion().getLongitud());
             /*(panelSuperficie.getPrefWidth()/1372.0)*/
-            circulo.setLayoutY(c.getUbicacion().getLatitud()*factor/*(panelSuperficie.getPrefHeight()/997.0)*/);
+            circulo.setLayoutY(c.getUbicacion().getLatitud()/*(panelSuperficie.getPrefHeight()/997.0)*/);
             
             panelSuperficie.getChildren().add(circulo);
             //st.getChildren().add(circulo);
