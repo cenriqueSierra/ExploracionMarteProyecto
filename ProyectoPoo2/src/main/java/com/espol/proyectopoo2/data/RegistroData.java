@@ -66,12 +66,11 @@ public class RegistroData {
         
         try(BufferedReader lector = new BufferedReader(new FileReader(rutaReporte))){
             String line;
-            
+            reportes.clear();
             while((line = lector.readLine()) != null){
                 String[] parts = line.split(";");
                 List<String> minerales = new ArrayList<>();
                 minerales.addAll(Arrays.asList(parts[2]));
-                
                 reportes.add(new Registro(LocalDate.parse(parts[0]), 
                                             (ArrayList<String>) minerales, 
                                             parts[1]));
