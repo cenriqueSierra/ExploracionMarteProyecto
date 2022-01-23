@@ -34,7 +34,7 @@ public class RegistroData {
     /**
      * Ruta para archivo que contiene la informacion de los minerales
      */
-    public static String rutaReporte = Constantes.ARCHIVOS+"/reporteSensado.dat";
+    public static String rutaReporte = Constantes.ARCHIVOS+"/reporteSensado.txt";
     
     
     /**
@@ -45,7 +45,7 @@ public class RegistroData {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(rutaReporte,true))){
             List<String> m = reporte.getMinerales();
             String line = String.valueOf(reporte.getFecha())+","+
-                        reporte.getNombreCrater()+"+"+String.join(",", m);
+                        reporte.getNombreCrater()+","+String.join(",", m);
                 
                 writer.write(line);  
         } catch (IOException ex) {
