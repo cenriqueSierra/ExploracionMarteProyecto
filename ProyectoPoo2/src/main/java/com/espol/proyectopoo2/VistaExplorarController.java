@@ -12,6 +12,7 @@ import com.espol.proyectopoo2.modelo.Crater;
 import com.espol.proyectopoo2.modelo.Registro;
 import com.espol.proyectopoo2.modelo.Rover;
 import com.espol.proyectopoo2.modelo.Ubicacion;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,16 +106,20 @@ public class VistaExplorarController implements Initializable {
                 
                     //int validacion = r.getCrater().getId().compareTo(c.getId());&& validacion == 0
                     if( c.isExplorado() ){
+                    try {
                         List<Registro> registros = RegistroData.leerReporte();
                         List<String> minerales = new ArrayList<>();
                         for(Registro r: registros){
                             if(r.getNombreCrater().equalsIgnoreCase(c.getNombre())){
-                               minerales.addAll(r.getMinerales());
+                                minerales.addAll(r.getMinerales());
                             }
                         
                         }
                         Label lbminerales = new Label(minerales.toString());
                         infoCrater.getChildren().add(lbminerales);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                     }
                 
      
