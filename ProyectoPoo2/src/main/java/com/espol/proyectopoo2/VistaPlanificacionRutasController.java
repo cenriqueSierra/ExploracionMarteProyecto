@@ -22,9 +22,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 
 /**
  * FXML Controller class
@@ -33,7 +37,6 @@ import javafx.scene.input.KeyEvent;
  */
 public class VistaPlanificacionRutasController implements Initializable {
 
-    @FXML
     private TextField crateres;
     
 //    private ArrayList<Crater> crateresVisitar;
@@ -48,6 +51,12 @@ public class VistaPlanificacionRutasController implements Initializable {
     
     
     private Alert a;
+    @FXML
+    private TextField crateresIngresados;
+    @FXML
+    private GridPane paneNombres;
+    @FXML
+    private Button volverMenu;
     
 
     /**
@@ -126,8 +135,8 @@ public class VistaPlanificacionRutasController implements Initializable {
     }
 
     @FXML
-    private void seleccionarRover(ActionEvent event) {
-        
+    private void volverMenu(MouseEvent event) {
     }
+
     
 }
