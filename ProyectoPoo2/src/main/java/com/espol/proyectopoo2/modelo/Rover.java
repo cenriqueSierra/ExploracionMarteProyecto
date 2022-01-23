@@ -5,6 +5,7 @@ import com.espol.proyectopoo2.data.CraterData;
 import com.espol.proyectopoo2.data.RegistroData;
 import com.espol.proyectopoo2.interfaces.AccionesRover;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -140,19 +141,20 @@ public abstract class Rover implements AccionesRover {
         Crater crater = CraterData.isUbicacionInCrater(ubicacion);
         
         if(null!=crater){
-            crater.setExplorado(true);
+            
             String minerales = CraterData.mineralAleatorioRepetido();
             ArrayList<String> mineralesReporte = new ArrayList();
-            mineralesReporte.addAll(Arrays.asList(minerales.split(";")));
-            Registro reporte = new Registro(LocalDateTime.now(),
+            mineralesReporte.addAll(Arrays.asList(minerales.split(",")));
+            Registro reporte = new Registro(LocalDate.now(),
                                     mineralesReporte,
                                     crater.getNombre());            
             RegistroData.guardarReporte(reporte);
+            crater.setExplorado(true);
             System.out.println("Minerales: "+minerales);
             return minerales;
         }
         
-        System.out.println("SENSADOOOOOOOOOOOOOOOOOO");
+        System.out.println("En ningun crater");
         return null;
     }
     /**

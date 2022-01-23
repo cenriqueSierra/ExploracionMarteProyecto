@@ -18,6 +18,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +36,10 @@ public class RegistroData {
      * Ruta para archivo que contiene la informacion de los minerales
      */
     public static String rutaReporte = Constantes.ARCHIVOS+"/reporteSensado.txt";
-    
+    /**
+     * 
+     */
+    public static List<Registro> reportes;
     
     /**
      * Metodo para guardar los datos de los crateres que han sido sensados
@@ -44,12 +48,12 @@ public class RegistroData {
     public static void guardarReporte(Registro reporte){
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(rutaReporte,true))){
             List<String> m = reporte.getMinerales();
-            String line = String.valueOf(reporte.getFecha())+","+
-                        reporte.getNombreCrater()+","+String.join(",", m);
+            String line = String.valueOf(reporte.getFecha())+";"+
+                        reporte.getNombreCrater()+";"+String.join(",", m)+"\n";
                 
                 writer.write(line);  
         } catch (IOException ex) {
-            
+            ex.printStackTrace();
         }
         
     }
@@ -59,15 +63,18 @@ public class RegistroData {
      * @return 
      */
     public static List<Registro> leerReporte(){
-        List<Registro> reporte = null;
+        
         try(BufferedReader lector = new BufferedReader(new FileReader(rutaReporte))){
             String line;
             
             while((line = lector.readLine()) != null){
-                String[] parts = line.split(",");
+                String[] parts = line.split(";");
                 List<String> minerales = new ArrayList<>();
-                minerales = Arrays.asList(parts[2]);
-                reporte.add(new Registro(LocalDateTime.parse(parts[0]), (ArrayList<String>) minerales,parts[1]));
+                minerales.addAll(Arrays.asList(parts[2]));
+                
+                reportes.add(new Registro(LocalDate.parse(parts[0]), 
+                                            (ArrayList<String>) minerales, 
+                                            parts[1]));
                 
             }
         } catch (FileNotFoundException ex) {
@@ -80,7 +87,7 @@ public class RegistroData {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return reporte;
+        return reportes;
     }
     
 }

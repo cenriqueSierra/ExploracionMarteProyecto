@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -86,22 +87,24 @@ public class CraterData {
         return minerales;
         
     }
-    
-    public static String mineralAleatorio(){
+    public static String mineralAleatorio(List<String> minerales){
         Random random = new Random();
-        List<String> minerales = new ArrayList(cargarMinerales());
         int indice = random.nextInt(minerales.size()-1);
         return minerales.get(indice);
     }
-    
     public static String mineralAleatorioRepetido(){
-        int repeticion = new Random().nextInt(6);
-        String minerales = null;
+        List<String> mineralesLectura = cargarMinerales();
+        int repeticion = new Random().nextInt(mineralesLectura.size()-1);   //Genera un numero de acuerdo al numero de minerales en el archivo
+        List<String> minerales = new ArrayList<>();
+        
         for(int i = 0; i<repeticion ;i++){
-            String mineral = mineralAleatorio();
-            minerales += mineral;
+            String mineral=mineralAleatorio(mineralesLectura);
+            if(!minerales.contains(mineral))
+                minerales.add(mineral);
         }
-        return minerales.substring(0,minerales.length());        
+        if(minerales.isEmpty())
+            minerales.add("Ninguno");
+        return String.join((","), minerales);
     }
     
     public static Crater isUbicacionInCrater(Ubicacion ubicacion){

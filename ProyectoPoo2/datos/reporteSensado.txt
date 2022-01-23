@@ -1,1 +1,4 @@
-2022-01-22T20:24:05.963717,Seymour,nullfilosilicatosyesoyeso
+2022-01-23;Sayers;goethita,carbonato,jarosita,zeolita
+2022-01-23;Sayers;zeolita,esmectita,filosilicatos,sulfato de hierro,hematita,goethita,silice opalina,carbonato,jarosita
+2022-01-23;Sayers;esmectita
+2022-01-23;Sayers;jarosita,goethita,silice opalina,esmectita

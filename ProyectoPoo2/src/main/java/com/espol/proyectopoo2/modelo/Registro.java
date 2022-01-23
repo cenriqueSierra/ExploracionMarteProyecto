@@ -5,6 +5,7 @@
 package com.espol.proyectopoo2.modelo;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -17,7 +18,7 @@ public class Registro {
     /**
      * Fecha de la exploracion.
      */
-    private LocalDateTime fecha;
+    private LocalDate fecha;
     /**
      * Arreglo de minerales encontrados.
      */
@@ -34,7 +35,7 @@ public class Registro {
      * @param minerales Minerales encontrados.
      * @param nombreCrater
      */
-    public Registro( LocalDateTime fecha, 
+    public Registro( LocalDate fecha, 
                     ArrayList<String> minerales, 
                     String nombreCrater ){
         this.fecha= fecha;
@@ -45,7 +46,7 @@ public class Registro {
     /**
      * @return fecha de exploracion.
      */
-    public LocalDateTime getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
