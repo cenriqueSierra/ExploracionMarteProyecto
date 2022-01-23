@@ -6,6 +6,7 @@ package com.espol.proyectopoo2.modelo;
 
 import com.espol.proyectopoo2.interfaces.AccionesRover;
 import java.io.IOException;
+import javafx.scene.control.Alert;
 
 /**
  * Representa el rover de tipo eolico.
@@ -25,10 +26,16 @@ public class RoverEolico extends Rover {
     }
     
     /**
-     * Carga el rover en direccion donde hay mas viento.
+     * Carga el rover en direccion donde hay mas viento el norte.
      */
     @Override
     public void cargar() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Notificacion");
+                alert.setHeaderText("Acciones");
+                alert.setContentText("Despliegue de molinos");
+
+                alert.showAndWait();
         anguloNorte = 90d;
         double anguloGirado = super.getAngulo();
         double movimiento = 360 - Math.abs(anguloGirado - anguloNorte);
