@@ -71,15 +71,16 @@ public class VistaPlanificacionRutasController implements Initializable {
 
     @FXML
     private void buscarRutas(KeyEvent event) {
-        List<String> nombresCra = null;
         List<Crater> crateresVisitar = new ArrayList<>();
-        //Queue<Double> dist = new ArrayDeque<>();
-        Ubicacion u0 = roverSeleccionado.getUbicacion();
+        
         if (event.getCode() == event.getCode().ENTER){
             try{
                 if(cbRover.getValue()==null)
                     throw new NullPointerException("Seleccione un Rover");
                 
+                roverSeleccionado= cbRover.getValue();
+                Ubicacion u0 = roverSeleccionado.getUbicacion();
+
             String[] crateresNombres = crateres.getText().split(",");
             
             for(Crater c : CraterData.cargarCrateres()){
@@ -87,6 +88,7 @@ public class VistaPlanificacionRutasController implements Initializable {
                     if(c.getNombre().equalsIgnoreCase(nombreCrater.trim())){
                         //dist.add(c.getUbicacion().distancia(u0));
                         crateresVisitar.add(c);
+                        System.out.println("A visitra"+c);
                     }
                     
                 }
@@ -97,7 +99,7 @@ public class VistaPlanificacionRutasController implements Initializable {
             Deque<Crater> tmp = new LinkedList<>(crateresVisitar);
             List<Crater> last_dist = new ArrayList<>();
             
-            
+                System.out.println("ORDEN");
             while (last_dist.size() < crateresVisitar.size()){
                 
                 double dist_min = Double.MAX_VALUE;
@@ -116,7 +118,10 @@ public class VistaPlanificacionRutasController implements Initializable {
                     break;
                 
                 last_dist.add(minDistCrater);
-                paneNombres.getChildren().add(new Label(minDistCrater.getNombre()));
+                int i =last_dist.size();
+                System.out.println(i+" "+minDistCrater.getNombre());
+
+                paneNombres.addRow(i-1,new Label(i+" "+minDistCrater.getNombre()));
                 u0 = minDistCrater.getUbicacion();
                 
                 for(Crater c : crateresVisitar) {
@@ -136,6 +141,12 @@ public class VistaPlanificacionRutasController implements Initializable {
 
     @FXML
     private void volverMenu(MouseEvent event) {
+    }
+
+    @FXML
+    private void seleccionar(ActionEvent event) {
+        if(cbRover.getValue()!=null)
+            roverSeleccionado = cbRover.getValue();
     }
 
     
