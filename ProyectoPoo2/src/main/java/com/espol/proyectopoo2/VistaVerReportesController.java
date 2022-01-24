@@ -111,21 +111,31 @@ public class VistaVerReportesController implements Initializable {
      */
     public void creacionTabla(ObservableList<Registro> registro, Comparator<Registro> com){
         System.out.println(registro);
-        //TableColumn<Movie, String> colTitle = new TableColumn<Movie, String>("Title");
-        TableColumn<Registro,LocalDate> colFecha = new TableColumn<Registro,LocalDate> ("Fecha de exploracion");
-        TableColumn<Registro,String> colNombre = new TableColumn<Registro,String> ("Nombre de Crater");
-        TableColumn<Registro,List<String>> colMinerales = new TableColumn<Registro,List<String>> ("Minerales Encontrados");
-
-        colFecha.setCellValueFactory(new PropertyValueFactory<Registro,LocalDate>("Fecha de exploracion"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<Registro,String> ("Nombre de Crater"));
-        colMinerales.setCellValueFactory(new PropertyValueFactory <Registro,List<String>> ("Minerales Encontrados"));
         
         registro.sort(com); //Ordena por medio del comparador
-        vboxTable.getChildren().clear(); //Limpia el pane
-        TableView<Registro> tableNombre = new TableView();
-        tableNombre.getColumns().addAll(colFecha,colNombre,colMinerales);
-        tableNombre.setItems(registro);
-        vboxTable.getChildren().addAll(tableNombre);
+        TableView<Registro> table = new TableView();
+        table.setItems(registro);
+        
+        //TableColumn<Movie, String> colTitle = new TableColumn<Movie, String>("Title");
+        TableColumn<Registro,LocalDate> colFecha = new TableColumn<Registro,LocalDate> ("Fecha de exploracion");
+        colFecha.setMinWidth(100);
+        colFecha.setCellValueFactory(
+                new PropertyValueFactory<Registro,LocalDate>("Fecha de exploracion"));
+        
+        
+        TableColumn<Registro,String> colNombre = new TableColumn<Registro,String> ("Nombre de Crater");
+        colNombre.setMinWidth(100);
+        colNombre.setCellValueFactory(
+                new PropertyValueFactory<Registro,String> ("Nombre de Crater"));
+        
+        TableColumn<Registro,List<String>> colMinerales = new TableColumn<Registro,List<String>> ("Minerales Encontrados");
+        colMinerales.setMinWidth(100);
+        colMinerales.setCellValueFactory(
+                new PropertyValueFactory <Registro,List<String>> ("Minerales Encontrados"));
+        
+        //vboxTable.getChildren().clear(); //Limpia el pane
+        table.getColumns().addAll(colFecha,colNombre,colMinerales);
+        vboxTable.getChildren().addAll(table);
     }
     
     
