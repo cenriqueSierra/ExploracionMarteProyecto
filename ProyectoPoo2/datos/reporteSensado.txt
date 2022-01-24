@@ -23,3 +23,5 @@
 2022-01-23;Sayers;hematita,yeso,serpentina,esmectita,jarosita,silice opalina,goethita
 2022-01-23;Sayers;serpentina,zeolita,jarosita,hematita,carbonato,goethita,filosilicatos,esmectita
 2022-01-23;Sayers;zeolita,silice opalina,jarosita,sulfato de hierro,goethita
+2022-01-24;Sayers;jarosita
+2022-01-24;Sayers;esmectita,sulfato de hierro,jarosita,hematita,silice opalina,goethita

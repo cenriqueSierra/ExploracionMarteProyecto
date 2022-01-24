@@ -55,11 +55,14 @@ public class VistaExplorarController implements Initializable {
     
     private Alert a;
     
+    private List<Crater> crateresPantalla;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        crateresPantalla = new ArrayList<>();
         Rectangle r = new Rectangle(panelSuperficie.getWidth(), panelSuperficie.getHeight());
         r.heightProperty().bind(panelSuperficie.heightProperty());
         r.widthProperty().bind(panelSuperficie.widthProperty());
@@ -85,16 +88,14 @@ public class VistaExplorarController implements Initializable {
                 
         for(Crater c: crateres){
             Circle circulo = c.getCirculo();
+            circulo.setId(c.getId());
 //            if(c.isExplorado())
 //                circulo.getStyleClass().add("relleno");
 //            circulo.getStyleClass().add("contorno");
-           
-           
-            
             c.getCirculo().setCenterX(c.getUbicacion().getLongitud());
             /*(panelSuperficie.getPrefWidth()/1372.0)*/
             c.getCirculo().setCenterY(c.getUbicacion().getLatitud()/*(panelSuperficie.getPrefHeight()/997.0)*/);
-            
+            crateresPantalla.add(c);
             panelSuperficie.getChildren().add(circulo);
             //st.getChildren().add(circulo);
             
@@ -182,8 +183,8 @@ public class VistaExplorarController implements Initializable {
 
                     break;
                 case("sensar"):
-                    roverSeleccionado.sensar();
-                    cargarCrateres();
+                    roverSeleccionado.sensar(crateresPantalla);
+                    //cargarCrateres();
                     
                     
                     break;
@@ -236,7 +237,7 @@ public class VistaExplorarController implements Initializable {
         System.out.println(-roverSeleccionado.getImagen().getFitHeight());
         System.out.println("FIT X");
         System.out.println(-roverSeleccionado.getImagen().getFitWidth());
-        
+        System.out.println("x: "+x+" y: "+y);
         return 0<=x && x<=limitX && 0<=y && y<= limitY ;
             
     }

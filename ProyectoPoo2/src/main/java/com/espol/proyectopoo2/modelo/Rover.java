@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -71,7 +72,9 @@ public abstract class Rover implements AccionesRover {
     /**
      * @return el angulo del rover en grados.
      */
-    public double getAngulo() {return angulo*180/Math.PI;}
+    public double getAnguloGrados() {return Math.toDegrees(angulo);}
+    
+    public double getAngulo() {return angulo;}
     /**
      * @return la ubicacion del rover
      */
@@ -110,8 +113,10 @@ public abstract class Rover implements AccionesRover {
     }
     @Override
     public void girar(double grados){
-        grados *= Math.PI/180;
-        angulo+=grados;
+        //grados *= Math.PI/180;
+        angulo+=Math.toRadians(grados);
+        if(angulo>2*Math.PI)
+            angulo= Math.ceil(angulo/(2*Math.PI));
         moverImgRover(ubicacion.getLongitud(),ubicacion.getLatitud());
     }    
     @Override
@@ -135,13 +140,11 @@ public abstract class Rover implements AccionesRover {
                         ).start();
     }    
     @Override
-    public String sensar(){
+    public String sensar(List<Crater> crateres){
         //Esta en el crater
         System.out.println("Ubicacion Rover:"+ubicacion);
-        Crater crater = CraterData.isUbicacionInCrater(ubicacion);
-        
-        if(null!=crater){
-            
+        Crater crater = CraterData.isUbicacionInCrater(ubicacion,crateres);        
+        if(null!=crater){            
             String minerales = CraterData.mineralAleatorioRepetido();
             ArrayList<String> mineralesReporte = new ArrayList();
             mineralesReporte.addAll(Arrays.asList(minerales.split(",")));
@@ -150,6 +153,7 @@ public abstract class Rover implements AccionesRover {
                                     crater.getNombre());            
             RegistroData.guardarReporte(reporte);
             crater.setExplorado(true);
+            System.out.println(crater.getId());
             System.out.println("Minerales: "+minerales);
             return minerales;
         }
@@ -165,7 +169,7 @@ public abstract class Rover implements AccionesRover {
     public void moverImgRover(double x, double y){
         imagen.setLayoutX(x);
         imagen.setLayoutY(y);
-        imagen.setRotate(getAngulo());
+        imagen.setRotate(getAnguloGrados());
     }
     /**
      * Nueva posicion del rover, movido 10 pixeles
@@ -231,7 +235,7 @@ public abstract class Rover implements AccionesRover {
          */
         @Override
         public void run(){
-            girar(-getAngulo());
+            girar(-getAnguloGrados());
             girar(angulo);
         }
     }

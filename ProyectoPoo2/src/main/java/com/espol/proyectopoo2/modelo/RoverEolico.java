@@ -37,7 +37,7 @@ public class RoverEolico extends Rover {
 
                 alert.showAndWait();
         anguloNorte = 90d;
-        double anguloGirado = super.getAngulo();
+        double anguloGirado = super.getAnguloGrados();
         double movimiento = 360 - Math.abs(anguloGirado - anguloNorte);
         super.girar(movimiento);
         

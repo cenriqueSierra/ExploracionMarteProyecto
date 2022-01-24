@@ -1,6 +1,8 @@
 package com.espol.proyectopoo2.interfaces;
 
+import com.espol.proyectopoo2.modelo.Crater;
 import com.espol.proyectopoo2.modelo.Ubicacion;
+import java.util.List;
 
 /**
  * Interfaz que contiene las acciones que puede realizar el rover
@@ -28,6 +30,6 @@ public interface AccionesRover {
      * Sensa el crater por minerales.
      * @return String de minerales encontrados.
      */
-    public String sensar();     
+    public String sensar(List<Crater> crateres);     
     
 }

@@ -107,8 +107,8 @@ public class CraterData {
         return String.join((","), minerales);
     }
     
-    public static Crater isUbicacionInCrater(Ubicacion ubicacion){
-        List<Crater> crateres = new ArrayList(cargarCrateres());
+    public static Crater isUbicacionInCrater(Ubicacion ubicacion,List<Crater> crateres){
+        //List<Crater> crateres = new ArrayList(cargarCrateres());
         
         for(Crater crater : crateres){
             if(isInCrater(crater,ubicacion)){
