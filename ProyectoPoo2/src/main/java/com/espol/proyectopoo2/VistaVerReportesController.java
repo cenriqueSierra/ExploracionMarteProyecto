@@ -6,10 +6,14 @@ package com.espol.proyectopoo2;
 
 import com.espol.proyectopoo2.data.RegistroData;
 import com.espol.proyectopoo2.modelo.Registro;
+import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Comparator;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,8 +22,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -42,16 +48,22 @@ public class VistaVerReportesController implements Initializable {
     @FXML
     private ComboBox<String> cbxSeleccion;
     
-    private ObservableList<Registro> reporte;
+    private ObservableList<Registro> reporte = FXCollections.observableArrayList();
 
     /**
      * Inicia clase controladora y carga la informacion
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cbxSeleccion.getItems().add("Nombre");
-        cbxSeleccion.getItems().add("Fecha");
-        reporte = (ObservableList<Registro>) RegistroData.leerReporte();
+        try {
+            cbxSeleccion.getItems().add("Nombre");
+            cbxSeleccion.getItems().add("Fecha");
+            System.out.println("Va a leer");
+            reporte.addAll(RegistroData.leerReporte());
+            System.out.println("Leido");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
     }    
     
@@ -98,10 +110,32 @@ public class VistaVerReportesController implements Initializable {
      * @param com Comparador que permite ordenar de forma descendente por campo
      */
     public void creacionTabla(ObservableList<Registro> registro, Comparator<Registro> com){
+        System.out.println(registro);
+        
         registro.sort(com); //Ordena por medio del comparador
-        vboxTable.getChildren().clear(); //Limpia el pane
-        TableView<Registro> tableNombre = new TableView(registro);
-        vboxTable.getChildren().addAll(tableNombre);
+        TableView<Registro> table = new TableView();
+        table.setItems(registro);
+        
+        //TableColumn<Movie, String> colTitle = new TableColumn<Movie, String>("Title");
+        TableColumn<Registro,LocalDate> colFecha = new TableColumn<Registro,LocalDate> ("Fecha de exploracion");
+        colFecha.setMinWidth(100);
+        colFecha.setCellValueFactory(
+                new PropertyValueFactory<Registro,LocalDate>("Fecha de exploracion"));
+        
+        
+        TableColumn<Registro,String> colNombre = new TableColumn<Registro,String> ("Nombre de Crater");
+        colNombre.setMinWidth(100);
+        colNombre.setCellValueFactory(
+                new PropertyValueFactory<Registro,String> ("Nombre de Crater"));
+        
+        TableColumn<Registro,List<String>> colMinerales = new TableColumn<Registro,List<String>> ("Minerales Encontrados");
+        colMinerales.setMinWidth(100);
+        colMinerales.setCellValueFactory(
+                new PropertyValueFactory <Registro,List<String>> ("Minerales Encontrados"));
+        
+        //vboxTable.getChildren().clear(); //Limpia el pane
+        table.getColumns().addAll(colFecha,colNombre,colMinerales);
+        vboxTable.getChildren().addAll(table);
     }
     
     

@@ -39,7 +39,7 @@ public class RegistroData {
     /**
      * 
      */
-    public static List<Registro> reportes;
+    public static List<Registro> reportes = new ArrayList<>();
     
     /**
      * Metodo para guardar los datos de los crateres que han sido sensados
@@ -62,22 +62,26 @@ public class RegistroData {
      * Metodo para obtener los datos de los crateres explotados
      * @return 
      */
-    public static List<Registro> leerReporte(){
+    public static List<Registro> leerReporte() throws FileNotFoundException, IOException{
         
         try(BufferedReader lector = new BufferedReader(new FileReader(rutaReporte))){
             String line;
-            
+            reportes.clear();
             while((line = lector.readLine()) != null){
                 String[] parts = line.split(";");
                 List<String> minerales = new ArrayList<>();
                 minerales.addAll(Arrays.asList(parts[2]));
-                
                 reportes.add(new Registro(LocalDate.parse(parts[0]), 
                                             (ArrayList<String>) minerales, 
                                             parts[1]));
                 
             }
-        } catch (FileNotFoundException ex) {
+            
+        }finally{
+            return reportes;
+        }
+        /*}catch (FileNotFoundException ex) {
+            
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Alerta de Error");
             alert.setHeaderText("Estado");
@@ -86,8 +90,9 @@ public class RegistroData {
             alert.showAndWait();
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
-        return reportes;
+        }*/
+        
+        //return null;
     }
     
 }

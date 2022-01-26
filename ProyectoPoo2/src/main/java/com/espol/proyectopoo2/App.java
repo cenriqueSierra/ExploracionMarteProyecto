@@ -1,5 +1,7 @@
 package com.espol.proyectopoo2;
 
+import static com.espol.proyectopoo2.data.RegistroData.rutaReporte;
+import java.io.File;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -70,5 +72,11 @@ public class App extends Application {
             ioex.printStackTrace();
         }
     }
-
+    
+    @Override
+    public void init(){
+        File fichero = new File(rutaReporte);
+        if(!fichero.delete())
+            System.out.println("no hay q borrar");
+    }
 }

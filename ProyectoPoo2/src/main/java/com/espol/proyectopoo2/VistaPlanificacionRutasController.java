@@ -92,7 +92,7 @@ public class VistaPlanificacionRutasController implements Initializable {
      */
     @FXML
     private void buscarRutas(KeyEvent event) {
-        List<Crater> crateresVisitar = new ArrayList<>();
+        ArrayList<Crater> crateresVisitar = new ArrayList<>();
         
         if (event.getCode() == event.getCode().ENTER){
             paneNombres.getChildren().clear();
@@ -107,19 +107,36 @@ public class VistaPlanificacionRutasController implements Initializable {
             Ubicacion u0 = roverSeleccionado.getUbicacion();
 
             String[] crateresNombres = crateresIngresados.getText().split(",");
-            System.out.println("Ingresados: "+crateresNombres);
-            List<String> crateresNoEncontrados = new ArrayList<>();
+            ArrayList<String> crateresNombresVisitar =  new ArrayList<String>();
             
-            for(String nombreCrater : crateresNombres){
+            System.out.println("Ingresados: "+crateresNombres);
+//            List<String> crateresNoEncontrados = new ArrayList<>();
+            Set<String> crateresNoEncontrados = new HashSet<>();
+            
+            for(Crater c : CraterData.cargarCrateres()){
                 boolean find = false;
-                for(Crater c : CraterData.cargarCrateres())
-                    if(c.getNombre().equalsIgnoreCase(nombreCrater.trim())){
+                for(String nombreCrater : crateresNombres){
+                    
+                    if(c.getNombre().equalsIgnoreCase(nombreCrater.trim()) ){
+                        find =true;
                         crateresVisitar.add(c);
-                        find = true;
+                        crateresNombresVisitar.add(c.getNombre());
+                        
                         System.out.println("A visitar"+c);
+//                        crateresNoEncontrados.remove(nombreCrater);
+                        
+//                    }else if (!crateresNoEncontrados.contains(nombreCrater)){
+//                        crateresNoEncontrados.add(nombreCrater);
                     }
-                if(!find && !crateresNoEncontrados.contains(nombreCrater))
-                    crateresNoEncontrados.add(nombreCrater);
+                } 
+            }
+            
+            
+            for(String n : crateresNombres){
+                for(String nc : crateresNombresVisitar){
+                    if(!nc.equalsIgnoreCase(n))
+                        crateresNoEncontrados.add(n);
+                }
             }
             
             if(!crateresNoEncontrados.isEmpty()){
@@ -160,18 +177,17 @@ public class VistaPlanificacionRutasController implements Initializable {
                     break;
                 
                 last_dist.add(minDistCrater);
-                int i =last_dist.size();
-                System.out.println(i+" "+minDistCrater.getNombre());
-
                 u0 = minDistCrater.getUbicacion();
-                Label l = new Label(i+" "+minDistCrater.getNombre());
-                l.setPadding(new Insets(10));
-                orden.addRow(i, l);
                 for(Crater c : crateresVisitar) 
                     if (!last_dist.contains(c))
                         tmp.add(c);
-                
-                
+            }
+            System.out.println("LAST DIST LIST: " + last_dist);
+            int i =1;
+            for(Crater c :last_dist) {
+                Label l = new Label(i++ +" "+c.getNombre());
+                l.setPadding(new Insets(10));
+                orden.addRow(i, l);
             }
         
             
