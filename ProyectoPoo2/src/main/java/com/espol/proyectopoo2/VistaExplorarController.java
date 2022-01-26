@@ -9,6 +9,7 @@ import com.espol.proyectopoo2.data.RegistroData;
 import com.espol.proyectopoo2.data.RoverData;
 import com.espol.proyectopoo2.modelo.ComandoInvalidoException;
 import com.espol.proyectopoo2.modelo.Crater;
+import com.espol.proyectopoo2.modelo.MovimientoInvalidoException;
 import com.espol.proyectopoo2.modelo.Registro;
 import com.espol.proyectopoo2.modelo.Rover;
 import com.espol.proyectopoo2.modelo.Ubicacion;
@@ -79,7 +80,7 @@ public class VistaExplorarController implements Initializable {
      * Muestra los circulos que representan los craters.
      */
     private void cargarCrateres(){
-        panelSuperficie.getChildren().removeIf(T->T instanceof Circle);
+        //panelSuperficie.getChildren().removeIf(T->T instanceof Circle);
         List<Crater> crateres = CraterData.cargarCrateres();
         //StackPane st = new StackPane();
         //st.setPrefSize(panelSuperficie.getPrefWidth(), panelSuperficie.getPrefHeight());
@@ -156,7 +157,7 @@ public class VistaExplorarController implements Initializable {
            
             if (event.getCode() == event.getCode().ENTER){
                 
-                String comando = comandoIngresado.getText().toString();
+                String comando = comandoIngresado.getText();
                 String[] comandoSeparado = comando.trim().split(":");
                 
                 if(!comando.isBlank())
@@ -189,23 +190,22 @@ public class VistaExplorarController implements Initializable {
                     break;
                 case("sensar"):
                     roverSeleccionado.sensar(crateresPantalla);
-                    //cargarCrateres();
-                    
-                    
+                
                     break;
                 case("cargar"):
                     roverSeleccionado.cargar();
-                    a.setAlertType(Alert.AlertType.INFORMATION);
-                    a.setContentText("Abriendo paneles");
-                    a.show();
+
                     break;
                 default:
                     throw new ComandoInvalidoException();
                 }
         }
             
-       }
-       catch(NullPointerException ex){
+       }catch(MovimientoInvalidoException ex){
+            comandoIngresado.clear();
+            //a.setContentText(ex.getMessage());
+           // a.show();           
+       }catch(NullPointerException ex){
            comandoIngresado.clear();
            a.setContentText(ex.getMessage());
            a.show();
@@ -246,8 +246,5 @@ public class VistaExplorarController implements Initializable {
         return 0<=x && x<=limitX && 0<=y && y<= limitY ;
             
     }
-    
-    private void rellenarCirculos(){
-        
-    }
+
 }
