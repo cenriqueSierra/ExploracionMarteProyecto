@@ -5,6 +5,8 @@
 package com.espol.proyectopoo2.modelo;
 
 import java.io.IOException;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * Representa el rover de tipo solar.
@@ -28,7 +30,15 @@ public class RoverSolar extends Rover {
      */
     @Override
     public void cargar() {
-        desplazarse(new Ubicacion(100,100), true);
+        System.out.println("En cargar solar");
+        super.desplazarse(new Ubicacion(100,100), true);
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        a.setTitle("Notificacion");
+        a.setHeaderText("Acciones");
+        a.setContentText("Desplegando paneles solares");
+        a.show();
+        a.setContentText("Abriendo paneles");
+        a.show();
     }
     
     
