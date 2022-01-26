@@ -11,17 +11,16 @@ package com.espol.proyectopoo2.modelo;
 public class ComandoInvalidoException extends RuntimeException {
 
     /**
-     * Creates a new instance of <code>ComandoInvalido</code> without detail
-     * message.
+     * Crea una instancia de ComandoInvalido sin mensaje de detalles
      */
     public ComandoInvalidoException() {
     }
 
     /**
-     * Constructs an instance of <code>ComandoInvalido</code> with the specified
-     * detail message.
+     * Construye una instancia de <Code>ComandoInvalido</Code> con el mensaje
+     * de detalle especificado
      *
-     * @param msg the detail message.
+     * @param msg mensaje de detalle
      */
     public ComandoInvalidoException(String msg) {
         super(msg);
