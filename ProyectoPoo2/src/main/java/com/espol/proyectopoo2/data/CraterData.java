@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- *
+ * Clase que contiene metodos relacionados a los crateres
  * @author Carlos user
  */
 public class CraterData {
