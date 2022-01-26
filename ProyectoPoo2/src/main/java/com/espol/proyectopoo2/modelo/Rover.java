@@ -79,6 +79,7 @@ public abstract class Rover implements AccionesRover {
      * @return la ubicacion del rover
      */
     public Ubicacion getUbicacion(){return ubicacion;}
+        
     /**
      * @param carga la nueva carga del rover
      */
@@ -97,8 +98,6 @@ public abstract class Rover implements AccionesRover {
      * @return retorna verdadero si se descargara, falso si no
      */
     public boolean isDescargado(int consumo){
-        //se descarga
-        
         return (this.carga-consumo)==0;
     }
     @Override
@@ -130,8 +129,8 @@ public abstract class Rover implements AccionesRover {
         System.out.println("angulo"+angulo);
         System.out.println("nuevoAngulo"+newAngulo);
         double distancia = Math.sqrt(Math.pow(x_diff,2)+Math.pow(y_diff,2));
-        if(isDescargado((int)distancia)||cargar)
-            throw new ComandoInvalidoException("Carga insuficiente para desplazarse");
+        if(isDescargado((int)distancia))
+            throw new MovimientoInvalidoException("Carga insuficiente para desplazarse");
         angulo=0;
         girar(newAngulo);
         System.out.println("angulo"+angulo);
