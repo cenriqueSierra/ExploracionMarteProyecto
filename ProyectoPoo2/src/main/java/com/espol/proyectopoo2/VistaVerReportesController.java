@@ -28,6 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -44,11 +45,11 @@ public class VistaVerReportesController implements Initializable {
     @FXML
     private TextField mineralIngresado;
     @FXML
-    private VBox vboxTable;
-    @FXML
     private ComboBox<String> cbxSeleccion;
     
     private ObservableList<Registro> reporte = FXCollections.observableArrayList();
+    @FXML
+    private StackPane paneTable;
 
     /**
      * Inicia clase controladora y carga la informacion
@@ -77,7 +78,7 @@ public class VistaVerReportesController implements Initializable {
         
         switch(cbxSeleccion.getValue()){
             case("Nombre"):
-                vboxTable.getChildren().clear();
+                paneTable.getChildren().clear();
                 Comparator<Registro> com1 = (Registro r1, Registro r2) -> {
                     return r2.getNombreCrater().compareToIgnoreCase(r1.getNombreCrater()); //r2 primero y r1 despues ordena de forma descendente
                 };
@@ -86,7 +87,7 @@ public class VistaVerReportesController implements Initializable {
                 break;
 
             case("Fecha"):
-                vboxTable.getChildren().clear();
+                paneTable.getChildren().clear();
                 Comparator<Registro> com2 = (Registro r1, Registro r2) -> {
                     return r2.getFecha().compareTo(r1.getFecha());
                 };
@@ -111,10 +112,10 @@ public class VistaVerReportesController implements Initializable {
      */
     public void creacionTabla(ObservableList<Registro> registro, Comparator<Registro> com){
         System.out.println(registro);
+        ObservableList<Registro> registrosPresentar = filtrarCampos(fInicioIngresada, fFinIngresada, mineralIngresado);
+        registrosPresentar.sort(com); //Ordena por medio del comparador
+        TableView<Registro> table = new TableView<Registro>();
         
-        registro.sort(com); //Ordena por medio del comparador
-        TableView<Registro> table = new TableView();
-        table.setItems(registro);
         
         //TableColumn<Movie, String> colTitle = new TableColumn<Movie, String>("Title");
         TableColumn<Registro,LocalDate> colFecha = new TableColumn<Registro,LocalDate> ("Fecha de exploracion");
@@ -134,8 +135,48 @@ public class VistaVerReportesController implements Initializable {
                 new PropertyValueFactory <Registro,List<String>> ("Minerales Encontrados"));
         
         //vboxTable.getChildren().clear(); //Limpia el pane
+        table.setItems(registrosPresentar);
         table.getColumns().addAll(colFecha,colNombre,colMinerales);
-        vboxTable.getChildren().addAll(table);
+        paneTable.getChildren().addAll(table);
+    }
+    
+    
+    /**
+     * Metodo para filtrar la lista de registros por medio de los campos
+     * ingresados por el usuario: fechas, mineral
+     * @param fi Fecha de inicio de la exploracion
+     * @param ffin Fecha de fin de la exploracion
+     * @param mineralIngresado Mineral que dese
+     * @return Una lista de registro dentro de ese intervalo de fecha con el mineral deseado
+     */
+    public ObservableList<Registro> filtrarCampos(TextField fi, TextField ffin, TextField mineralIngresado){
+        LocalDate inicioLDate = LocalDate.parse(fi.getText());
+        LocalDate finLDate = LocalDate.parse(ffin.getText());
+        String mineralI = mineralIngresado.getText();
+        
+        ObservableList<Registro> registrosPresentar = FXCollections.observableArrayList();
+        
+        for(Registro r: reporte){
+            int respuestaInicio = inicioLDate.compareTo(r.getFecha()); // Si la fechaInicio ingresada es menor o igual a la del registro
+            int respuestaFin = finLDate.compareTo(r.getFecha()); //Si la fechaFin ingresada es mayor o igual a la del registro
+            
+            if(respuestaInicio <= 0 && respuestaFin >= 0){
+                
+                if(r.getMinerales().contains(mineralI.toLowerCase())){
+                    registrosPresentar.add(r);
+                    
+                }else{
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION); //En caso que el mineral no este, muestre un mensaje
+                    alert.setTitle("Comunicado");
+                    alert.setHeaderText("Estado");
+                    alert.setContentText("El mineral: "+mineralI+" no ha sido encontrado");
+                
+                }       
+            }   
+        }
+                
+        return registrosPresentar;
+
     }
     
     
