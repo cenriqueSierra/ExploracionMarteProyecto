@@ -1,69 +1,57 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.espol.proyectopoo2.data;
 
-import static com.espol.proyectopoo2.data.CraterData.rutaCrater;
-import com.espol.proyectopoo2.modelo.Crater;
 import com.espol.proyectopoo2.modelo.Registro;
-import com.espol.proyectopoo2.modelo.Ubicacion;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 
 /**
- *Clase que se encarga de la lectura de los crateres explotados
+ * Clase que se encarga de la lectura de los crateres explotados
  * @author Carlos user
  */
 public class RegistroData {
+    
     /**
-     * Ruta para archivo que contiene la informacion de los minerales
+     * Ruta relativa al archivo que contiene la informacion de los reporte
      */
     public static String rutaReporte = Constantes.ARCHIVOS+"/reporteSensado.txt";
+    
     /**
-     * 
+     * Lista de reportes del programa
      */
     public static List<Registro> reportes = new ArrayList<>();
     
     /**
      * Metodo para guardar los datos de los crateres que han sido sensados
-     * @param reporte Ingresa un objeto registro 
+     * @param reporte Ingresa un objeto registro a guardar
      */
     public static void guardarReporte(Registro reporte){
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(rutaReporte,true))){
             List<String> m = reporte.getMinerales();
-            String line = String.valueOf(reporte.getFecha())+";"+
-                        reporte.getNombreCrater()+";"+String.join(",", m)+"\n";
-                
-                writer.write(line);  
+            String line = String.valueOf(
+                        reporte.getFecha())+";"+
+                        reporte.getNombreCrater()+";"+
+                        String.join(",", m)+"\n";                
+            writer.write(line);  
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
-        
+        }        
     }
     
     /**
      * Metodo para obtener los datos de los crateres explotados
-     * @return 
+     * @return Lista de
+     * @throws java.io.FileNotFoundException
+     * @throws java.io.IOException
      */
-    public static List<Registro> leerReporte() throws FileNotFoundException, IOException{
-        
+    public static List<Registro> leerReporte() throws FileNotFoundException, IOException{        
         try(BufferedReader lector = new BufferedReader(new FileReader(rutaReporte))){
             String line;
             reportes.clear();
@@ -71,15 +59,15 @@ public class RegistroData {
                 String[] parts = line.split(";");
                 List<String> minerales = new ArrayList<>();
                 minerales.addAll(Arrays.asList(parts[2]));
-                reportes.add(new Registro(LocalDate.parse(parts[0]), 
-                                            (ArrayList<String>) minerales, 
-                                            parts[1]));
-                
-            }
-            
+                reportes.add(new Registro(
+                                    LocalDate.parse(parts[0]), 
+                                    (ArrayList<String>) minerales, 
+                                    parts[1]));                
+            }            
         }finally{
             return reportes;
         }
+        //borrar
         /*}catch (FileNotFoundException ex) {
             
             Alert alert = new Alert(AlertType.ERROR);
@@ -90,9 +78,8 @@ public class RegistroData {
             alert.showAndWait();
         } catch (IOException ex) {
             ex.printStackTrace();
-        }*/
-        
-        //return null;
-    }
-    
+        }        
+        return null;*/
+        //borrar
+    }    
 }

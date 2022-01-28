@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.espol.proyectopoo2.data;
 
 import static com.espol.proyectopoo2.data.Constantes.factor;
@@ -10,7 +6,6 @@ import com.espol.proyectopoo2.modelo.RoverEolico;
 import com.espol.proyectopoo2.modelo.RoverSolar;
 import com.espol.proyectopoo2.modelo.Ubicacion;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,9 +17,10 @@ import java.util.List;
  */
 public class RoverData {
     /**
-     * Ruta del archivo de rovers
+     * Ruta relativa al archivo de rovers
      */
     public static String ruta = Constantes.ARCHIVOS+"/rovers-1.txt";
+    
     /**
      * Obtiene lista de los rovers a partir del archivo
      * @return Lista de los rovers
@@ -41,8 +37,7 @@ public class RoverData {
                 Ubicacion ubicacion = new Ubicacion(
                         Double.parseDouble(roverAtributos[1])*factor,
                         Double.parseDouble(roverAtributos[2])*factor);
-                String tipo = roverAtributos[3];
-                
+                String tipo = roverAtributos[3];                
                 if(tipo.equals("solar")){
                     RoverSolar rover = new RoverSolar(
                             nombre,
@@ -57,27 +52,24 @@ public class RoverData {
                             nombre+".png",
                             100);
                     rovers.add(rover);
-                }//else      
-            }//while
-            
-                
+                }   
+            }                           
         }catch (IOException ex) {
             ex.printStackTrace();
-        }
-        
+        }        
         return rovers;    
-    }//metodo
-    
-    
-    public Rover buscarRover(String nombreRover){
-        Rover roverBuscado = null ;
-        
-        for(Rover r: cargarRovers())
-            if(r.getNombre().equals(nombreRover))
-                roverBuscado = r;
-        
-        return roverBuscado;
     }
     
+    /**
+     * Busca al rover en la lista de rovers obtenida del archivo
+     * @param nombreRover Nombre de rover a buscar
+     * @return Rover cuyo nombre se ha pasado, null si no lo encuentra
+     */
+    public Rover buscarRover(String nombreRover){
+        Rover roverBuscado = null ;        
+        for(Rover r: cargarRovers())
+            if(r.getNombre().equals(nombreRover))
+                roverBuscado = r;        
+        return roverBuscado;
+    }    
 }
-

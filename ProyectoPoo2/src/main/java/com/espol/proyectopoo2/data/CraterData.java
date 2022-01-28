@@ -12,34 +12,32 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 /**
- *
+ * Clase que contiene la informacion de los crateres
  * @author Carlos user
  */
 public class CraterData {
     
     /**
-     * Ruta para archivo que contiene la informacion de los crateres
+     * Ruta relativa del archivo que contiene la informacion de los crateres
      */
     public static String rutaCrater = Constantes.ARCHIVOS+"/crateres_info.txt";
     
     /**
-     * Ruta para archivo que contiene la informacion de los minerales
+     * Ruta relativa del archivo que contiene la informacion de los minerales
      */
     public static String rutaMinerals = Constantes.ARCHIVOS+"/minerales.txt";
     
     /**
      * Metodo para leer la informacion de los crateres que 
-     * está en un archivo de formato txt
+     * se encuentra en un txt y los devuelve en una lista
      * @return Lista de crateres
      */
     public static List<Crater> cargarCrateres(){
-        List<Crater> crateres = new ArrayList<>();
-        
+        List<Crater> crateres = new ArrayList<>();        
         try(BufferedReader lector = new BufferedReader(new FileReader(rutaCrater))){
             String line;
             while((line = lector.readLine()) != null ){
@@ -57,13 +55,12 @@ public class CraterData {
         }catch(IOException ioex){
             ioex.printStackTrace();  
         }
-        return crateres;
-        
+        return crateres;        
     }
     
     /**
-     * Metodo para leer la informacion de los minerales que están
-     * en un archivo .txt
+     * Metodo para leer la informacion de los minerales que 
+     * se encuentra en un txt y los devuelve en una lista
      * @return Lista de minerales
      */
     public static List<String> cargarMinerales(){
@@ -73,30 +70,36 @@ public class CraterData {
             String line;
             while((line = lector.readLine()) != null ){
                 String m = line.strip();
-                minerales.add(m);
-                                
+                minerales.add(m);                                
             }
         }catch(FileNotFoundException ex){
             ex.printStackTrace();
-
         }catch(IOException ex){
             ex.printStackTrace();
-
-            
         }
-        return minerales;
-        
+        return minerales;        
     }
+    
+    /**
+     * Selecciona un mineral aleatorio de la lista de minerales pasada
+     * @param minerales Lista de minerales a seleccionar
+     * @return Mineral aleatorio
+     */
     public static String mineralAleatorio(List<String> minerales){
         Random random = new Random();
         int indice = random.nextInt(minerales.size()-1);
         return minerales.get(indice);
     }
+    
+    /**
+     * Selecciona un numero aleatorio de minerales del archivo que tiene la
+     * infomacion de minerales. El numero de minerales dependera del archivo.
+     * @return Lista de minerales aleatorios
+     */
     public static String mineralAleatorioRepetido(){
         List<String> mineralesLectura = cargarMinerales();
         int repeticion = new Random().nextInt(mineralesLectura.size()-1);   //Genera un numero de acuerdo al numero de minerales en el archivo
-        List<String> minerales = new ArrayList<>();
-        
+        List<String> minerales = new ArrayList<>();        
         for(int i = 0; i<repeticion ;i++){
             String mineral=mineralAleatorio(mineralesLectura);
             if(!minerales.contains(mineral))
@@ -107,20 +110,34 @@ public class CraterData {
         return String.join((","), minerales);
     }
     
-    public static Crater isUbicacionInCrater(Ubicacion ubicacion,List<Crater> crateres){
-        //List<Crater> crateres = new ArrayList(cargarCrateres());
-        
+    /**
+     * Revisa si la ubicacion pasada esta dentro de algun crater de la lista
+     * pasada y lo retorna
+     * @param ubicacion Ubicacion a comparar
+     * @param crateres Lista de crateres a comparar
+     * @return Crater que coincida con la ubicacion 
+     */
+    public static Crater isUbicacionInCrater(Ubicacion ubicacion,List<Crater> crateres){      
         for(Crater crater : crateres){
             if(isInCrater(crater,ubicacion)){
-                System.out.println("Ubicacion Crater:"+crater.getUbicacion()+"nombre "+crater.getNombre());
+                //borrar
+                System.out.println("Ubicacion Crater: "+crater.getUbicacion()
+                        +"\nNombre: "+crater.getNombre());
+                //borrar
                 return crater;
             }
         }
         return null;
     }
     
-    public static boolean isInCrater(Crater crater, Ubicacion ubicacion){
-        
+    /**
+     * Revisa si la ubicacion pasada de argumento coincide con el area del 
+     * crater pasado
+     * @param crater Crater a comparar
+     * @param ubicacion Ubicacion a comparar
+     * @return Verdadero si la ubicacion coincide con el crater, falso si no
+     */
+    public static boolean isInCrater(Crater crater, Ubicacion ubicacion){        
         double posXCrater=crater.getUbicacion().getLongitud();
         double posYCrater=crater.getUbicacion().getLatitud();
         double radio=crater.getRadio();
@@ -133,7 +150,5 @@ public class CraterData {
         boolean isInY = limiteInferiorY<=ubicacion.getLatitud() &&
                         ubicacion.getLatitud()<=limiteSuperiorY;
         return isInX && isInY;
-    }
-    
-    
+    }       
 }
