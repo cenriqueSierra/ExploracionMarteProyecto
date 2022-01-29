@@ -6,7 +6,6 @@ import com.espol.proyectopoo2.data.RegistroData;
 import com.espol.proyectopoo2.interfaces.AccionesRover;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,34 +17,40 @@ import javafx.scene.image.ImageView;
  * @author Dome user
  */
 public abstract class Rover implements AccionesRover {
+    
     /**
      * Nombre del Rover
      */
     private String nombre ;
+    
     /**
      * Ubicacion del rover;
      */
-    Ubicacion ubicacion;    
+    Ubicacion ubicacion; 
+    
     /**
      * Path de la imagen del rover
      */
-    private ImageView imagen;    
+    private ImageView imagen;  
+    
     /**
      * Carga del rover.
      */
-    private double carga;    
+    private double carga;
+    
     /**
      * Angulo en radianes donde esta viendo el rover
      */
-    private double angulo;    
-   /**
-    * Crea un objeto de tipo rover
-    * @param nombre Nombre del rover
-    * @param ubicacion Ubicacion del rover
-    * @param image_path Path de la imagen del river
-    * @param carga Carga del rover
-    * @throws IOException 
-    */ 
+    private double angulo;   
+    
+    /**
+     * Crea un objeto de tipo rover
+     * @param nombre Nombre del rover
+     * @param ubicacion Ubicacion del rover
+     * @param image_path Path de la imagen del river
+     * @param carga Carga del rover
+     * @throws IOException 
+     */ 
     public Rover(String nombre, Ubicacion ubicacion, String image_path, double carga)
             throws IOException{
         this.nombre = nombre;
@@ -56,25 +61,33 @@ public abstract class Rover implements AccionesRover {
         imagen.setLayoutY(ubicacion.getLatitud());
         this.carga = carga;
         angulo=0;        
-    }    
+    }   
+    
     /**
      * @return  nombre de rover
      */
     public String getNombre() {return nombre;}
+    
     /**
      * @return el path de la imagen.
      */
     public ImageView getImagen() {return imagen;}
+    
     /**
      * @return la carga del rover.
      */
     public double getCarga() {return carga;}
+    
     /**
-     * @return el angulo del rover en grados.
+     * @return el angulo del rover en grados
      */
     public double getAnguloGrados() {return Math.toDegrees(angulo);}
     
+    /**
+     * @return el angulo del rover en radianes
+     */
     public double getAngulo() {return angulo;}
+    
     /**
      * @return la ubicacion del rover
      */
@@ -84,14 +97,17 @@ public abstract class Rover implements AccionesRover {
      * @param carga la nueva carga del rover
      */
     public void setCarga(double carga) {this.carga = carga;}
+    
     /**
      * @param ubicacion ubicacion a fijar
      */
-    public void setUbicacion(Ubicacion ubicacion){this.ubicacion=ubicacion;}    
+    public void setUbicacion(Ubicacion ubicacion){this.ubicacion=ubicacion;}  
+    
     /**
      * Carga el rover
      */
     public abstract void cargar();
+    
     /**
      * Verifica si el rover se descargara en el proceso
      * @param consumo lo que consumira el rover para moverse
@@ -100,6 +116,7 @@ public abstract class Rover implements AccionesRover {
     public boolean isDescargado(int consumo){
         return (this.carga-consumo)==0;
     }
+    
     @Override
     public void avanzar() 
             throws ComandoInvalidoException{
@@ -110,6 +127,7 @@ public abstract class Rover implements AccionesRover {
         setCarga(carga-=1);
         System.out.println("Carga:"+getCarga());
     }
+    
     @Override
     public void girar(double grados){
         //grados *= Math.PI/180;
@@ -117,7 +135,8 @@ public abstract class Rover implements AccionesRover {
         if(angulo>2*Math.PI)
             angulo= Math.ceil(angulo/(2*Math.PI));
         moverImgRover(ubicacion.getLongitud(),ubicacion.getLatitud());
-    }    
+    }   
+    
     @Override
     public void desplazarse(Ubicacion ubicacion, boolean cargar) 
             throws ComandoInvalidoException{                
@@ -137,7 +156,8 @@ public abstract class Rover implements AccionesRover {
         new HiloAvanzar(
                 (int) Math.floor(distancia/10)
                         ).start();
-    }    
+    }  
+    
     @Override
     public String sensar(List<Crater> crateres){
         //Esta en el crater
@@ -155,11 +175,11 @@ public abstract class Rover implements AccionesRover {
             System.out.println(crater.getId());
             System.out.println("Minerales: "+minerales);
             return minerales;
-        }
-        
+        }        
         System.out.println("En ningun crater");
         return null;
     }
+    
     /**
      * Fija la posicion y angulo de la imagen del rover
      * @param x posicion en x a gijar
@@ -170,8 +190,10 @@ public abstract class Rover implements AccionesRover {
         imagen.setLayoutY(y);
         imagen.setRotate(getAnguloGrados());
     }
+    
     /**
-     * Nueva posicion del rover, movido 10 pixeles
+     * Nueva posicion del rover, movido 10 pixeles en la direccion que esta 
+     * apuntando
      * @return nueva ubicacion
      */
     public Ubicacion posicionNueva(){
@@ -185,10 +207,14 @@ public abstract class Rover implements AccionesRover {
         posY+=compY;        
         return new Ubicacion(posX,posY);
     }
+    
     /**
      * Hilo de avanzar
      */
     public class HiloAvanzar extends Thread {
+        /**
+         * Veces que se repetira el comando avanzar
+         */
         private int repeticiones;
         /**
          * Constructor del hilo
@@ -198,9 +224,7 @@ public abstract class Rover implements AccionesRover {
             super();
             this.repeticiones=repeticiones;
         }
-        /**
-         * Metodo run del hilo
-         */
+       
         @Override
         public void run(){
             for(int i=1; i<=repeticiones;i++){
@@ -213,6 +237,7 @@ public abstract class Rover implements AccionesRover {
             }
         }
     }
+    
     /**
      * Hilo de girar
      */
@@ -229,9 +254,7 @@ public abstract class Rover implements AccionesRover {
             super();
             this.angulo=angulo;        
         }
-        /**
-         * Metodo run del hilo
-         */
+
         @Override
         public void run(){
             girar(-getAnguloGrados());
@@ -239,8 +262,8 @@ public abstract class Rover implements AccionesRover {
         }
     }
     /**
-     * 
-     * @return 
+     * Provee el nombre del rover
+     * @return nombre del rover
      */
     @Override
     public String toString(){

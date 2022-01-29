@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.espol.proyectopoo2.modelo;
 
-import com.espol.proyectopoo2.interfaces.AccionesRover;
 import java.io.IOException;
 import javafx.scene.control.Alert;
 
@@ -13,6 +8,9 @@ import javafx.scene.control.Alert;
  * @author Dome
  */
 public class RoverEolico extends Rover {
+    /**
+     * Angulo considerado Norte
+     */
     private double anguloNorte;
     /**
      * Crea un rover de tipo eolico.
@@ -21,7 +19,11 @@ public class RoverEolico extends Rover {
      * @param image_path Ruta de la imagen del rover.
      * @param carga Carga que posee el rover.
      */
-    public RoverEolico(String nombre, Ubicacion ubicacion, String image_path, double carga)throws IOException{
+    public RoverEolico(
+            String nombre, 
+            Ubicacion ubicacion, 
+            String image_path, 
+            double carga) throws IOException{
         super(nombre, ubicacion, image_path,carga);
     }
     
@@ -39,9 +41,6 @@ public class RoverEolico extends Rover {
         anguloNorte = 90d;
         double anguloGirado = super.getAnguloGrados();
         double movimiento = 360 - Math.abs(anguloGirado - anguloNorte);
-        super.girar(movimiento);
-        
-        
-    }
-    
+        super.girar(movimiento);       
+    }   
 }

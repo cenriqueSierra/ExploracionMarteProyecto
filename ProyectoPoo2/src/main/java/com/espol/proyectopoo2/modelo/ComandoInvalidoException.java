@@ -5,22 +5,14 @@
 package com.espol.proyectopoo2.modelo;
 
 /**
- *
+ * Exception para comandos invalidos, hereda de RuntimeException
  * @author Dome
  */
 public class ComandoInvalidoException extends RuntimeException {
-
+   
     /**
-     * Crea una instancia de ComandoInvalido sin mensaje de detalles
-     */
-    public ComandoInvalidoException() {
-    }
-
-    /**
-     * Construye una instancia de <Code>ComandoInvalido</Code> con el mensaje
-     * de detalle especificado
-     *
-     * @param msg mensaje de detalle
+     * Crea una instancia de ComandoInvalidoException con un mensaje
+     * @param str el mensaje
      */
     public ComandoInvalidoException(String msg) {
         super(msg);
