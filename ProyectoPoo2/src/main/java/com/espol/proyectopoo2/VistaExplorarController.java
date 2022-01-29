@@ -197,7 +197,7 @@ public class VistaExplorarController implements Initializable {
 
                     break;
                 default:
-                    throw new ComandoInvalidoException();
+                    throw new ComandoInvalidoException("Comando ingresado no existe");
                 }
         }
             
@@ -216,7 +216,7 @@ public class VistaExplorarController implements Initializable {
            a.setContentText("Comando incompleto");
            a.show();
        }catch(ComandoInvalidoException ex){
-           a.setContentText("Comando ingresado no existe");
+           a.setContentText(ex.getMessage());
            a.show();
        }
     }
