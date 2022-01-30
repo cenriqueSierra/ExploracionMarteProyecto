@@ -58,4 +58,15 @@ public class Registro {
     public String getNombreCrater() {
         return nombreCrater;
     }  
+
+    /**
+     * Meotodo para visualizar el contenido de cada Registro
+     * @return 
+     */
+    @Override
+    public String toString() {
+        return "Registro{" + "fecha=" + fecha + ", minerales=" + minerales + ", nombreCrater=" + nombreCrater + '}';
+    }
+    
+    
 }

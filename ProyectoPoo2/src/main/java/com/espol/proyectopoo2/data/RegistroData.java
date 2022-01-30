@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * Clase que se encarga de la lectura de los crateres explotados
@@ -64,22 +66,19 @@ public class RegistroData {
                                     (ArrayList<String>) minerales, 
                                     parts[1]));                
             }            
-        }finally{
-            return reportes;
-        }
+
         //borrar
-        /*}catch (FileNotFoundException ex) {
+        }catch (FileNotFoundException ex) {
             
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Alerta de Error");
             alert.setHeaderText("Estado");
             alert.setContentText("Archivo de reportes no existe");
-
             alert.showAndWait();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }        
-        return null;*/
+        return reportes;
         //borrar
     }    
 }
