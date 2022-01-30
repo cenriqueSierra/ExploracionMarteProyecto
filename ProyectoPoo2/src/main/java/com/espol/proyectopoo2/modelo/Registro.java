@@ -60,7 +60,7 @@ public class Registro {
     }  
 
     /**
-     * Meotodo para visualizar el contenido de cada Registro
+     * Metodo para visualizar el contenido de cada Registro
      * @return 
      */
     @Override

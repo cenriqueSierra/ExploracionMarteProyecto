@@ -67,7 +67,6 @@ public class RegistroData {
                                     parts[1]));                
             }            
 
-        //borrar
         }catch (FileNotFoundException ex) {
             
             Alert alert = new Alert(AlertType.ERROR);
@@ -76,9 +75,8 @@ public class RegistroData {
             alert.setContentText("Archivo de reportes no existe");
             alert.showAndWait();
         } catch (IOException ex) {
-            //ex.printStackTrace();
+            ex.printStackTrace();
         }        
         return reportes;
-        //borrar
     }    
 }
