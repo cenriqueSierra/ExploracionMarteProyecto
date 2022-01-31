@@ -1,6 +1,7 @@
 package com.espol.proyectopoo2.modelo;
 
 import java.io.IOException;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
 /**
@@ -15,6 +16,7 @@ public class RoverSolar extends Rover {
      * @param ubicacion Ubicacion del rover.
      * @param image_path Ruta de la imagen del rover.
      * @param carga Carga que posee el rover.
+     * @throws java.io.IOException
      */
     public RoverSolar(
             String nombre, 
@@ -29,13 +31,16 @@ public class RoverSolar extends Rover {
      */
     @Override
     public void cargar() {
-        super.desplazarse(new Ubicacion(100,100), true);
-        Alert a = new Alert(Alert.AlertType.WARNING);
-        a.setTitle("Notificacion");
-        a.setHeaderText("Acciones");
-        a.setContentText("Desplegando paneles solares");
-        a.show();
-        a.setContentText("Abriendo paneles");
-        a.show();
+        tareas.cola.add(()->{
+            desplazarse(new Ubicacion(100,100), true);
+            setCarga(100);
+            Platform.runLater(()->{Alert a = new Alert(Alert.AlertType.WARNING);
+            a.setTitle("Notificacion");
+            a.setHeaderText("Acciones");
+            a.setContentText("Desplegando paneles solares");
+            a.show();
+            a.setContentText("Abriendo paneles");
+            a.show();});
+        });
     }  
 }

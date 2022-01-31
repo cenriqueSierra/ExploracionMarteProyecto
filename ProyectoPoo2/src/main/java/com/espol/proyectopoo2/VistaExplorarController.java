@@ -164,6 +164,7 @@ public class VistaExplorarController implements Initializable {
                     comandosIngresados.getItems().add(comando);
                 
                 comandoIngresado.clear();
+                cboxRover.setDisable(true);
                 switch(comandoSeparado[0].toLowerCase() ){
                 case("avanzar"):
                     Ubicacion u = roverSeleccionado.posicionNueva();
@@ -218,18 +219,23 @@ public class VistaExplorarController implements Initializable {
        }catch(ComandoInvalidoException ex){
            a.setContentText(ex.getMessage());
            a.show();
+       }finally{
+           cboxRover.setDisable(false);
        }
     }
 
     @FXML
     private void seleccionarRover(ActionEvent event) {
-        if(roverSeleccionado!=null)
+        if(roverSeleccionado!=null){
             panelSuperficie.getChildren().remove(roverSeleccionado.getImagen());
-        
+            comandosIngresados.getItems().clear();
+            roverSeleccionado.stop();
+        }                
         roverSeleccionado = cboxRover.getValue();
-        if(roverSeleccionado!= null)
+        if(roverSeleccionado!= null){
             panelSuperficie.getChildren().add(roverSeleccionado.getImagen());
-        
+            roverSeleccionado.start();
+        }
     }
     
  

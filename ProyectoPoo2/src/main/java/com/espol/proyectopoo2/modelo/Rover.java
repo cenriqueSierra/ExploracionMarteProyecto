@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -41,7 +43,12 @@ public abstract class Rover implements AccionesRover {
     /**
      * Angulo en radianes donde esta viendo el rover
      */
-    private double angulo;   
+    private double angulo;
+    
+    /**
+     * Hilo de las tareas del rover
+     */
+    protected HiloTareas tareas;
     
     /**
      * Crea un objeto de tipo rover
@@ -60,9 +67,25 @@ public abstract class Rover implements AccionesRover {
         imagen.setLayoutX(ubicacion.getLongitud());
         imagen.setLayoutY(ubicacion.getLatitud());
         this.carga = carga;
-        angulo=0;        
+        angulo=0;
+        this.tareas= new HiloTareas();
     }   
     
+    /**
+     * Inicio del hilo de rover
+     */
+    public void start(){
+        tareas.corriendo=true;
+        tareas.start();
+    }
+    
+    /**
+     * 
+     */
+    public void stop(){
+        tareas.corriendo=false;
+        tareas.cola.clear();
+    }
     /**
      * @return  nombre de rover
      */
@@ -139,7 +162,7 @@ public abstract class Rover implements AccionesRover {
     
     @Override
     public void desplazarse(Ubicacion ubicacion, boolean cargar) 
-            throws ComandoInvalidoException{                
+            throws ComandoInvalidoException{            
         double x_diff = ubicacion.getLongitud() - this.ubicacion.getLongitud();
         System.out.println(x_diff);
         double y_diff = ubicacion.getLatitud() - this.ubicacion.getLatitud();
@@ -148,14 +171,19 @@ public abstract class Rover implements AccionesRover {
         System.out.println("angulo"+angulo);
         System.out.println("nuevoAngulo"+newAngulo);
         double distancia = Math.sqrt(Math.pow(x_diff,2)+Math.pow(y_diff,2));
-        if(isDescargado((int)distancia))
+        if(isDescargado((int)distancia)&&!cargar)
             throw new MovimientoInvalidoException("Carga insuficiente para desplazarse");
-        angulo=0;
-        girar(newAngulo);
-        System.out.println("angulo"+angulo);
-        new HiloAvanzar(
-                (int) Math.floor(distancia/10)
-                        ).start();
+        
+        tareas.cola.add(()->{
+            System.out.println("Dentro del angulo");
+            angulo=0;
+            girar(newAngulo);
+            System.out.println("angulo"+angulo);});
+        tareas.cola.add(
+            new HiloAvanzar(
+                (int) Math.floor(distancia/10),
+                cargar
+                        ));       
     }  
     
     @Override
@@ -216,21 +244,30 @@ public abstract class Rover implements AccionesRover {
          * Veces que se repetira el comando avanzar
          */
         private int repeticiones;
+        
+        /**
+         * Estado de ir a cargar del rover
+         */
+        private boolean cargar;
         /**
          * Constructor del hilo
          * @param repeticiones numero de veces que se repetirá el comando de avanzar
+         * @param cargar estado de ir a cargar del rover
          */
-        public HiloAvanzar(int repeticiones){
+        public HiloAvanzar(int repeticiones, boolean cargar){
             super();
             this.repeticiones=repeticiones;
+            this.cargar=cargar;
         }
        
         @Override
         public void run(){
             for(int i=1; i<=repeticiones;i++){
+                if(cargar)
+                    setCarga(carga+1);
                 avanzar();
                 try{
-                sleep(250);
+                    sleep(250);
                 }catch(InterruptedException ex) {
                     ex.printStackTrace();
                 }
@@ -259,6 +296,25 @@ public abstract class Rover implements AccionesRover {
         public void run(){
             girar(-getAnguloGrados());
             girar(angulo);
+        }
+    }
+    
+    public class HiloTareas extends Thread{
+        protected volatile Queue<Runnable> cola;
+        protected boolean corriendo;
+        
+        public HiloTareas(){
+            this.cola= new LinkedList<>();
+        }
+        @Override
+        public void run(){
+            while(corriendo){
+                if(!cola.isEmpty()){
+                    Runnable r = cola.poll();
+                    if(r!=null)
+                        r.run();
+                }
+            }            
         }
     }
     /**

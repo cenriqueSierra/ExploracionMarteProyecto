@@ -33,14 +33,14 @@ public class RoverEolico extends Rover {
     @Override
     public void cargar() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Notificacion");
-                alert.setHeaderText("Acciones");
-                alert.setContentText("Despliegue de molinos");
-
-                alert.showAndWait();
+        alert.setTitle("Notificacion");
+        alert.setHeaderText("Acciones");
+        alert.setContentText("Despliegue de molinos");
+        alert.showAndWait();
         anguloNorte = 90d;
         double anguloGirado = super.getAnguloGrados();
         double movimiento = 360 - Math.abs(anguloGirado - anguloNorte);
-        super.girar(movimiento);       
+        girar(movimiento);       
+        setCarga(100);
     }   
 }
