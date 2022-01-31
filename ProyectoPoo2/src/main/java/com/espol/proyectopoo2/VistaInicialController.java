@@ -48,7 +48,6 @@ public class VistaInicialController implements Initializable {
         App.cambioVista(vistaAsociada);
     }
 
-    @FXML
     private void salirVentana(MouseEvent event) {
         Stage stage = (Stage) btnSalir.getScene().getWindow();
         stage.close();

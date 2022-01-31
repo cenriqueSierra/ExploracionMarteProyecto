@@ -5,7 +5,9 @@
 package com.espol.proyectopoo2;
 
 import com.espol.proyectopoo2.data.RegistroData;
+import static com.espol.proyectopoo2.data.RegistroData.rutaReporte;
 import com.espol.proyectopoo2.modelo.Registro;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -181,14 +183,6 @@ public class VistaVerReportesController implements Initializable {
                 }      
             }   
         }
-        /*
-        if(registrosPresentar.isEmpty()){
-             Alert alert = new Alert(Alert.AlertType.INFORMATION); //En caso que el mineral no este, muestre un mensaje
-                    alert.setTitle("Comunicado");
-                    alert.setHeaderText("Estado");
-                    alert.setContentText("El mineral: "+mineralI+" no ha sido encontrado");
-        }*/
-        
         System.out.println("\nLista filtrada: "+registrosPresentar);       
         return registrosPresentar;
 
@@ -202,5 +196,12 @@ public class VistaVerReportesController implements Initializable {
     @FXML
     private void regresarMenu(MouseEvent event) {
         App.cambioVista("VistaInicial");
+    }
+
+    @FXML
+    private void accionEliminarReporte(MouseEvent event) {
+        File fichero = new File(rutaReporte);
+        fichero.delete();
+        System.out.println("Archivo Borrado");
     }
 }

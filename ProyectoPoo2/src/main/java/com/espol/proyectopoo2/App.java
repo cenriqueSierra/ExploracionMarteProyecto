@@ -75,8 +75,8 @@ public class App extends Application {
     
     @Override
     public void init(){
-        File fichero = new File(rutaReporte);
+        /*File fichero = new File(rutaReporte);
         if(!fichero.delete())
-            System.out.println("no hay q borrar");
+            System.out.println("no hay q borrar");*/
     }
 }

@@ -1,7 +1,64 @@
 /*
  * Empty Stylesheet file.
  */
+#stkPane {
+    -fx-background-image: url('fondo_Inicio.png');
+    -fx-background-size: 100% 100%;
+}
 
-#fondo{
-    --fx-background-color: #FC935E;
+
+#h1 {
+    -fx-font-family: "Lucida Console", "Courier New", "monospace";
+    -fx-color: #FFFFFF;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold; 
+    -fx-font-color:#FFFFFF;
+    -fx-background-color: linear-gradient(from 70px 55px to 100px 100px, #dc143c, #6A14DC/*#32cd32*/);
+    /*-fx-background-color: #F0471D;*/
+    -fx-color: #97f8d9; /*F9B53C*/
+    -fx-padding: 10px;
+    
+    -fx-text-fill: #FFFFFF;
+    -fx-text-shadow: 2px 2px 4px #000000
+    
+}
+
+#paneIzquiedo{
+    -fx-background-image: url('Wallie.png');
+    -fx-background-size: 100% 100%;
+    -fx-opacity: 0.95;
+}
+
+#paneDerecho {
+    -fx-background-image: url('Chapie.png');
+    -fx-background-size: 100% 100%;
+    -fx-opacity: 0.95;
+    -fx-transform: scaleX(-1);
+}
+
+#btn1 {
+    -fx-font-family: "Lucida Console", "Courier New", "monospace";
+    -fx-font-size: 14px;
+    -fx-border-radius: 30px;
+    -fx-background-color: #25C818;
+
+    
+} 
+#btn2 {
+    -fx-font-family: "Lucida Console", "Courier New", "monospace";
+    -fx-font-size: 14px;
+    -fx-border-radius: 30px;
+    -fx-background-color: #25C818;
+}
+#btn3 {
+    -fx-font-family: "Lucida Console", "Courier New", "monospace";
+    -fx-font-size: 14px;
+    -fx-border-radius: 30px;
+    -fx-background-color: #25C818;
+}
+#btn4 {
+    -fx-font-family: "Lucida Console", "Courier New", "monospace";
+    -fx-font-size: 14px;
+    -fx-border-radius: 30px;
+    -fx-background-color: #25C818;
 }
