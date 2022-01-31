@@ -20,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -48,9 +49,18 @@ public class VistaVerReportesController implements Initializable {
     private ComboBox<String> cbxSeleccion;
     
     private ObservableList<Registro> reporte = FXCollections.observableArrayList();
+    
+    //private TableView<Registro> table = new TableView<>(); //Table creado aqui mismo dentro del codigo
     @FXML
-    private StackPane paneTable;
-
+    private TableView<Registro> tableProof = new TableView<>();
+    @FXML
+    private TableColumn<Registro,LocalDate> fechaC;
+    @FXML
+    private TableColumn<Registro,String> nCraterC;
+    @FXML
+    private TableColumn<Registro,List<String>> nMineralE;
+    @FXML
+    private StackPane stkTable;
     /**
      * Inicia clase controladora y carga la informacion
      */
@@ -61,7 +71,9 @@ public class VistaVerReportesController implements Initializable {
             cbxSeleccion.getItems().add("Fecha");
             System.out.println("Va a leer");
             reporte.addAll(RegistroData.leerReporte());
+            stkTable.getChildren().clear();
             System.out.println("Leido");
+            System.out.println("Esta es la lista general:\n"+reporte);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -78,7 +90,6 @@ public class VistaVerReportesController implements Initializable {
         
         switch(cbxSeleccion.getValue()){
             case("Nombre"):
-                paneTable.getChildren().clear();
                 Comparator<Registro> com1 = (Registro r1, Registro r2) -> {
                     return r2.getNombreCrater().compareToIgnoreCase(r1.getNombreCrater()); //r2 primero y r1 despues ordena de forma descendente
                 };
@@ -87,7 +98,6 @@ public class VistaVerReportesController implements Initializable {
                 break;
 
             case("Fecha"):
-                paneTable.getChildren().clear();
                 Comparator<Registro> com2 = (Registro r1, Registro r2) -> {
                     return r2.getFecha().compareTo(r1.getFecha());
                 };
@@ -104,40 +114,35 @@ public class VistaVerReportesController implements Initializable {
                 alert.showAndWait();
         }
     }
-    
+
     /**
      * Metodo que crea un tableView 
      * @param registro Lista de registros con crateres sensados 
      * @param com Comparador que permite ordenar de forma descendente por campo
      */
     public void creacionTabla(ObservableList<Registro> registro, Comparator<Registro> com){
-        System.out.println(registro);
-        ObservableList<Registro> registrosPresentar = filtrarCampos(fInicioIngresada, fFinIngresada, mineralIngresado);
+        ObservableList<Registro> registrosPresentar = 
+                filtrarCampos(fInicioIngresada, fFinIngresada, mineralIngresado);
+
+        System.out.println("\nLista Ordenada\n"+registrosPresentar);
+        stkTable.getChildren().clear(); //Limpia el pane
         registrosPresentar.sort(com); //Ordena por medio del comparador
-        TableView<Registro> table = new TableView<Registro>();
+        //double anchoT =tableProof.getWidth();
+        //double anchoColumn = anchoT/3;
+        //fechaC.setPrefWidth(anchoColumn);
+        fechaC.setCellValueFactory(
+                        new PropertyValueFactory<>("fecha"));
         
-        
-        //TableColumn<Movie, String> colTitle = new TableColumn<Movie, String>("Title");
-        TableColumn<Registro,LocalDate> colFecha = new TableColumn<Registro,LocalDate> ("Fecha de exploracion");
-        colFecha.setMinWidth(100);
-        colFecha.setCellValueFactory(
-                new PropertyValueFactory<Registro,LocalDate>("Fecha de exploracion"));
-        
-        
-        TableColumn<Registro,String> colNombre = new TableColumn<Registro,String> ("Nombre de Crater");
-        colNombre.setMinWidth(100);
-        colNombre.setCellValueFactory(
-                new PropertyValueFactory<Registro,String> ("Nombre de Crater"));
-        
-        TableColumn<Registro,List<String>> colMinerales = new TableColumn<Registro,List<String>> ("Minerales Encontrados");
-        colMinerales.setMinWidth(100);
-        colMinerales.setCellValueFactory(
-                new PropertyValueFactory <Registro,List<String>> ("Minerales Encontrados"));
-        
-        //vboxTable.getChildren().clear(); //Limpia el pane
-        table.setItems(registrosPresentar);
-        table.getColumns().addAll(colFecha,colNombre,colMinerales);
-        paneTable.getChildren().addAll(table);
+        //nCraterC.setPrefWidth(anchoColumn);
+        nCraterC.setCellValueFactory(
+                new PropertyValueFactory<> ("nombreCrater"));
+
+        //nMineralE.setPrefWidth(anchoColumn);
+        nMineralE.setCellValueFactory(
+                new PropertyValueFactory <> ("minerales"));
+
+        tableProof.setItems(registrosPresentar);
+        stkTable.getChildren().addAll(tableProof);
     }
     
     
@@ -157,11 +162,13 @@ public class VistaVerReportesController implements Initializable {
         ObservableList<Registro> registrosPresentar = FXCollections.observableArrayList();
         
         for(Registro r: reporte){
-            int respuestaInicio = inicioLDate.compareTo(r.getFecha()); // Si la fechaInicio ingresada es menor o igual a la del registro
+            int respuestaInicio = inicioLDate.compareTo(r.getFecha()); // Si la fechaInicio ingresada es menor o igual a la del registro saldrá menor a cero o igual a cero
             int respuestaFin = finLDate.compareTo(r.getFecha()); //Si la fechaFin ingresada es mayor o igual a la del registro
+            System.out.println("Este registro: "+r);
+            System.out.println("\nRespuestaIniio: "+respuestaInicio);
             
             if(respuestaInicio <= 0 && respuestaFin >= 0){
-                
+                System.out.println("Necesito saber si funciona");
                 if(r.getMinerales().contains(mineralI.toLowerCase())){
                     registrosPresentar.add(r);
                     
@@ -171,15 +178,23 @@ public class VistaVerReportesController implements Initializable {
                     alert.setHeaderText("Estado");
                     alert.setContentText("El mineral: "+mineralI+" no ha sido encontrado");
                 
-                }       
+                }      
             }   
         }
-                
+        /*
+        if(registrosPresentar.isEmpty()){
+             Alert alert = new Alert(Alert.AlertType.INFORMATION); //En caso que el mineral no este, muestre un mensaje
+                    alert.setTitle("Comunicado");
+                    alert.setHeaderText("Estado");
+                    alert.setContentText("El mineral: "+mineralI+" no ha sido encontrado");
+        }*/
+        
+        System.out.println("\nLista filtrada: "+registrosPresentar);       
         return registrosPresentar;
 
     }
     
-    
+   
     /**
      * Metodo que permite regresar al menu principal
      * @param event Click al boton regresar

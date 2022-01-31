@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -48,7 +50,22 @@
             <ComboBox fx:id="cbxSeleccion" onAction="#seleccionarOrden" prefWidth="150.0" />
          </children>
       </HBox>
-      <StackPane fx:id="paneTable" prefHeight="279.0" prefWidth="600.0" />
+      <StackPane fx:id="stkTable" prefHeight="279.0" prefWidth="600.0">
+         <children>
+            <TableView fx:id="tableProof" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="fechaC" editable="false" prefWidth="190.0" sortable="false" text="Fecha" />
+                <TableColumn fx:id="nCraterC" prefWidth="174.0" text="Nombre de crater" />
+                  <TableColumn fx:id="nMineralE" prefWidth="208.0" text="Minerales encontrados" />
+              </columns>
+            </TableView>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding></StackPane>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
             <Button mnemonicParsing="false" onMouseClicked="#regresarMenu" text="Regresar" />

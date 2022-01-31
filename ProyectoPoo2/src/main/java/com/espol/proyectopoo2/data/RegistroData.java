@@ -59,8 +59,8 @@ public class RegistroData {
             reportes.clear();
             while((line = lector.readLine()) != null){
                 String[] parts = line.split(";");
-                List<String> minerales = new ArrayList<>();
-                minerales.addAll(Arrays.asList(parts[2]));
+                List<String> minerales = new ArrayList<>(); //Se guarda un solo string con los minerales
+                minerales.addAll(Arrays.asList(parts[2].strip().split(",")));
                 reportes.add(new Registro(
                                     LocalDate.parse(parts[0]), 
                                     (ArrayList<String>) minerales, 
