@@ -1,6 +1,7 @@
 package com.espol.proyectopoo2.modelo;
 
 import java.io.IOException;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
 /**
@@ -32,15 +33,19 @@ public class RoverEolico extends Rover {
      */
     @Override
     public void cargar() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Notificacion");
-        alert.setHeaderText("Acciones");
-        alert.setContentText("Despliegue de molinos");
-        alert.showAndWait();
-        anguloNorte = 90d;
-        double anguloGirado = super.getAnguloGrados();
-        double movimiento = 360 - Math.abs(anguloGirado - anguloNorte);
-        girar(movimiento);       
-        setCarga(100);
+        tareas.cola.add(()->{
+            anguloNorte = 90d;
+            double anguloGirado = super.getAnguloGrados();
+            double movimiento = 360 - Math.abs(anguloGirado - anguloNorte);
+            girar(movimiento);       
+            setCarga(100);
+            Platform.runLater(()->{
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Notificacion");
+                alert.setHeaderText("Acciones");
+                alert.setContentText("Despliegue de molinos");
+                alert.showAndWait();
+            });
+        });
     }   
 }

@@ -35,12 +35,10 @@ public class RoverSolar extends Rover {
             desplazarse(new Ubicacion(100,100), true);
             setCarga(100);
             Platform.runLater(()->{Alert a = new Alert(Alert.AlertType.WARNING);
-            a.setTitle("Notificacion");
-            a.setHeaderText("Acciones");
-            a.setContentText("Desplegando paneles solares");
-            a.show();
-            a.setContentText("Abriendo paneles");
-            a.show();});
-        });
+                a.setTitle("Notificacion");
+                a.setHeaderText("Acciones");
+                a.setContentText("Desplegando paneles solares");
+                a.show();});
+            });
     }  
 }

@@ -299,13 +299,27 @@ public abstract class Rover implements AccionesRover {
         }
     }
     
+    /**
+     * Hilo de tareas a ejecutar
+     */
     public class HiloTareas extends Thread{
+        /**
+         * Cola de tareas a ejecutar
+         */
         protected volatile Queue<Runnable> cola;
+        
+        /**
+         * Estado de corriendo del hilo
+         */
         protected boolean corriendo;
         
+        /**
+         * Constructor del hilo
+         */
         public HiloTareas(){
             this.cola= new LinkedList<>();
         }
+        
         @Override
         public void run(){
             while(corriendo){
