@@ -16,12 +16,10 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
-<<<<<<< HEAD
-=======
+
 import java.util.Set;
 import java.util.Stack;
 import java.util.stream.Collectors;
->>>>>>> 79675d950a2dc86fd5c4733976ed39ef2d03ed99
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
