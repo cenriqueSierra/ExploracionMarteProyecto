@@ -59,6 +59,7 @@ public class VistaExplorarController implements Initializable {
     
     private List<Crater> crateresPantalla;
     
+    public static List<Rover> roversInicializados;
     /**
      * Initializes the controller class.
      */
@@ -70,8 +71,9 @@ public class VistaExplorarController implements Initializable {
         r.widthProperty().bind(panelSuperficie.widthProperty());
         panelSuperficie.setClip(r);
         a = new Alert(Alert.AlertType.ERROR);
-       cboxRover.getItems().addAll(RoverData.cargarRovers());
-       cargarCrateres();
+        roversInicializados=RoverData.cargarRovers();
+        cboxRover.getItems().addAll(roversInicializados);
+        cargarCrateres();
        
        
     }
@@ -85,8 +87,8 @@ public class VistaExplorarController implements Initializable {
         //StackPane st = new StackPane();
         //st.setPrefSize(panelSuperficie.getPrefWidth(), panelSuperficie.getPrefHeight());
         //vorrar
-        for (Crater cr:  crateres)
-            System.out.println(cr.getRadio());
+//        for (Crater cr:  crateres)
+//            System.out.println(cr.getRadio());
                 
         for(Crater c: crateres){
             Circle circulo = c.getCirculo();
@@ -140,6 +142,8 @@ public class VistaExplorarController implements Initializable {
     @FXML
     private void regresarMenu(MouseEvent event) {
         App.cambioVista("VistaInicial");
+        RoverData.guardarRovers();
+        
     }
     
     /**

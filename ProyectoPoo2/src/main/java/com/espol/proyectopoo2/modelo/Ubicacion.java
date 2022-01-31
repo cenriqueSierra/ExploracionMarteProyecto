@@ -47,7 +47,7 @@ public class Ubicacion {
      */
     @Override
     public String toString(){
-        return "Longitud: "+ longitud/factor+" ,Latitud: "+latitud/factor;
+        return longitud+","+latitud;
     }
     
     /**

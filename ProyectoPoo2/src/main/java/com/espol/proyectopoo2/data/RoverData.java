@@ -1,12 +1,15 @@
 package com.espol.proyectopoo2.data;
 
+import com.espol.proyectopoo2.VistaExplorarController;
 import static com.espol.proyectopoo2.data.Constantes.factor;
 import com.espol.proyectopoo2.modelo.Rover;
 import com.espol.proyectopoo2.modelo.RoverEolico;
 import com.espol.proyectopoo2.modelo.RoverSolar;
 import com.espol.proyectopoo2.modelo.Ubicacion;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +63,27 @@ public class RoverData {
         return rovers;    
     }
     
+    public static void guardarRovers(){
+        List<Rover> rovers = VistaExplorarController.roversInicializados;
+        try(BufferedWriter bw =
+                new BufferedWriter(new FileWriter(ruta))){
+            String tipo;
+            for(Rover r : rovers){
+                if(r instanceof RoverSolar)
+                    tipo = "solar";
+                else
+                    tipo = "eolico";                            
+                bw.write(   r.getNombre()+","+
+                            r.getUbicacion().getLongitud()+","+
+                            r.getUbicacion().getLatitud()+","+
+                            tipo);
+                bw.newLine();
+                bw.flush();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
     /**
      * Busca al rover en la lista de rovers obtenida del archivo
      * @param nombreRover Nombre de rover a buscar
