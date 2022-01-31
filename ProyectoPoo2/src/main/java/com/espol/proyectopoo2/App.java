@@ -79,4 +79,9 @@ public class App extends Application {
         if(!fichero.delete())
             System.out.println("no hay q borrar");*/
     }
+    
+    @Override
+    public void stop(){
+        System.exit(0);
+    }
 }

@@ -41,7 +41,7 @@ import javafx.scene.layout.Pane;
  *
  * @author Dome user
  */
-public class VistaPlanificacionRutasController implements Initializable {
+public class VistaPlanificacionRutasController extends VistaVerReportesController implements Initializable {
 
     /**
      * Texto de los crateres ingresados
