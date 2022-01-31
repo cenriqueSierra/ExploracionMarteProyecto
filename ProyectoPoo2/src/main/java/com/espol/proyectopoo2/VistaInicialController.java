@@ -13,12 +13,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
+ * FXML Controlador Vista Inicial 
  *
  * @author Carlos user
  */
 public class VistaInicialController implements Initializable {
+    /**
+     * Vista asociada.
+     */
     private String vistaAsociada;
+    /**
+     * Boton salir.
+     */
     @FXML
     private Button btnSalir;
 
@@ -29,25 +35,40 @@ public class VistaInicialController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
     }    
-
+    
+    /**
+     * Cambia a la vista explorar.
+     * @param event 
+     */
     @FXML
     private void entrarExplorar(MouseEvent event) {
         vistaAsociada = "VistaExplorar";
         App.cambioVista(vistaAsociada);
     }
-
+    
+    /**
+     * Cambia a la vista Planificacion Rutas.
+     * @param event 
+     */
     @FXML
     private void hacerPlanificacion(MouseEvent event) {
         vistaAsociada = "VistaPlanificacionRutas";
         App.cambioVista(vistaAsociada);
     }
-
+    /**
+     * Cambia a la vista Ver Reportes.
+     * @param event 
+     */
     @FXML
     private void entrarVerReportes(MouseEvent event) {
         vistaAsociada = "VistaVerReportes";
         App.cambioVista(vistaAsociada);
     }
 
+    /**
+     * Cierre del programa.
+     * @param event 
+     */
     private void salirVentana(MouseEvent event) {
         Stage stage = (Stage) btnSalir.getScene().getWindow();
         stage.close();

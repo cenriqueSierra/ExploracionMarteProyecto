@@ -14,45 +14,52 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 /**
- * FXML Controller class
+ * FXML Controlador ver reportes.
  *
  * @author Carlos user
  */
 public class VistaVerReportesController implements Initializable {
-
+    
+    /**
+     * Texto de la fecha inicio ingresada.
+     */
     @FXML
     private TextField fInicioIngresada;
+    /**
+     *  Texto de la fecha fin ingresada.
+     */
     @FXML
     private TextField fFinIngresada;
+    /**
+     *  Texto del material ingresado.
+     */
     @FXML
     private TextField mineralIngresado;
+    /**
+     * Combo box que contiene las opciones.
+     */
     @FXML
     private ComboBox<String> cbxSeleccion;
-    
+    /**
+     * Reportes
+     */
     private ObservableList<Registro> reporte = FXCollections.observableArrayList();
     
-    //private TableView<Registro> table = new TableView<>(); //Table creado aqui mismo dentro del codigo
     @FXML
     private TableView<Registro> tableProof = new TableView<>();
     @FXML
@@ -84,7 +91,7 @@ public class VistaVerReportesController implements Initializable {
     
     
     /**
-     * 
+     * Selecciona la manera en que se ordenaran los reportes.
      * @param event 
      */
     @FXML
@@ -129,17 +136,12 @@ public class VistaVerReportesController implements Initializable {
         System.out.println("\nLista Ordenada\n"+registrosPresentar);
         stkTable.getChildren().clear(); //Limpia el pane
         registrosPresentar.sort(com); //Ordena por medio del comparador
-        //double anchoT =tableProof.getWidth();
-        //double anchoColumn = anchoT/3;
-        //fechaC.setPrefWidth(anchoColumn);
         fechaC.setCellValueFactory(
                         new PropertyValueFactory<>("fecha"));
         
-        //nCraterC.setPrefWidth(anchoColumn);
         nCraterC.setCellValueFactory(
                 new PropertyValueFactory<> ("nombreCrater"));
 
-        //nMineralE.setPrefWidth(anchoColumn);
         nMineralE.setCellValueFactory(
                 new PropertyValueFactory <> ("minerales"));
 

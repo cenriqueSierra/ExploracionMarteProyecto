@@ -51,9 +51,11 @@ public class CraterData {
                 crateres.add(new Crater(id,nombre,radio, new Ubicacion(latitud, longitud)));
             }
         }catch(FileNotFoundException ex){
-            ex.printStackTrace();
+            System.out.println("Problemas tecnicos, estamos resolviendo.");
+            //ex.printStackTrace();
         }catch(IOException ioex){
-            ioex.printStackTrace();  
+            System.out.println("Problemas tecnicos, estamos resolviendo.");
+            //ioex.printStackTrace();  
         }
         return crateres;        
     }
@@ -73,9 +75,11 @@ public class CraterData {
                 minerales.add(m);                                
             }
         }catch(FileNotFoundException ex){
-            ex.printStackTrace();
+            System.out.println("Problemas tecnicos con el archivo, estamos resolviendo.");
+            //ex.printStackTrace();
         }catch(IOException ex){
-            ex.printStackTrace();
+            System.out.println("Problemas tecnicos, estamos resolviendo.");
+            //ex.printStackTrace();
         }
         return minerales;        
     }
@@ -120,10 +124,6 @@ public class CraterData {
     public static Crater isUbicacionInCrater(Ubicacion ubicacion,List<Crater> crateres){      
         for(Crater crater : crateres){
             if(isInCrater(crater,ubicacion)){
-                //borrar
-                System.out.println("Ubicacion Crater: "+crater.getUbicacion()
-                        +"\nNombre: "+crater.getNombre());
-                //borrar
                 return crater;
             }
         }

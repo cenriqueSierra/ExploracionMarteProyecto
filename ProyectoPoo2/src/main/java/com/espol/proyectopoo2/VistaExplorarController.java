@@ -29,7 +29,7 @@ import javafx.scene.shape.Rectangle;
 /**
  * FXML Controlador de la vista explorar
  * Contiene el modelo de lo presentado.
- * @author Carlos user
+ * @author  user
  */
 public class VistaExplorarController implements Initializable {
     /**
