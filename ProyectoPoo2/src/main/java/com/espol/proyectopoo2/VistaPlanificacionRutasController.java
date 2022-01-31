@@ -16,9 +16,6 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import java.util.Set;
-import java.util.Stack;
 import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
