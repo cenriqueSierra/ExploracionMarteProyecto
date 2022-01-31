@@ -163,17 +163,10 @@ public abstract class Rover implements AccionesRover {
     @Override
     public void desplazarse(Ubicacion ubicacion, boolean cargar) 
             throws ComandoInvalidoException{            
-        double x_diff = ubicacion.getLongitud() - this.ubicacion.getLongitud();
-        System.out.println(x_diff);
-        double y_diff = ubicacion.getLatitud() - this.ubicacion.getLatitud();
-        System.out.println(y_diff);
-        double newAngulo = Math.atan2(y_diff, x_diff)*180/(Math.PI);
-        System.out.println("angulo"+angulo);
-        System.out.println("nuevoAngulo"+newAngulo);
-        double distancia = Math.sqrt(Math.pow(x_diff,2)+Math.pow(y_diff,2));
+        double distancia = ubicacion.distancia(ubicacion).get(0);
+        double newAngulo = ubicacion.distancia(ubicacion).get(1)*180/(Math.PI);
         if(isDescargado((int)distancia)&&!cargar)
-            throw new MovimientoInvalidoException("Carga insuficiente para desplazarse");
-        
+            throw new ComandoInvalidoException("Carga insuficiente para desplazarse");        
         tareas.cola.add(()->{
             System.out.println("Dentro del angulo");
             angulo=0;
@@ -182,12 +175,12 @@ public abstract class Rover implements AccionesRover {
         tareas.cola.add(
             new HiloAvanzar(
                 (int) Math.floor(distancia/10),
-                cargar
-                        ));       
+                cargar));       
     }  
     
     @Override
-    public String sensar(List<Crater> crateres){
+    public String sensar(List<Crater> crateres) 
+            throws ComandoInvalidoException{
         //Esta en el crater
         System.out.println("Ubicacion Rover:"+ubicacion);
         Crater crater = CraterData.isUbicacionInCrater(ubicacion,crateres);        
@@ -203,9 +196,9 @@ public abstract class Rover implements AccionesRover {
             System.out.println(crater.getId());
             System.out.println("Minerales: "+minerales);
             return minerales;
-        }        
-        System.out.println("En ningun crater");
-        return null;
+        }else
+            throw new ComandoInvalidoException("No se encuentran crateres en la ubicacion"+
+                    "actual");
     }
     
     /**
@@ -227,10 +220,8 @@ public abstract class Rover implements AccionesRover {
     public Ubicacion posicionNueva(){
         double posX = ubicacion.getLongitud();
         double posY = ubicacion.getLatitud();
-        //sacar las componentes rectangulares
         double compX = 10*Math.cos(angulo);
-        double compY = 10*Math.sin(angulo);                  
-        //settear
+        double compY = 10*Math.sin(angulo);
         posX+=compX;
         posY+=compY;        
         return new Ubicacion(posX,posY);

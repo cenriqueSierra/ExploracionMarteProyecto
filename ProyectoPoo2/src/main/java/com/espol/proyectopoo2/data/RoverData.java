@@ -1,6 +1,5 @@
 package com.espol.proyectopoo2.data;
 
-import com.espol.proyectopoo2.VistaExplorarController;
 import static com.espol.proyectopoo2.data.Constantes.factor;
 import com.espol.proyectopoo2.modelo.Rover;
 import com.espol.proyectopoo2.modelo.RoverEolico;
@@ -58,7 +57,7 @@ public class RoverData {
                 }   
             }                           
         }catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Problemas tecnicos");
         }        
         return rovers;    
     }
@@ -77,7 +76,7 @@ public class RoverData {
                     tipo = "solar";
                 else
                     tipo = "eolico";                            
-                bw.write(   r.getNombre()+","+
+                bw.write(   r.getNombre()+','+
                             r.getUbicacion().getLongitud()+","+
                             r.getUbicacion().getLatitud()+","+
                             tipo);
@@ -86,8 +85,6 @@ public class RoverData {
             }
         } catch (IOException ex) {
             System.out.println("Problemas tecnicos");
-            //ex.printStackTrace();
         }
     }
-
 }

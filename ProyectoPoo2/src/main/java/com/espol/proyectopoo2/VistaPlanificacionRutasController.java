@@ -16,6 +16,12 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+<<<<<<< HEAD
+=======
+import java.util.Set;
+import java.util.Stack;
+import java.util.stream.Collectors;
+>>>>>>> 79675d950a2dc86fd5c4733976ed39ef2d03ed99
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -114,7 +120,7 @@ public class VistaPlanificacionRutasController implements Initializable {
             List<Crater> crateres = CraterData.cargarCrateres();
 
             List<String> nombreCrater = crateres.stream()
-                    .map(it -> it.getNombre().toLowerCase()).toList();
+                    .map(it -> it.getNombre().toLowerCase()).collect(Collectors.toList());
             for (String nombre : crateresNombresIngresados) {
                 int idx = nombreCrater.indexOf(nombre.trim());
                 if (idx >= 0) {
@@ -147,7 +153,7 @@ public class VistaPlanificacionRutasController implements Initializable {
 
                 while (!tmp.isEmpty()) {
                     Crater t = tmp.poll();
-                    double ndist = u0.distancia(t.getUbicacion());
+                    double ndist = u0.distancia(t.getUbicacion()).get(0);
                     if (ndist < dist_min) {
                         dist_min = ndist;
                         minDistCrater = t;

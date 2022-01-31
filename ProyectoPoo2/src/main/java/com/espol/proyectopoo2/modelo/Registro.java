@@ -65,7 +65,10 @@ public class Registro {
      */
     @Override
     public String toString() {
-        return "Registro{" + "fecha=" + fecha + ", minerales=" + minerales + ", nombreCrater=" + nombreCrater + '}';
+        return "Registro: " + 
+                "fecha=" + fecha + 
+                ", minerales=" + minerales + 
+                ", nombreCrater=" + nombreCrater;
     }
     
     
