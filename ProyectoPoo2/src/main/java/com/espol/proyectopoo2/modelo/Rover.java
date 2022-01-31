@@ -153,7 +153,6 @@ public abstract class Rover implements AccionesRover {
     
     @Override
     public void girar(double grados){
-        //grados *= Math.PI/180;
         angulo+=Math.toRadians(grados);
         if(angulo>2*Math.PI)
             angulo= Math.ceil(angulo/(2*Math.PI));
@@ -163,8 +162,8 @@ public abstract class Rover implements AccionesRover {
     @Override
     public void desplazarse(Ubicacion ubicacion, boolean cargar) 
             throws ComandoInvalidoException{            
-        double distancia = ubicacion.distancia(ubicacion).get(0);
-        double newAngulo = ubicacion.distancia(ubicacion).get(1)*180/(Math.PI);
+        double distancia = this.ubicacion.distancia(ubicacion).get(0);
+        double newAngulo = this.ubicacion.distancia(ubicacion).get(1)*180/(Math.PI);
         if(isDescargado((int)distancia)&&!cargar)
             throw new ComandoInvalidoException("Carga insuficiente para desplazarse");        
         tareas.cola.add(()->{
