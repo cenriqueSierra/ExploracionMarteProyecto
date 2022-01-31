@@ -10,8 +10,10 @@ import com.espol.proyectopoo2.modelo.Crater;
 import com.espol.proyectopoo2.modelo.Rover;
 import com.espol.proyectopoo2.modelo.Ubicacion;
 import java.net.URL;
+import java.util.AbstractList;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
@@ -20,6 +22,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.Stack;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -41,18 +44,18 @@ import javafx.scene.layout.Pane;
  */
 public class VistaPlanificacionRutasController implements Initializable {
 
-   /**
-    * Texto de los crateres ingresados
-    */
+    /**
+     * Texto de los crateres ingresados
+     */
     @FXML
     private TextField crateresIngresados;
-    
+
     /**
      * Opciones de los rovers.
      */
     @FXML
     private ComboBox<Rover> cbRover;
-    
+
     /**
      * Rover seleccionado
      */
@@ -61,19 +64,18 @@ public class VistaPlanificacionRutasController implements Initializable {
      * Alerta del programa.
      */
     private Alert a;
-    
+
     /**
      * Panel con los nombres de los crateres ordenados segun la ruta.
      */
     @FXML
     private Pane paneNombres;
-    
+
     /**
      * Boton para volver al menu.
      */
     @FXML
     private Button volverMenu;
-    
 
     /**
      * Initializes the controller class.
@@ -83,144 +85,136 @@ public class VistaPlanificacionRutasController implements Initializable {
         // TODO
         a = new Alert(Alert.AlertType.ERROR);
         cbRover.getItems().addAll(RoverData.cargarRovers());
-        
-    }    
-    
+
+    }
+
     /**
      * Busca la ruta más optima para visitar los crateres.
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void buscarRutas(KeyEvent event) {
         ArrayList<Crater> crateresVisitar = new ArrayList<>();
         
-        if (event.getCode() == event.getCode().ENTER){
+        if (event.getCode() != event.getCode().ENTER) {
+            return;
+        }
+        
+       try{
             paneNombres.getChildren().clear();
-        try{
+
+            if (cbRover.getValue() == null) 
+                throw new NullPointerException("Seleccione un Rover");
             
-                if(cbRover.getValue()==null)
-                    throw new NullPointerException("Seleccione un Rover");
-                if (crateresIngresados.getText().isBlank())
-                        throw new NullPointerException("Ingrese crateres");
-                        
-                        
+            if (crateresIngresados.getText().isBlank()) 
+                throw new NullPointerException("Ingrese crateres");
+            
+
             Ubicacion u0 = roverSeleccionado.getUbicacion();
 
-            String[] crateresNombres = crateresIngresados.getText().split(",");
-            ArrayList<String> crateresNombresVisitar =  new ArrayList<String>();
-            
-            System.out.println("Ingresados: "+crateresNombres);
-//            List<String> crateresNoEncontrados = new ArrayList<>();
-            Set<String> crateresNoEncontrados = new HashSet<>();
-            
-            for(Crater c : CraterData.cargarCrateres()){
-                boolean find = false;
-                for(String nombreCrater : crateresNombres){
-                    
-                    if(c.getNombre().equalsIgnoreCase(nombreCrater.trim()) ){
-                        find =true;
-                        crateresVisitar.add(c);
-                        crateresNombresVisitar.add(c.getNombre());
-                        
-                        System.out.println("A visitar"+c);
-//                        crateresNoEncontrados.remove(nombreCrater);
-                        
-//                    }else if (!crateresNoEncontrados.contains(nombreCrater)){
-//                        crateresNoEncontrados.add(nombreCrater);
-                    }
-                } 
-            }
-            
-            
-            for(String n : crateresNombres){
-                for(String nc : crateresNombresVisitar){
-                    if(!nc.equalsIgnoreCase(n))
-                        crateresNoEncontrados.add(n);
+            ArrayList<String> crateresNombresIngresados = new ArrayList<>(
+                    Arrays.asList(crateresIngresados.getText()
+                            .toLowerCase().split(",")));
+
+            List<String> crateresNoEncontrados = new ArrayList<>();
+            List<Crater> crateres = CraterData.cargarCrateres();
+
+            List<String> nombreCrater = crateres.stream()
+                    .map(it -> it.getNombre().toLowerCase()).toList();
+            for (String nombre : crateresNombresIngresados) {
+                int idx = nombreCrater.indexOf(nombre.trim());
+                if (idx >= 0) {
+                    crateresVisitar.add(crateres.get(idx));
+                } else {
+                    crateresNoEncontrados.add(nombre);
                 }
             }
-            
-            if(!crateresNoEncontrados.isEmpty()){
+
+            if (!crateresNoEncontrados.isEmpty()) {
                 a.setAlertType(Alert.AlertType.WARNING);
-                a.setContentText("Nombre de crateres no encontrados: "+crateresNoEncontrados
-                                  +"\n los cuales no se agregaran a la ruta");
+                a.setContentText("Nombre de crateres no encontrados: " + crateresNoEncontrados
+                        + "\n no es posible planificar la ruta.");
                 a.show();
+                return;
             }
-                
-            
+
             GridPane orden = new GridPane();
             orden.gridLinesVisibleProperty().set(true);
-            
-            paneNombres.getChildren().add(orden);
+
             Deque<Crater> tmp = new LinkedList<>(crateresVisitar);
             List<Crater> last_dist = new ArrayList<>();
-            
-                System.out.println("ORDEN");
-                System.out.println("Distacia desde Rover: u0 = " + u0 + "\f" + roverSeleccionado);
-            while (last_dist.size() < crateresVisitar.size()){
-                
+
+            //System.out.println("ORDEN");
+            //System.out.println("Distacia desde Rover: u0 = " + u0 + "\f" + roverSeleccionado);
+            while (last_dist.size() < crateresVisitar.size()) {
+
                 double dist_min = Double.MAX_VALUE;
                 Crater minDistCrater = null;
-                
-                while(!tmp.isEmpty()){
+
+                while (!tmp.isEmpty()) {
                     Crater t = tmp.poll();
                     double ndist = u0.distancia(t.getUbicacion());
                     if (ndist < dist_min) {
                         dist_min = ndist;
-                        minDistCrater = t;                    
+                        minDistCrater = t;
                     }
-                    System.out.println("\t[crater] " + t + "\f dist: " + ndist);
+                    //System.out.println("\t[crater] " + t + "\f dist: " + ndist);
                 }
-                System.out.println("Distacia desde crater: " + minDistCrater);
-                
+                //System.out.println("Distacia desde crater: " + minDistCrater);
 
-                if (minDistCrater == null)
+                if (minDistCrater == null) {
                     break;
-                
+                }
+
                 last_dist.add(minDistCrater);
                 u0 = minDistCrater.getUbicacion();
-                for(Crater c : crateresVisitar) 
-                    if (!last_dist.contains(c))
+                for (Crater c : crateresVisitar) {
+                    if (!last_dist.contains(c)) {
                         tmp.add(c);
+                    }
+                }
             }
-            System.out.println("LAST DIST LIST: " + last_dist);
-            int i =1;
-            for(Crater c :last_dist) {
-                Label l = new Label(i++ +" "+c.getNombre());
+            //System.out.println("LAST DIST LIST: " + last_dist);
+            int i = 1;
+            for (Crater c : last_dist) {
+                Label l = new Label(i++ + " " + c.getNombre());
                 l.setPadding(new Insets(10));
                 orden.addRow(i, l);
             }
-        
+
+            if (!last_dist.isEmpty()) 
+                paneNombres.getChildren().add(orden);
             
+
         }catch(NullPointerException ex){
                 a.setContentText(ex.getMessage());
                 ex.printStackTrace();
                 a.show();
-            }
-      }
+        }
     }
 
-    
     /**
      * Regresa a la vista inicial
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void volverMenu(MouseEvent event) {
-       App.cambioVista("VistaInicial");
+        App.cambioVista("VistaInicial");
 
-        
     }
- 
+
     /**
      * Actualiza el rover seleccionado
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void seleccionar(ActionEvent event) {
-            roverSeleccionado = cbRover.getValue();
-            paneNombres.getChildren().clear();
-            crateresIngresados.setText("");
+        roverSeleccionado = cbRover.getValue();
+        paneNombres.getChildren().clear();
+        crateresIngresados.setText("");
     }
 
-    
 }
