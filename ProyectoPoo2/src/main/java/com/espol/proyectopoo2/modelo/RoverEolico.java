@@ -19,6 +19,7 @@ public class RoverEolico extends Rover {
      * @param ubicacion Ubicacion del rover.
      * @param image_path Ruta de la imagen del rover.
      * @param carga Carga que posee el rover.
+     * @throws java.io.IOException
      */
     public RoverEolico(
             String nombre, 

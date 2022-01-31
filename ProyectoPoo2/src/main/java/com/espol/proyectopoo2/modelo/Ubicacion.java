@@ -1,6 +1,8 @@
 package com.espol.proyectopoo2.modelo;
 
-import static com.espol.proyectopoo2.data.Constantes.factor;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Objeto ubicacion
@@ -51,13 +53,19 @@ public class Ubicacion {
     }
     
     /**
-     * Encuentra la distnacia entre un punto y otro
+     * Encuentra la distancia y angulo entre un punto y otro
      * @param ubicacion ubicacion a comparar
      * @return distancia
      */
-    public double distancia(Ubicacion ubicacion){
+    public ArrayList<Double> distancia(Ubicacion ubicacion){
         double x_diff = ubicacion.getLongitud() - longitud;
         double y_diff = ubicacion.getLatitud() -latitud;
-        return Math.sqrt(Math.pow(x_diff,2)+Math.pow(y_diff,2));   
+        double distancia =Math.sqrt(Math.pow(x_diff,2)+Math.pow(y_diff,2));   
+        double angulo = Math.atan2(y_diff, x_diff);
+        ArrayList<Double> valores = new ArrayList<>();
+        valores.add(distancia);
+        valores.add(angulo);
+        return valores;
+        
     }    
 }
