@@ -40,7 +40,7 @@
     -fx-font-family: "Lucida Console", "Courier New", "monospace";
     -fx-font-size: 24px;
     -fx-border-radius: 30px;
-    -fx-background-color: #25C818;
+    -fx-background-color: #F5F167;/*verde_#25C818*/
 
     
 } 
@@ -48,17 +48,17 @@
     -fx-font-family: "Lucida Console", "Courier New", "monospace";
     -fx-font-size: 24px;
     -fx-border-radius: 30px;
-    -fx-background-color: #25C818;
+    -fx-background-color: #F5F167;
 }
 #btn3 {
     -fx-font-family: "Lucida Console", "Courier New", "monospace";
     -fx-font-size: 24px;
     -fx-border-radius: 30px;
-    -fx-background-color: #25C818;
+    -fx-background-color: #F5F167;
 }
 #btn4 {
     -fx-font-family: "Lucida Console", "Courier New", "monospace";
     -fx-font-size: 24px;
     -fx-border-radius: 30px;
-    -fx-background-color: #25C818;
+    -fx-background-color: #F5F167;
 }
