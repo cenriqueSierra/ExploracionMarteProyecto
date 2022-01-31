@@ -63,8 +63,12 @@ public class RoverData {
         return rovers;    
     }
     
-    public static void guardarRovers(){
-        List<Rover> rovers = VistaExplorarController.roversInicializados;
+    /**
+     * Guarda los rover en el archivo rovers-1.txt
+     * @param rovers Rover a guardar
+     */
+    public static void guardarRovers(List<Rover> rovers){
+      
         try(BufferedWriter bw =
                 new BufferedWriter(new FileWriter(ruta))){
             String tipo;
@@ -81,19 +85,9 @@ public class RoverData {
                 bw.flush();
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Problemas tecnicos");
+            //ex.printStackTrace();
         }
     }
-    /**
-     * Busca al rover en la lista de rovers obtenida del archivo
-     * @param nombreRover Nombre de rover a buscar
-     * @return Rover cuyo nombre se ha pasado, null si no lo encuentra
-     */
-    public Rover buscarRover(String nombreRover){
-        Rover roverBuscado = null ;        
-        for(Rover r: cargarRovers())
-            if(r.getNombre().equals(nombreRover))
-                roverBuscado = r;        
-        return roverBuscado;
-    }    
+
 }
