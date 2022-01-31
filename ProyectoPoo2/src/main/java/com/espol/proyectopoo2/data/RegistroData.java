@@ -43,7 +43,7 @@ public class RegistroData {
                         String.join(",", m)+"\n";                
             writer.write(line);  
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Problemas tecnicos");
         }        
     }
     
@@ -75,7 +75,7 @@ public class RegistroData {
             alert.setContentText("Archivo de reportes no existe");
             alert.showAndWait();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("Problemas tecnicos");
         }        
         return reportes;
     }    
