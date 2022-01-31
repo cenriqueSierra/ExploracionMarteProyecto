@@ -5,3 +5,6 @@
 .mainFxmlClass {
 
 }
+#tituloReporte {
+    -fx-border-color: green;
+}

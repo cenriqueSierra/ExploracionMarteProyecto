@@ -16,6 +16,11 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="10.0" stylesheets="@vistaverreportes.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.espol.proyectopoo2.VistaVerReportesController">
    <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label id="tituloReporte" stylesheets="@vistaverreportes.css" text="SECCION DE REPORTES" />
+         </children>
+      </HBox>
       <GridPane>
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="238.0" />
@@ -66,9 +71,10 @@
          <padding>
             <Insets left="20.0" right="20.0" />
          </padding></StackPane>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
          <children>
             <Button mnemonicParsing="false" onMouseClicked="#regresarMenu" text="Regresar" />
+            <Button mnemonicParsing="false" onMouseClicked="#accionEliminarReporte" text="Eliminar reporte" />
          </children>
       </HBox>
    </children>
