@@ -10,7 +10,7 @@
 #h1 {
     -fx-font-family: "Lucida Console", "Courier New", "monospace";
     -fx-color: #FFFFFF;
-    -fx-font-size: 26px;
+    -fx-font-size: 40px;
     -fx-font-weight: bold; 
     -fx-font-color:#FFFFFF;
     -fx-background-color: linear-gradient(from 70px 55px to 100px 100px, #dc143c, #6A14DC/*#32cd32*/);
@@ -38,7 +38,7 @@
 
 #btn1 {
     -fx-font-family: "Lucida Console", "Courier New", "monospace";
-    -fx-font-size: 14px;
+    -fx-font-size: 24px;
     -fx-border-radius: 30px;
     -fx-background-color: #25C818;
 
@@ -46,19 +46,19 @@
 } 
 #btn2 {
     -fx-font-family: "Lucida Console", "Courier New", "monospace";
-    -fx-font-size: 14px;
+    -fx-font-size: 24px;
     -fx-border-radius: 30px;
     -fx-background-color: #25C818;
 }
 #btn3 {
     -fx-font-family: "Lucida Console", "Courier New", "monospace";
-    -fx-font-size: 14px;
+    -fx-font-size: 24px;
     -fx-border-radius: 30px;
     -fx-background-color: #25C818;
 }
 #btn4 {
     -fx-font-family: "Lucida Console", "Courier New", "monospace";
-    -fx-font-size: 14px;
+    -fx-font-size: 24px;
     -fx-border-radius: 30px;
     -fx-background-color: #25C818;
 }
