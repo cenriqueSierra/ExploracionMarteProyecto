@@ -37,7 +37,7 @@
                   <Button id="btn1" mnemonicParsing="false" onMouseClicked="#entrarExplorar" stylesheets="@vistainicial.css" text="EXPLORAR" />
                   <Button id="btn2" mnemonicParsing="false" onMouseClicked="#hacerPlanificacion" stylesheets="@vistainicial.css" text="PLANIFICAR RUTAS" />
                   <Button id="btn3" mnemonicParsing="false" onMouseClicked="#entrarVerReportes" stylesheets="@vistainicial.css" text="VER REPORTE" />
-                  <Button id="btn4" fx:id="btnSalir" mnemonicParsing="false" stylesheets="@vistainicial.css" text="SALIR" />
+                  <Button id="btn4" fx:id="btnSalir" mnemonicParsing="false" onMouseClicked="#salirVentana" stylesheets="@vistainicial.css" text="SALIR" />
                </children>
             </VBox>
          </center>

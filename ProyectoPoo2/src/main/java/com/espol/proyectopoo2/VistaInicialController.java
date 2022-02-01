@@ -69,6 +69,7 @@ public class VistaInicialController implements Initializable {
      * Cierre del programa.
      * @param event 
      */
+    @FXML
     private void salirVentana(MouseEvent event) {
         Stage stage = (Stage) btnSalir.getScene().getWindow();
         stage.close();

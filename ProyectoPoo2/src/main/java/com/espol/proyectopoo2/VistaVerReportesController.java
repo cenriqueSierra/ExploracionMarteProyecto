@@ -60,13 +60,24 @@ public class VistaVerReportesController implements Initializable {
      * Reportes
      */
     private ObservableList<Registro> reporte = FXCollections.observableArrayList();
-    
+    /**
+     * Tabla donde se presentaran los datos.
+     */
     @FXML
-    private TableView<Registro> tableProof;// = new TableView<>();
+    private TableView<Registro> tableProof;
+    /**
+     * Columana de las fechas.
+     */
     @FXML
     private TableColumn<Registro,LocalDate> fechaC;
+    /**
+     * Columnna de los registros.
+     */
     @FXML
     private TableColumn<Registro,String> nCraterC;
+   /**
+    * Columna de los minerales.
+    */
     @FXML
     private TableColumn<Registro,List<String>> nMineralE;
     @FXML
@@ -217,6 +228,10 @@ public class VistaVerReportesController implements Initializable {
         App.cambioVista("VistaInicial");
     }
 
+    /**
+     * Elimana el archivo del reporte.
+     * @param event 
+     */
     @FXML
     private void accionEliminarReporte(MouseEvent event) {
         File fichero = new File(rutaReporte);
