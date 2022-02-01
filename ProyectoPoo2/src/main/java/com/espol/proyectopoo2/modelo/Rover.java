@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -19,7 +21,6 @@ import javafx.scene.image.ImageView;
  * @author Dome user
  */
 public abstract class Rover implements AccionesRover {
-    
     /**
      * Nombre del Rover
      */
@@ -38,10 +39,10 @@ public abstract class Rover implements AccionesRover {
     /**
      * Carga del rover.
      */
-    private double carga;
+    private volatile double carga;
     
     /**
-     * Angulo en radianes donde esta viendo el rover
+     * Angulo en grados donde esta viendo el rover
      */
     private double angulo;
     
@@ -68,13 +69,16 @@ public abstract class Rover implements AccionesRover {
         imagen.setLayoutY(ubicacion.getLatitud());
         this.carga = carga;
         angulo=0;
-        this.tareas= new HiloTareas();
+
     }   
     
     /**
      * Inicio del hilo de rover
      */
     public void start(){
+        if(tareas!=null)
+            stop();
+        tareas = new HiloTareas();
         tareas.corriendo=true;
         tareas.start();
     }
@@ -104,12 +108,12 @@ public abstract class Rover implements AccionesRover {
     /**
      * @return el angulo del rover en grados
      */
-    public double getAnguloGrados() {return Math.toDegrees(angulo);}
+    public double getAngulo() {return angulo/*this.imgAngulo.get()*/;}
     
     /**
      * @return el angulo del rover en radianes
      */
-    public double getAngulo() {return angulo;}
+    public double getAnguloRadianes() {return Math.toRadians(getAngulo());}
     
     /**
      * @return la ubicacion del rover
@@ -131,41 +135,55 @@ public abstract class Rover implements AccionesRover {
      */
     public abstract void cargar();
     
+    //private void setAngulo( double angulo){ this.imgAngulo.set(angulo);}
     /**
      * Verifica si el rover se descargara en el proceso
      * @param consumo lo que consumira el rover para moverse
      * @return retorna verdadero si se descargara, falso si no
      */
     public boolean isDescargado(int consumo){
-        return (this.carga-consumo)==0;
+        return (this.carga-consumo)<=0;
     }
     
     @Override
     public void avanzar() 
             throws ComandoInvalidoException{
-        if(isDescargado(1))
-            throw new ComandoInvalidoException("Carga insuficiente para avanzar");
+        
+        if(isDescargado(1)){
+            Platform.runLater(()->{Alert a = new Alert(Alert.AlertType.WARNING);
+                a.setTitle("Notificacion");
+                a.setHeaderText("Acciones");
+                a.setContentText("Carga insuficiente");
+                a.show();});
+            return;
+            }
+
         setUbicacion(posicionNueva());
         moverImgRover(ubicacion.getLongitud(),ubicacion.getLatitud());    
         setCarga(carga-=1);
-        System.out.println("Carga:"+getCarga());
     }
     
     @Override
     public void girar(double grados){
-        angulo+=Math.toRadians(grados);
-        if(angulo>2*Math.PI)
-            angulo= Math.ceil(angulo/(2*Math.PI));
+        angulo+=grados;
+        if(angulo>360)
+            angulo= Math.ceil(angulo/360);
         moverImgRover(ubicacion.getLongitud(),ubicacion.getLatitud());
+
     }   
     
     @Override
-    public void desplazarse(Ubicacion ubicacion, boolean cargar) 
-            throws ComandoInvalidoException{            
+    public void desplazarse(Ubicacion ubicacion, boolean cargar) {            
         double distancia = this.ubicacion.distancia(ubicacion).get(0);
-        double newAngulo = this.ubicacion.distancia(ubicacion).get(1)*180/(Math.PI);
-        if(isDescargado((int)distancia)&&!cargar)
-            throw new ComandoInvalidoException("Carga insuficiente para desplazarse");        
+        double newAngulo = Math.toDegrees(this.ubicacion.distancia(ubicacion).get(1));
+        if(isDescargado((int)distancia)&&!cargar){
+            Platform.runLater(()->{Alert a = new Alert(Alert.AlertType.WARNING);
+                a.setTitle("Notificacion");
+                a.setHeaderText("Acciones");
+                a.setContentText("Carga insuficiente para avanzar");
+                a.show();});
+            return;
+        }        
         tareas.cola.add(()->{
             System.out.println("Dentro del angulo");
             angulo=0;
@@ -208,7 +226,7 @@ public abstract class Rover implements AccionesRover {
     public void moverImgRover(double x, double y){
         imagen.setLayoutX(x);
         imagen.setLayoutY(y);
-        imagen.setRotate(getAnguloGrados());
+        imagen.setRotate(getAngulo());
     }
     
     /**
@@ -219,10 +237,10 @@ public abstract class Rover implements AccionesRover {
     public Ubicacion posicionNueva(){
         double posX = ubicacion.getLongitud();
         double posY = ubicacion.getLatitud();
-        double compX = 10*Math.cos(angulo);
-        double compY = 10*Math.sin(angulo);
+        double compX = Math.round(10*Math.cos(getAnguloRadianes()));
+        double compY = Math.round(10*Math.sin(getAnguloRadianes()));
         posX+=compX;
-        posY+=compY;        
+        posY+=compY;
         return new Ubicacion(posX,posY);
     }
     
@@ -252,42 +270,30 @@ public abstract class Rover implements AccionesRover {
        
         @Override
         public void run(){
+            if(carga<=1)
+                return;
+            
             for(int i=1; i<=repeticiones;i++){
+                if(carga<=1){
+                   this.repeticiones-=i;
+                    tareas.cola.add(this);
+                   return;
+                }
+                
                 if(cargar)
                     setCarga(carga+1);
                 avanzar();
+                
                 try{
                     sleep(250);
                 }catch(InterruptedException ex) {
-                    ex.printStackTrace();
+                    System.out.println("Problemas tecnicos. Estamos resolviendo..");
+                    //ex.printStackTrace();
                 }
             }
         }
     }
     
-    /**
-     * Hilo de girar
-     */
-    public class HiloGirar extends Thread{
-        /**
-         * Angulo a girar el rover
-         */
-        private double angulo;
-        /**
-         * Constructor del hilo
-         * @param angulo Angulo a girar el rover
-         */
-        public HiloGirar(double angulo){
-            super();
-            this.angulo=angulo;        
-        }
-
-        @Override
-        public void run(){
-            girar(-getAnguloGrados());
-            girar(angulo);
-        }
-    }
     
     /**
      * Hilo de tareas a ejecutar
@@ -301,7 +307,7 @@ public abstract class Rover implements AccionesRover {
         /**
          * Estado de corriendo del hilo
          */
-        protected boolean corriendo;
+        protected volatile boolean corriendo;
         
         /**
          * Constructor del hilo
@@ -318,6 +324,7 @@ public abstract class Rover implements AccionesRover {
                     if(r!=null)
                         r.run();
                 }
+                    
             }            
         }
     }
@@ -329,4 +336,6 @@ public abstract class Rover implements AccionesRover {
     public String toString(){
         return  nombre;
     }
+    
+
 }

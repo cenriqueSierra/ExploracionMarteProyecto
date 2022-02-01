@@ -181,12 +181,15 @@ public class VistaExplorarController implements Initializable {
 
                 switch(comandoSeparado[0].toLowerCase() ){
                 case("avanzar"):
+                    System.out.println("Posicion vieja : "+roverSeleccionado.getUbicacion());
                     Ubicacion u = roverSeleccionado.posicionNueva();
 
-                    if (dentroLimites( u.getLongitud(),u.getLatitud()))
-                        roverSeleccionado.avanzar();
+                    if (dentroLimites( u.getLongitud(),u.getLatitud())){
+                        System.out.println("Debio avanzar: a "+u);
+                        roverSeleccionado.avanzar();}
                     else 
                         throw new ComandoInvalidoException("El Rover no puede avanzar mas");
+                    System.out.println("Posicion nueva : "+roverSeleccionado.getUbicacion());
                     break;
                 case("girar"):
                     roverSeleccionado.girar(Double.parseDouble(comandoSeparado[1]));                     
@@ -224,7 +227,10 @@ public class VistaExplorarController implements Initializable {
         }catch(ComandoInvalidoException ex){
             alerta.setContentText(ex.getMessage());
             alerta.show();
-        }finally{
+        }catch(Exception ex){
+            System.out.println("Error desconocido");
+        }
+       finally{
             cboxRover.setDisable(false);
         }
     }

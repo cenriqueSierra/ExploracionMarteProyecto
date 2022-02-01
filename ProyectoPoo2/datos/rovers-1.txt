@@ -1,2 +1,2 @@
-wallie,98.99494936611666,98.99494936611664,solar
+wallie,0,0,solar
 chapie,50.0,50.0,eolico

@@ -35,18 +35,33 @@ public class RoverEolico extends Rover {
     @Override
     public void cargar() {
         tareas.cola.add(()->{
+            
             anguloNorte = 90d;
-            double anguloGirado = super.getAnguloGrados();
-            double movimiento = 360 - Math.abs(anguloGirado - anguloNorte);
-            girar(movimiento);       
-            setCarga(100);
+            double anguloGirado = super.getAngulo();
+
+            for(double i =Math.abs(Math.ceil(360+anguloGirado));i!=90;i--){
+                girar(-1);
+                try {
+                    if(Math.ceil(anguloGirado)==-90)
+                    break;
+                
+                    Thread.sleep(60);
+                } catch (InterruptedException ex) {
+                    System.out.println("Problemas tecnicos. Estamos resolviendo..");
+                    //ex.printStackTrace();
+                }
+            }
             Platform.runLater(()->{
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Notificacion");
                 alert.setHeaderText("Acciones");
                 alert.setContentText("Despliegue de molinos");
                 alert.showAndWait();
+                setCarga(100);
+
             });
         });
+        
+
     }   
 }
