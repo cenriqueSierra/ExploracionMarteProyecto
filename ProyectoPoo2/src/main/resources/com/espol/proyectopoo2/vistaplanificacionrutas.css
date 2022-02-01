@@ -5,3 +5,12 @@
 .mainFxmlClass {
 
 }
+#hTitulo {
+    -fx-font-family: "Lucida Console", "Courier New", "monospace";
+    -fx-color: #FFFFFF;
+    -fx-font-size: 18px;
+    -fx-font-color:#FFFFFF;
+    -fx-background-color: #F5AB4C;
+    -fx-padding: 10px;
+    -fx-border-color: #356BE6;
+}

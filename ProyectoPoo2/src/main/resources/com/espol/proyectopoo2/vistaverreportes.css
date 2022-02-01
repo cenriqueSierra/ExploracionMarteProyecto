@@ -6,5 +6,11 @@
 
 }
 #tituloReporte {
-    -fx-border-color: green;
+    -fx-font-family: "Lucida Console", "Courier New", "monospace";
+    -fx-color: #FFFFFF;
+    -fx-font-size: 18px;
+    -fx-font-color:#FFFFFF;
+    -fx-background-color: #99E635;
+    -fx-padding: 10px;
+    -fx-border-color: #C735E6;
 }
