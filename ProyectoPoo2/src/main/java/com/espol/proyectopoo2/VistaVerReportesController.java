@@ -167,7 +167,13 @@ public class VistaVerReportesController implements Initializable {
             LocalDate inicioLDate = LocalDate.parse(fi.getText());
             LocalDate finLDate = LocalDate.parse(ffin.getText());
             String mineralI = mineralIngresado.getText();
-
+             if(inicioLDate.compareTo(finLDate) >=0){
+                 
+                    alert = new Alert(Alert.AlertType.ERROR); 
+                    alert.setContentText("Ingrese correctamente el orden de las fechas");
+                    alert.show();
+                    return FXCollections.observableArrayList();
+                }   
 
             for(Registro r: reporte){
                 int respuestaInicio = inicioLDate.compareTo(r.getFecha()); // Si la fechaInicio ingresada es menor o igual a la del registro saldrá menor a cero o igual a cero
@@ -175,20 +181,19 @@ public class VistaVerReportesController implements Initializable {
                 System.out.println("Este registro: "+r);
 
                 if(respuestaInicio <= 0 && respuestaFin >= 0){ 
-
-                    if(r.getMinerales().contains(mineralI.toLowerCase())){
+                    if(r.getMinerales().contains(mineralI.toLowerCase()))
                         registrosPresentar.add(r);
-
-                    }else{
-                        alert = new Alert(Alert.AlertType.INFORMATION); //En caso que el mineral no este, muestre un mensaje
-                        alert.setTitle("Comunicado");
-                        alert.setHeaderText("Estado");
-                        alert.setContentText("El mineral: "+mineralI+" no ha sido encontrado");
-                        alert.show();
-                        System.out.println("No se encontro mineral");
-                    }      
-                }   
+                }
+         
             }
+            if(registrosPresentar.isEmpty()){
+              alert = new Alert(Alert.AlertType.INFORMATION); //En caso que el mineral no este, muestre un mensaje
+                    alert.setTitle("Comunicado");
+                    alert.setHeaderText("Estado");
+                    alert.setContentText("El mineral: "+mineralI+" no ha sido encontrado");
+                    alert.show();
+                    System.out.println("NO ENCONTRADOO");
+        }
         }catch(DateTimeParseException ex){
             System.out.println("Errores tecnicos.");
             alert = new Alert(Alert.AlertType.ERROR); //En caso que el mineral no este, muestre un mensaje
