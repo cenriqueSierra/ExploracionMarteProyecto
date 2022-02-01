@@ -166,8 +166,11 @@ public abstract class Rover implements AccionesRover {
     @Override
     public void girar(double grados){
         angulo+=grados;
-        if(angulo>360)
-            angulo= Math.ceil(angulo/360);
+        if(angulo<0)
+            angulo+=360;
+        
+        angulo%=360;
+        
         moverImgRover(ubicacion.getLongitud(),ubicacion.getLatitud());
 
     }   

@@ -8,12 +8,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.espol.proyectopoo2.VistaPlanificacionRutasController">
    <children>
       <HBox alignment="CENTER" prefHeight="56.0" prefWidth="600.0">
          <children>
-            <Label text="PLANIFICACION DE RUTAS" />
+            <Label text="PLANIFICACION DE RUTAS">
+               <font>
+                  <Font name="Century Gothic" size="25.0" />
+               </font></Label>
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="600.0" spacing="8.0">

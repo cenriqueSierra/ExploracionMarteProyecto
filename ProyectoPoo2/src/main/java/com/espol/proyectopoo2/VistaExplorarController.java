@@ -9,8 +9,10 @@ import com.espol.proyectopoo2.modelo.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -117,10 +119,14 @@ public class VistaExplorarController implements Initializable {
                     if( c.isExplorado() ){
                         try {
                             List<Registro> registros = RegistroData.leerReporte();
-                            List<String> minerales = new ArrayList<>();
+                            Set<String> minerales = new HashSet<>();
                             for(Registro r: registros){
                                 if(r.getNombreCrater().equalsIgnoreCase(c.getNombre())){
-                                    minerales.addAll(r.getMinerales());
+                                    ArrayList<String> mineralesLista =r.getMinerales();
+                                    
+                                    if(mineralesLista.size()>1 && mineralesLista.contains("Ninguno"))
+                                        while(mineralesLista.remove("Ninguno"));
+                                    minerales.addAll(mineralesLista);
                                 }
 
                             }
@@ -208,7 +214,7 @@ public class VistaExplorarController implements Initializable {
 
                 case("sensar"):
                     String sensado = roverSeleccionado.sensar(crateresPantalla);
-                    
+                    infoCrater.getChildren().clear();
                     break;
                 case("cargar"):
                     roverSeleccionado.cargar();

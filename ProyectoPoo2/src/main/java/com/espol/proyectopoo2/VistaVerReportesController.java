@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -61,7 +62,7 @@ public class VistaVerReportesController implements Initializable {
     private ObservableList<Registro> reporte = FXCollections.observableArrayList();
     
     @FXML
-    private TableView<Registro> tableProof = new TableView<>();
+    private TableView<Registro> tableProof;// = new TableView<>();
     @FXML
     private TableColumn<Registro,LocalDate> fechaC;
     @FXML
@@ -70,6 +71,7 @@ public class VistaVerReportesController implements Initializable {
     private TableColumn<Registro,List<String>> nMineralE;
     @FXML
     private StackPane stkTable;
+    private Alert alert;
     /**
      * Inicia clase controladora y carga la informacion
      */
@@ -78,7 +80,7 @@ public class VistaVerReportesController implements Initializable {
         try {
             cbxSeleccion.getItems().add("Nombre");
             cbxSeleccion.getItems().add("Fecha");
-            
+            tableProof.autosize();
             reporte.addAll(RegistroData.leerReporte());
             stkTable.getChildren().clear();
             System.out.println("Esta es la lista general:\n"+reporte);
@@ -86,6 +88,7 @@ public class VistaVerReportesController implements Initializable {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        alert = new Alert(Alert.AlertType.WARNING);
 
     }    
     
@@ -115,7 +118,6 @@ public class VistaVerReportesController implements Initializable {
                 break;
 
             default:
-                Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Notificacion");
                 alert.setHeaderText("Estado");
                 alert.setContentText("Seleccion invalida");
@@ -159,30 +161,41 @@ public class VistaVerReportesController implements Initializable {
      * @return Una lista de registro dentro de ese intervalo de fecha con el mineral deseado
      */
     public ObservableList<Registro> filtrarCampos(TextField fi, TextField ffin, TextField mineralIngresado){
-        LocalDate inicioLDate = LocalDate.parse(fi.getText());
-        LocalDate finLDate = LocalDate.parse(ffin.getText());
-        String mineralI = mineralIngresado.getText();
-        
         ObservableList<Registro> registrosPresentar = FXCollections.observableArrayList();
-        
-        for(Registro r: reporte){
-            int respuestaInicio = inicioLDate.compareTo(r.getFecha()); // Si la fechaInicio ingresada es menor o igual a la del registro saldrá menor a cero o igual a cero
-            int respuestaFin = finLDate.compareTo(r.getFecha()); //Si la fechaFin ingresada es mayor o igual a la del registro
-            System.out.println("Este registro: "+r);
-            
-            if(respuestaInicio <= 0 && respuestaFin >= 0){ 
-                
-                if(r.getMinerales().contains(mineralI.toLowerCase())){
-                    registrosPresentar.add(r);
-                    
-                }else{
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION); //En caso que el mineral no este, muestre un mensaje
-                    alert.setTitle("Comunicado");
-                    alert.setHeaderText("Estado");
-                    alert.setContentText("El mineral: "+mineralI+" no ha sido encontrado");
-                
-                }      
-            }   
+
+        try{
+            LocalDate inicioLDate = LocalDate.parse(fi.getText());
+            LocalDate finLDate = LocalDate.parse(ffin.getText());
+            String mineralI = mineralIngresado.getText();
+
+
+            for(Registro r: reporte){
+                int respuestaInicio = inicioLDate.compareTo(r.getFecha()); // Si la fechaInicio ingresada es menor o igual a la del registro saldrá menor a cero o igual a cero
+                int respuestaFin = finLDate.compareTo(r.getFecha()); //Si la fechaFin ingresada es mayor o igual a la del registro
+                System.out.println("Este registro: "+r);
+
+                if(respuestaInicio <= 0 && respuestaFin >= 0){ 
+
+                    if(r.getMinerales().contains(mineralI.toLowerCase())){
+                        registrosPresentar.add(r);
+
+                    }else{
+                        alert = new Alert(Alert.AlertType.INFORMATION); //En caso que el mineral no este, muestre un mensaje
+                        alert.setTitle("Comunicado");
+                        alert.setHeaderText("Estado");
+                        alert.setContentText("El mineral: "+mineralI+" no ha sido encontrado");
+                        alert.show();
+                        System.out.println("No se encontro mineral");
+                    }      
+                }   
+            }
+        }catch(DateTimeParseException ex){
+            System.out.println("Errores tecnicos.");
+            alert = new Alert(Alert.AlertType.ERROR); //En caso que el mineral no este, muestre un mensaje
+            alert.setTitle("Error");
+            alert.setHeaderText("Formato fecha");
+            alert.setContentText("El formato de fecha ingresada es incorrecto");
+            alert.show();
         }
         System.out.println("\nLista filtrada: "+registrosPresentar);       
         return registrosPresentar;

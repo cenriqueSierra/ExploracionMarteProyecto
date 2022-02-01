@@ -38,8 +38,8 @@
             <Label text="Fecha Inicio" />
             <Label text="Fecha Fin" GridPane.rowIndex="2" />
             <Label text="Mineral" GridPane.rowIndex="4" />
-            <TextField fx:id="fInicioIngresada" prefHeight="25.0" prefWidth="154.0" GridPane.columnIndex="2" />
-            <TextField fx:id="fFinIngresada" prefHeight="25.0" prefWidth="305.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <TextField fx:id="fInicioIngresada" prefHeight="25.0" prefWidth="154.0" promptText="yyyy-mm-dd" GridPane.columnIndex="2" />
+            <TextField fx:id="fFinIngresada" prefHeight="25.0" prefWidth="305.0" promptText="yyyy-mm-dd" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <TextField fx:id="mineralIngresado" GridPane.columnIndex="2" GridPane.rowIndex="4" />
          </children>
          <VBox.margin>
@@ -57,11 +57,11 @@
       </HBox>
       <StackPane fx:id="stkTable" prefHeight="279.0" prefWidth="600.0">
          <children>
-            <TableView fx:id="tableProof" prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="tableProof" cache="true" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="fechaC" editable="false" prefWidth="190.0" sortable="false" text="Fecha" />
-                <TableColumn fx:id="nCraterC" prefWidth="174.0" text="Nombre de crater" />
-                  <TableColumn fx:id="nMineralE" prefWidth="208.0" text="Minerales encontrados" />
+                <TableColumn fx:id="fechaC" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" sortable="false" text="Fecha" />
+                <TableColumn fx:id="nCraterC" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" text="Nombre de crater" />
+                  <TableColumn fx:id="nMineralE" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="308.0" text="Minerales encontrados" />
               </columns>
             </TableView>
          </children>

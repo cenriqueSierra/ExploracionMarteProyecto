@@ -37,20 +37,7 @@ public class RoverEolico extends Rover {
         tareas.cola.add(()->{
             
             anguloNorte = 90d;
-            double anguloGirado = super.getAngulo();
-
-            for(double i =Math.abs(Math.ceil(360+anguloGirado));i!=90;i--){
-                girar(-1);
-                try {
-                    if(Math.ceil(anguloGirado)==-90)
-                    break;
-                
-                    Thread.sleep(60);
-                } catch (InterruptedException ex) {
-                    System.out.println("Problemas tecnicos. Estamos resolviendo..");
-                    //ex.printStackTrace();
-                }
-            }
+            girar(-getAngulo()-90);
             Platform.runLater(()->{
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Notificacion");

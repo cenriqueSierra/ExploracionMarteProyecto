@@ -30,7 +30,7 @@
 }
 
 #paneDerecho {
-    -fx-background-image: url('Chapie.png');
+    -fx-background-image: url('Eva.png');
     -fx-background-size: 100% 100%;
     -fx-opacity: 0.95;
     -fx-transform: scaleX(-1);
