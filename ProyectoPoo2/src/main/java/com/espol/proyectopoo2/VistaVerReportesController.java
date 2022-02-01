@@ -78,11 +78,11 @@ public class VistaVerReportesController implements Initializable {
         try {
             cbxSeleccion.getItems().add("Nombre");
             cbxSeleccion.getItems().add("Fecha");
-            System.out.println("Va a leer");
+            
             reporte.addAll(RegistroData.leerReporte());
             stkTable.getChildren().clear();
-            System.out.println("Leido");
             System.out.println("Esta es la lista general:\n"+reporte);
+            
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -169,10 +169,9 @@ public class VistaVerReportesController implements Initializable {
             int respuestaInicio = inicioLDate.compareTo(r.getFecha()); // Si la fechaInicio ingresada es menor o igual a la del registro saldrá menor a cero o igual a cero
             int respuestaFin = finLDate.compareTo(r.getFecha()); //Si la fechaFin ingresada es mayor o igual a la del registro
             System.out.println("Este registro: "+r);
-            System.out.println("\nRespuestaIniio: "+respuestaInicio);
             
-            if(respuestaInicio <= 0 && respuestaFin >= 0){
-                System.out.println("Necesito saber si funciona");
+            if(respuestaInicio <= 0 && respuestaFin >= 0){ 
+                
                 if(r.getMinerales().contains(mineralI.toLowerCase())){
                     registrosPresentar.add(r);
                     

@@ -69,10 +69,10 @@ public class RegistroData {
 
         }catch (FileNotFoundException ex) {
             
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Alerta de Error");
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Notificacion");
             alert.setHeaderText("Estado");
-            alert.setContentText("Archivo de reportes no existe");
+            alert.setContentText("Archivo de reportes no encontrado");
             alert.showAndWait();
         } catch (IOException ex) {
             System.out.println("Problemas tecnicos");
