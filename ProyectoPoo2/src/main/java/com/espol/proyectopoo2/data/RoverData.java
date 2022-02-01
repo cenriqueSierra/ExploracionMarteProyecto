@@ -1,5 +1,6 @@
 package com.espol.proyectopoo2.data;
 
+import com.espol.proyectopoo2.App;
 import static com.espol.proyectopoo2.data.Constantes.factor;
 import com.espol.proyectopoo2.modelo.Rover;
 import com.espol.proyectopoo2.modelo.RoverEolico;
@@ -39,7 +40,8 @@ public class RoverData {
                 Ubicacion ubicacion = new Ubicacion(
                         Double.parseDouble(roverAtributos[1])*factor,
                         Double.parseDouble(roverAtributos[2])*factor);
-                String tipo = roverAtributos[3];                
+                String tipo = roverAtributos[3];                 
+                //String imgURL = App.class.getResourceAsStream(nombre+".png");
                 if(tipo.equals("solar")){
                     RoverSolar rover = new RoverSolar(
                             nombre,

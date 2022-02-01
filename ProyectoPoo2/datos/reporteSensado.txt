@@ -1,6 +1,0 @@
-2022-01-31;Seymour;jarosita
-2022-01-31;Seymour;jarosita,hematita,silice,silice opalina,esmectita,filosilicatos
-2022-01-31;Seymour;jarosita,silice opalina,zeolita,serpentina,goethita,carbonato,silice
-2022-01-31;Seymour;silice opalina
-2022-01-31;Seymour;jarosita,sulfato de hierro,goethita,silice opalina
-2022-02-27;Seymour;serpentina,filosilicatos

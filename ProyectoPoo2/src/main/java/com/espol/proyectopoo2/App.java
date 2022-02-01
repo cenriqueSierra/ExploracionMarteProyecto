@@ -1,7 +1,9 @@
 package com.espol.proyectopoo2;
 
 import static com.espol.proyectopoo2.data.RegistroData.rutaReporte;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.nio.file.Files;
 
 /**
  * JavaFX App Clase que inicia el entorno grafico
@@ -82,6 +85,11 @@ public class App extends Application {
     
     @Override
     public void stop(){
+        try(BufferedWriter bf =
+                new BufferedWriter(new FileWriter("datos/reporteSensado.txt",false))){
+            bf.write("");
+        } catch (IOException ex) {
+        }
         System.exit(0);
     }
 }

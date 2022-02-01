@@ -4,7 +4,9 @@ import com.espol.proyectopoo2.App;
 import com.espol.proyectopoo2.data.CraterData;
 import com.espol.proyectopoo2.data.RegistroData;
 import com.espol.proyectopoo2.interfaces.AccionesRover;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,9 +14,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javax.imageio.ImageIO;
 
 /**
  * Clase que representa el rover
@@ -63,8 +68,15 @@ public abstract class Rover implements AccionesRover {
             throws IOException{
         this.nombre = nombre;
         this.ubicacion = ubicacion;
-        Image img = new Image(App.class.getResourceAsStream(image_path),60,60,false,true);
+        URL url = App.class.getResource(image_path);
+        BufferedImage imgBF = ImageIO.read(url);
+        //Image img = new Image(App.class.getResourceAsStream(image_path),60,60,false,true);
+        Image img = SwingFXUtils.toFXImage(imgBF, null);        
         this.imagen = new ImageView(img);
+        this.imagen.setFitWidth(60);
+        this.imagen.setFitHeight(60);
+        this.imagen.setPreserveRatio(true);
+        this.imagen.setSmooth(true);
         imagen.setLayoutX(ubicacion.getLongitud());
         imagen.setLayoutY(ubicacion.getLatitud());
         this.carga = carga;
