@@ -14,7 +14,7 @@
    <children>
       <HBox alignment="CENTER" prefHeight="56.0" prefWidth="600.0">
          <children>
-            <Label text="PLANIFICACION DE RUTAS">
+            <Label id="hTitulo" stylesheets="@vistaplanificacionrutas.css" text="PLANIFICACION DE RUTAS">
                <font>
                   <Font name="Century Gothic" size="25.0" />
                </font></Label>
